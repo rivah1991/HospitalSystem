@@ -1,0 +1,149 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using HospitalAPI.Data;
+using HospitalAPI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
+namespace HospitalAPI.Controller
+{
+    [Route("api/[Controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _context;
+
+        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ApplicationDbContext context)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _configuration = configuration;
+            _context = context;
+        }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] Register model)
+        {
+            var user = new IdentityUser { UserName = model.Username };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "User registered Successfully" });
+            }
+            return BadRequest(result.Errors);
+        }
+
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] Login model)
+
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            // if (user! == null && await _userManager.CheckPasswordAsync(user!, model.Password))
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var authClaims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+                authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    expires: DateTime.Now.AddMinutes(double.Parse(_configuration["Jwt:ExpiryMinutes"]!)),
+                    claims: authClaims,
+                    signingCredentials: new SigningCredentials
+                    (new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)),
+                    SecurityAlgorithms.HmacSha256
+                    )
+                );
+                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] dynamic request)
+        {
+            string refreshToken = request.refreshToken;
+            var token = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == refreshToken);
+
+            if (token == null || token.ExpiryDate < DateTime.UtcNow || token.IsRevoked)
+                return Unauthorized(new { message = "Invalid refresh token" });
+
+            var user = await _userManager.FindByIdAsync(token.UserId);
+            if (user == null) return Unauthorized();
+
+            var newToken = GenerateJwtToken(user);
+            return Ok(new { token = newToken, expiresIn = 3600 });
+        }
+
+        private string GenerateJwtToken(IdentityUser user)
+        {
+            var authClaims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                expires: DateTime.UtcNow.AddMinutes(60),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)),
+                    SecurityAlgorithms.HmacSha256
+                )
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+        [HttpPost("add-role")]
+        public async Task<IActionResult> Role([FromBody] string role)
+        {
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(role));
+                if (result.Succeeded)
+                {
+                    return Ok(new { message = "Role Added Successfully" });
+                }
+                return BadRequest(result.Errors);
+            }
+            return BadRequest("Role already Exists");
+        }
+
+        [HttpPost("assign-role")]
+        public async Task<IActionResult> AssignRole([FromBody] UserRole model)
+        {
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            var result = await _userManager.AddToRoleAsync(user, model.Role);
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Role assigned Successfully" });
+            }
+            return BadRequest(result.Errors);
+
+        }
+    }
+}

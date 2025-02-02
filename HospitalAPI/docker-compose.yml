@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest  # Version mise à jour ici
+    container_name: sql_server_hospital
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Naivo@1991
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - sql_network
+
+volumes:
+  mssql_data:
+    driver: local
+
+networks:
+  sql_network:
+    driver: bridge
