@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HospitalAPI.Controller
 {
-    [Route("api/[Controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {

@@ -37,5 +37,17 @@ namespace HospitalAPI.Data
         protected ApplicationDbContext()
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configuration de la relation entre Patient et Recommendation
+            modelBuilder.Entity<Recommendation>()
+                .HasOne(r => r.Patient)
+                .WithMany(p => p.Recommendations)
+                .HasForeignKey(r => r.PatientId);
+        }
+
     }
 }

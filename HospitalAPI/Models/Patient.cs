@@ -20,5 +20,7 @@ namespace HospitalAPI.Models
 
         public string MedicalHistory { get; set; } = string.Empty;
 
+        // One-to-many relationship with recommendations
+        public required ICollection<Recommendation> Recommendations { get; set; }
     }
 }

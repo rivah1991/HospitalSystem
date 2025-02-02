@@ -10,7 +10,7 @@ namespace HospitalAPI.Controller
     [Authorize(Roles = "Admin")]
     // [Authorize]
     // [Authorize(Policy = "AdminPolicy")]
-    [Route("api/[Controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {

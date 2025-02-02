@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HospitalAPI.Data;
+using HospitalAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,6 +49,27 @@ namespace HospitalAPI.Controller
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Recommendation successfully marked as completed." });
+        }
+        [HttpPost("/api/patients/{id}/recommendations")]
+        public async Task<IActionResult> CreateRecommendation(int id, [FromBody] Recommendation recommendation)
+        {
+            if (recommendation == null || string.IsNullOrWhiteSpace(recommendation.Description))
+            {
+                return BadRequest(new { message = "Les données de la recommandation sont invalides." });
+            }
+
+            // Vérifier si le patient existe
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null)
+            {
+                return NotFound(new { message = "Patient non trouvé." });
+            }
+
+            recommendation.PatientId = id;
+            _context.Recommendations.Add(recommendation);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetRecommendationsForPatient), new { id = id }, recommendation);
         }
     }
 }

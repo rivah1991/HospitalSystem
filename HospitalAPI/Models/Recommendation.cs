@@ -13,6 +13,7 @@ namespace HospitalAPI.Models
         public string Description { get; set; } = string.Empty;
         public string Statut { get; set; } = string.Empty;
 
+        // Navigation to associated patient
         public required Patient Patient { get; set; }
     }
 }
