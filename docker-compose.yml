@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  dotnet_core_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mcr.microsoft.com/dotnet/sdk:8.0  # Utilise la version 8.0
+    volumes:
+      - ./HospitalAPI:/app/HospitalAPI
+    ports:
+      - "5000:5000"
+    depends_on:
+      - sql_server_hospital
+
+  sql_server_hospital:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourPasswordHere
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:

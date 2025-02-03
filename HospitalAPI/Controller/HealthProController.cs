@@ -25,6 +25,8 @@ namespace HospitalAPI.Controller
             _mapper = mapper;
         }
 
+
+        [Authorize(Roles = "Professional")]
         [HttpGet]
         public async Task<IActionResult> GetResponsables()
         {

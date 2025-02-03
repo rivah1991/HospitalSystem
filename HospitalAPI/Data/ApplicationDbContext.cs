@@ -31,8 +31,10 @@ namespace HospitalAPI.Data
         public DbSet<Recommendation> Recommendations { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
-
+    
         public DbSet<PendingUser> PendingUsers { get; set; }
+
+         public DbSet<AuditLog> AuditLog { get; set; }
 
         protected ApplicationDbContext()
         {

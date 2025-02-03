@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HospitalAPI.Data;
+using HospitalAPI.Dtos;
 using HospitalAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitalAPI.Controller
 {
+
+    [Route("api/recommendations")] // Définir la route de base pour toutes les actions dans ce contrôleur
+    [ApiController]
     public class RecommendationController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -18,8 +22,8 @@ namespace HospitalAPI.Controller
             _context = context;
         }
 
-        // 1. Get all recommendations for a patient (GET /api/patients/{id}/recommendations)
-        [HttpGet("/api/patients/{id}/recommendations")]
+        // 1. Get all recommendations for a patient (GET /api/recommendations/patients/{id})
+        [HttpGet("patients/{id}")]
         public async Task<IActionResult> GetRecommendationsForPatient(int id)
         {
             var recommendations = await _context.Recommendations
@@ -50,26 +54,41 @@ namespace HospitalAPI.Controller
 
             return Ok(new { message = "Recommendation successfully marked as completed." });
         }
-        [HttpPost("/api/patients/{id}/recommendations")]
+
+        // 3. Create a new recommendation for a patient (POST /api/recommendations/patients/{id})
+        [HttpPost("patients/{id}")]
         public async Task<IActionResult> CreateRecommendation(int id, [FromBody] Recommendation recommendation)
         {
-            if (recommendation == null || string.IsNullOrWhiteSpace(recommendation.Description))
+            Console.WriteLine($"Request Body Content-Type: {Request.ContentType}");
+
+            if (recommendation == null)
             {
-                return BadRequest(new { message = "Les données de la recommandation sont invalides." });
+                Console.WriteLine("Recommendation is null!");
+                return BadRequest(new { message = "Invalid recommendation data." });
             }
 
-            // Vérifier si le patient existe
+            Console.WriteLine($"Received Recommendation: {recommendation.Type}, {recommendation.Description}, {recommendation.Statut}");
+
             var patient = await _context.Patients.FindAsync(id);
             if (patient == null)
             {
-                return NotFound(new { message = "Patient non trouvé." });
+                return NotFound(new { message = "Patient not found." });
             }
 
             recommendation.PatientId = id;
             _context.Recommendations.Add(recommendation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetRecommendationsForPatient), new { id = id }, recommendation);
+            var recommendationDto = new RecommendationDto
+            {
+                Id = recommendation.Id,
+                PatientId = recommendation.PatientId,
+                Type = recommendation.Type,
+                Description = recommendation.Description,
+                Statut = recommendation.Statut
+            };
+
+            return CreatedAtAction(nameof(GetRecommendationsForPatient), new { id = id }, recommendationDto);
         }
     }
 }

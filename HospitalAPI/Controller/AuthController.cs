@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HospitalAPI.Data;
 using HospitalAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -210,6 +211,13 @@ namespace HospitalAPI.Controller
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
     };
 
+            // 🔥 Récupérer les rôles de l'utilisateur et les ajouter au token
+            var userRoles = _userManager.GetRolesAsync(user).Result;
+            foreach (var role in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 expires: DateTime.UtcNow.AddMinutes(60),
@@ -240,6 +248,8 @@ namespace HospitalAPI.Controller
             return BadRequest("Role already Exists");
         }
 
+        // [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpPost("assign-role")]
         public async Task<IActionResult> AssignRole([FromBody] UserRole model)
         {

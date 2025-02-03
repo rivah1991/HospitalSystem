@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using HospitalAPI.Data;
 using HospitalAPI.Mappers;
@@ -62,14 +63,15 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+        RoleClaimType = ClaimTypes.Role
     };
 });
 
 builder.Services.AddAuthorization(Options =>
 {
     Options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-    Options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+    Options.AddPolicy("UserPolicy", policy => policy.RequireRole("Professional"));
 });
 
 
