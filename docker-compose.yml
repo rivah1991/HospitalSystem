@@ -1,27 +1,25 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  dotnet_core_app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: mcr.microsoft.com/dotnet/sdk:8.0  # Utilise la version 8.0
-    volumes:
-      - ./HospitalAPI:/app/HospitalAPI
-    ports:
-      - "5000:5000"
-    depends_on:
-      - sql_server_hospital
-
-  sql_server_hospital:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest  # Utilisation de l'image officielle de SQL Server
+    container_name: sql_server_hospital
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=YourPasswordHere
+      - SA_PASSWORD=Naivo@1991  # Le mot de passe de l'utilisateur SA
     ports:
-      - "1433:1433"
+      - "1433:1433"  # Exposer le port 1433 pour la connexion SQL
     volumes:
-      - sql_data:/var/opt/mssql
+      - mssql_data:/var/opt/mssql  # Assurez-vous que vos données persistent dans ce volume
+    networks:
+      - sql_network  # Vous pouvez définir un réseau personnalisé si nécessaire
+    restart: unless-stopped  # Redémarrer le conteneur en cas d'échec
 
 volumes:
-  sql_data:
+  mssql_data:  # Définition d'un volume persistant pour les données SQL Server
+    driver: local  # Volume local sur l'hôte Docker
+
+networks:
+  sql_network:  # Définir un réseau Docker personnalisé
+    driver: bridge  # Utilisation du driver bridge par défaut
+

@@ -10,6 +10,11 @@ sudo docker start sql_server_hospital
 
 Se connecter à SQL Server
 sqlcmd -S localhost -U sa -P Naivo@1991
+sqlcmd -S localhost,1433 -U SA -P "Naivo@1991"
+
+
+Sql server docker
+docker exec -it sql_server_hospital /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Naivo@1991"
 
 Exécute ces commandes pour créer les migrations et appliquer la base de données :
 dotnet ef migrations add InitialCreate
@@ -45,29 +50,11 @@ ng add @angular/material # (Facultatif, pour le design)
 ------------------
 Dotnet docker
 Construire l’image Docker
-docker build -t hospital-api .
+Dockerfile pour l'application .NET (HospitalAPI)
+docker build -t hospitalsystem-dotnet:dev .
 
-Lancer un conteneur basé sur cette image
-docker run -p 5000:5000 hospital-api
-
- Supprime les anciens conteneurs (si nécessaire) : Si tu as déjà des conteneurs en cours, tu peux les arrêter et les supprimer avec :
- docker rm -f hospital_api sql_server_hospital
- 
-Étapes pour arrêter et supprimer le conteneur :
-1️⃣ Arrêter le conteneur SQL Server
-
-sudo docker stop sql_server_hospital
-
-
-Supprimer le conteneur SQL Server
-sudo docker rm sql_server_hospital
-
-
-Exécutez les commandes suivantes pour redémarrer votre conteneur
-sudo docker-compose down
-sudo docker-compose up -d
-
-
+Dockerfile pour SQL Server
+docker build -t hospitalsystem-sqlserver:latest .
 
 
 
