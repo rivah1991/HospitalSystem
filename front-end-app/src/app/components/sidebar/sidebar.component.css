@@ -9,8 +9,8 @@
 .sidenav-header img {
   border-radius: 100%;
   object-fit: cover;
-  width: 65px;
-  height: 65px;
+  /* width: 65px;
+  height: 65px; */
 }
 
 .header-text h2 {
@@ -22,4 +22,12 @@
 .header-text p {
   margin: 0;
   font-size: 0.7rem;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-inline {
+  display: inline;
 }
