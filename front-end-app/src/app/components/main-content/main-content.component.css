@@ -4,10 +4,12 @@ button.mat-raised-button {
     font-size: 169px;
     border-radius: 8px;
     margin-top: 300px;
+    position: fixed;
   }
   .left-button {
-    margin-left: 900px;
-    margin-top: -60px; 
+    left: 1000px;
+    top: 15%; 
+    position: fixed;
   }
   mat-form-field {
     width: 70%; /* Prend toute la largeur possible */

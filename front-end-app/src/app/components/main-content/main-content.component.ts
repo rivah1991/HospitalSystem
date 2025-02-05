@@ -33,8 +33,8 @@ export interface Patient {
 export class MainContentComponent {
   displayedColumns: string[] = ['id', 'name', 'age', 'gender', 'bloodGroup', 'treatment', 'mobile', 'email', 'address', 'actions'];
   dataSource: Patient[] = [
-    { id: 1, name: 'Jean Dupont', age: 45, gender: 'Homme', bloodGroup: 'O+', treatment: 'Chirurgie', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
-    { id: 2, name: 'Marie Curie', age: 37, gender: 'Femme', bloodGroup: 'A-', treatment: 'Médicament', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
-    { id: 3, name: 'Paul Martin', age: 29, gender: 'Homme', bloodGroup: 'B+', treatment: 'Thérapie', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' }
+    { id: 1, name: 'Jean Dupont', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Chirurgie', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
+    { id: 2, name: 'Marie Curie', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Médicament', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
+    { id: 3, name: 'Paul Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Thérapie', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' }
   ];
 }
