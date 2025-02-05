@@ -1,0 +1,17 @@
+button.mat-raised-button {
+    background-color: #1976d2;
+    color: white;
+    font-size: 169px;
+    border-radius: 8px;
+    margin-top: 300px;
+  }
+  .left-button {
+    margin-left: 900px;
+    margin-top: -60px; 
+  }
+  mat-form-field {
+    width: 70%; /* Prend toute la largeur possible */
+    max-width: 300px; /* Limite la largeur */
+    margin-bottom: 16px;
+    margin-left: 725px;
+  }
