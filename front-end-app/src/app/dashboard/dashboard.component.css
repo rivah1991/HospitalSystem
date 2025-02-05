@@ -4,13 +4,13 @@
 }
 
 app-sidebar {
-  width: 30%;
+  width: 20%;
   background-color: #f8f9fa;
   padding: 10px;
 }
 
 app-main-content {
-  width: 70%;
+  width: 80%;
   background-color: yellow;
   padding: 10px;
 }
