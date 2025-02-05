@@ -29,7 +29,8 @@ export class LoginComponent {
     this.isSubmitted = true;
     // console.log(this.form.value)
     if(this.form.valid){
-      this.router.navigateByUrl('/dashboard')
+      this.router.navigateByUrl('/dashboard') //tahiry
+
       // this.service.signin(this.form.value).subscribe({
       //   next:(res:any)=>{
       //     localStorage.setItem('token', res.token);

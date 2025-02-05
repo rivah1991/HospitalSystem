@@ -30,7 +30,7 @@ ng g c dashboard
 
 tutoriel youtube
 https://www.youtube.com/watch?v=mT6qUQyvjKg&t=671s&ab_channel=CodAffection
-6:30
+1:11:29
 
 
 voici mon api backend
