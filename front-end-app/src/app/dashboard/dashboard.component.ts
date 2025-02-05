@@ -8,6 +8,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatCardModule} from '@angular/material/card';
 
 
 @Component({
@@ -17,7 +18,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     // MainContentComponent, 
     // HeaderComponent,
     MatToolbarModule, MatSidenavModule, SidebarComponent,
-    MatButtonModule,
+    MatButtonModule, MatCardModule,
     MatIconModule,
     MainContentComponent
 ],
