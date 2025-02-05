@@ -2,17 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, Input, signal } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-
+import {MatMenuModule} from '@angular/material/menu';
 export type MenuItem = {
   icon: string;
   label: string;
+  submenu: any;
   route?: any;
 }
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatIconModule],
+  imports: [CommonModule, MatListModule, MatIconModule,MatMenuModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -24,23 +25,42 @@ export class SidebarComponent {
     this.sideNavCollapsed.set(val);
   }
   
+  menuRefs: { [key: string]: any } = {};
 
   menuItems = signal<MenuItem[]>([
     {
       icon: 'dashboard',
       label: 'Dashboard',
+      submenu: null,
       route: 'dashboard'
     },
     {
       icon: 'video_library',
+      label: 'Admin',
+      submenu: null,
+      route: 'admin'
+    },
+
+    {
+      icon: 'analytics',
       label: 'Doctors',
-      route: 'doctors'
+      submenu: [
+        { label: 'Doctors List', icon: 'list' },
+        { label: 'Add Doctors', icon: 'doctors_add' }
+      ],
+      route: 'patients'
     },
     {
       icon: 'analytics',
       label: 'Patients',
+      submenu: [
+        { label: 'Patient List', icon: 'list' },
+        { label: 'Add Patient', icon: 'patient_add' }
+      ],
       route: 'patients'
     }
+
+    
 
   ])
 
