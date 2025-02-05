@@ -1,6 +1,6 @@
 <div class="sidenav-header">
-    <img src="/assets/profil.jpg" alt="Profil">
-    <div class="header-text">
+    <img [width]="profilePicSize()" [height]="profilePicSize()" src="/assets/profil.jpg" alt="Profil">
+    <div class="header-text" [ngClass]="textcollapse()">
         <h2>Ravoniaina Rivah</h2>
         <p>Dept. Admin</p>
     </div>

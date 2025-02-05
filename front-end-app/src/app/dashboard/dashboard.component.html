@@ -7,9 +7,10 @@
   </mat-toolbar>
   <mat-sidenav-container>
     <mat-sidenav opened mode="side" [style.width]="sidenavwidth()">
-      <app-sidebar/>
+      <!-- <app-sidebar /> -->
+      <app-sidebar [collapsed]="collapsed()"/>
     </mat-sidenav>
-    <mat-sidenav-content class="content">
+    <mat-sidenav-content class="content" [style.margin-left]="sidenavwidth()">
       <app-main-content/>
     </mat-sidenav-content>
   </mat-sidenav-container>
