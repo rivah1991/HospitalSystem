@@ -36,17 +36,17 @@ export class SidebarComponent {
     },
     {
       icon: 'video_library',
-      label: 'Doctors',
+      label: 'Admin',
       submenu: null,
-      route: 'doctors'
+      route: 'admin'
     },
 
     {
       icon: 'analytics',
       label: 'Doctors',
       submenu: [
-        { label: 'Doctors List', icon: 'Doctors_list' },
-        { label: 'Add Doctors', icon: 'Doctors_add' }
+        { label: 'Doctors List', icon: 'list' },
+        { label: 'Add Doctors', icon: 'doctors_add' }
       ],
       route: 'patients'
     },
@@ -54,7 +54,7 @@ export class SidebarComponent {
       icon: 'analytics',
       label: 'Patients',
       submenu: [
-        { label: 'Patient List', icon: 'patient_list' },
+        { label: 'Patient List', icon: 'list' },
         { label: 'Add Patient', icon: 'patient_add' }
       ],
       route: 'patients'
