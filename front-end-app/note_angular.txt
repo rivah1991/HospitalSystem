@@ -41,8 +41,8 @@ https://www.youtube.com/watch?v=mT6qUQyvjKg&t=671s&ab_channel=CodAffection
 voici mon api backend
 http://localhost:5059/api/Auth/register
 {
-  "username": "rivah",
-  "email": "rivah@example.com",
+  "username": "vero",
+  "email": "vero@gmail.com",
   "password": "heritiana@",
   "role": "string"
 }

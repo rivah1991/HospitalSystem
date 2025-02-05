@@ -32,38 +32,38 @@ export class SidebarComponent {
     {
       icon: 'dashboard',
       label: 'Dashboard',
-      submenu: null,
+      submenu: [],
       route: 'dashboard'
     },
     {
-      icon: 'video_library',
+      icon: 'settings',
       label: 'Admin',
-      submenu: null,
+      submenu: [
+        { label: 'Audit Log', icon: 'history' },  
+        { label: 'Approve', icon: 'check_circle' }, 
+      ],
       route: 'admin'
     },
-
     {
-      icon: 'analytics',
+      icon: 'health_and_safety',
       label: 'Doctors',
       submenu: [
-        { label: 'Doctors List', icon: 'list' },
-        { label: 'Add Doctors', icon: 'doctors_add' }
+        { label: 'Doctors List', icon: 'list_alt' }, 
+        { label: 'Add Doctors', icon: 'person_add' }  
       ],
-      route: 'patients'
+      route: 'doctors'
     },
     {
-      icon: 'analytics',
+      icon: 'local_hospital',
       label: 'Patients',
       submenu: [
-        { label: 'Patient List', icon: 'list' },
-        { label: 'Add Patient', icon: 'patient_add' }
+        { label: 'Patient List', icon: 'list_alt' }, 
+        { label: 'Add Patient', icon: 'person_add' } 
       ],
       route: 'patients'
     }
+]);
 
-    
-
-  ])
 
   profilePicSize = computed(() => this.sideNavCollapsed() ? '40': '65');
 

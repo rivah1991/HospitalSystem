@@ -8,12 +8,12 @@
 <mat-nav-list>
   <ng-container *ngFor="let item of menuItems()">
     
-    <!-- Item avec sous-menu -->
-    <mat-expansion-panel *ngIf="item.submenu; else simpleItem" class="menu-expansion">
+    <!-- Item avec sous-menu (affiché seulement si submenu n'est pas vide) -->
+    <mat-expansion-panel *ngIf="item.submenu && item.submenu.length > 0; else simpleItem" class="menu-expansion">
       <mat-expansion-panel-header>
         <a mat-list-item class="expansion-header">
           <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-          <span matListItemTitle>{{ item.label }}</span>
+          <span class="maticonMat" matListItemTitle>{{ item.label }}</span>
         </a>
       </mat-expansion-panel-header>
 
@@ -27,7 +27,7 @@
 
     <!-- Item sans sous-menu -->
     <ng-template #simpleItem>
-      <a mat-list-item>
+      <a mat-list-item class="simple-item">
         <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
         <span matListItemTitle>{{ item.label }}</span>
       </a>
