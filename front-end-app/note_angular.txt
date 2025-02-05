@@ -27,6 +27,11 @@ ng g s shared/services/auth
 pour login
 ng g c user/login --skip-tests
 ng g c dashboard
+---
+pour le dashboard
+ng g c components/header --skip-tests
+ng g c  components/sidebar --skip-tests
+ng g c  components/main-content --skip-tests
 
 tutoriel youtube
 https://www.youtube.com/watch?v=mT6qUQyvjKg&t=671s&ab_channel=CodAffection

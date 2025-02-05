@@ -14,13 +14,13 @@ import {MatSidenavModule} from '@angular/material/sidenav';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    
     // MainContentComponent, 
     // HeaderComponent,
     MatToolbarModule, MatSidenavModule, SidebarComponent,
     MatButtonModule,
-    MatIconModule      
-  ],
+    MatIconModule,
+    MainContentComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
