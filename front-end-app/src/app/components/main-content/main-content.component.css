@@ -10,10 +10,20 @@ button.mat-raised-button {
     left: 1000px;
     top: 15%; 
     position: fixed;
+    
   }
   mat-form-field {
-    width: 70%; /* Prend toute la largeur possible */
+    position: fixed;
+    width: 10%; /* Prend toute la largeur possible */
     max-width: 300px; /* Limite la largeur */
-    margin-bottom: 16px;
-    margin-left: 725px;
+    height: 1px;
+    /* margin-bottom: 16px; */
+    left: 1000px;
+    top: 20%;
   }
+  table.mat-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
