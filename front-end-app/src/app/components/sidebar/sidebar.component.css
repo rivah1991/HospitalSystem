@@ -1,24 +1,25 @@
-.sidebar {
-  width: 100%;
-  background-color: #ddd;
+.sidenav-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   padding: 15px;
+  text-align: left;
 }
 
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
+.sidenav-header img {
+  border-radius: 100%;
+  object-fit: cover;
+  width: 65px;
+  height: 65px;
 }
 
-.sidebar ul li {
-  margin: 10px 0;
+.header-text h2 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
-.sidebar ul li a {
-  text-decoration: none;
-  color: black;
-  font-weight: bold;
-}
-
-.sidebar ul ul {
-  margin-left: 15px;
+.header-text p {
+  margin: 0;
+  font-size: 0.7rem;
 }

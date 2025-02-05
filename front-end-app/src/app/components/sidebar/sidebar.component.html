@@ -1,25 +1,13 @@
-<nav class="sidebar">
-    <ul>
-        <li>
-            <a href="#">Administrateurs</a>
-            <ul>
-                <li><a href="#">Liste</a></li>
-                <li><a href="#">Ajouter</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">Patients</a>
-            <ul>
-                <li><a href="#">Liste</a></li>
-                <li><a href="#">Ajouter</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">Staff</a>
-            <ul>
-                <li><a href="#">Liste</a></li>
-                <li><a href="#">Ajouter</a></li>
-            </ul>
-        </li>
-    </ul>
-</nav>
+<div class="sidenav-header">
+    <img src="/assets/profil.jpg" alt="Profil">
+    <div class="header-text">
+        <h2>Ravoniaina Rivah</h2>
+        <p>Dept. Admin</p>
+    </div>
+</div>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let item of menuItems()">
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+        <span matListItemTitle>{{item.label}}</span>
+    </a>
+</mat-nav-list>
