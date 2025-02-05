@@ -31,3 +31,33 @@
 .display-inline {
   display: inline;
 }
+
+/* S'assurer que les icônes et titres sont bien alignés */
+.mat-list-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Ajuster l'alignement de l'expansion panel */
+.menu-expansion .mat-expansion-panel-header {
+  padding: 0;
+}
+
+/* Empêcher les icônes d'être déplacées par la flèche d'expansion */
+.expansion-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+}
+
+/* Uniformiser l'alignement des icônes */
+.mat-list-item .mat-icon,
+.expansion-header .mat-icon {
+  margin-right: 16px;
+}
+
+/* Forcer une taille cohérente pour toutes les icônes */
+.mat-icon {
+  font-size: 24px;
+}

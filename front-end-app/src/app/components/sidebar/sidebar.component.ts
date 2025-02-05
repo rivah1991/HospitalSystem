@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, Input, signal } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
 export type MenuItem = {
   icon: string;
@@ -13,7 +15,7 @@ export type MenuItem = {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatIconModule,MatMenuModule],
+  imports: [CommonModule, MatListModule, MatIconModule,MatMenuModule,MatSidenavModule,MatExpansionModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
@@ -25,7 +27,6 @@ export class SidebarComponent {
     this.sideNavCollapsed.set(val);
   }
   
-  menuRefs: { [key: string]: any } = {};
 
   menuItems = signal<MenuItem[]>([
     {
