@@ -5,6 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
+import { Router, RouterLink } from '@angular/router';
 export type MenuItem = {
   icon: string;
   label: string;
@@ -15,7 +16,10 @@ export type MenuItem = {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatIconModule,MatMenuModule,MatSidenavModule,MatExpansionModule],
+  imports: [
+    CommonModule, MatListModule, MatIconModule,MatMenuModule,
+    MatSidenavModule,MatExpansionModule, RouterLink
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
