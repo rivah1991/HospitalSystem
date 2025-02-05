@@ -89,6 +89,12 @@ app.UseHttpsRedirection();
 app.UseRouting();
 // Activer l'authentification et autorisation'
 
+//config CORS
+app.UseCors(options => options.WithOrigins("http://localhost:4200")
+.AllowAnyMethod()
+.AllowAnyHeader()
+);
+
 app.UseAuthentication();
 app.UseAuthorization();
 

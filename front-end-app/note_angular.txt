@@ -1,0 +1,44 @@
+
+Angular
+
+Exécute cette commande pour installer Angular CLI , installe la dernière version stable d'Angular CLI (ici la version 17 ou plus récente) :
+npm install -g @angular/cli@17
+
+
+ng new front-end-app
+cd front-end-app
+ng add @angular/material
+npm install bootstrap
+
+Lance le serveur de développement
+ng serve
+
+------------------
+
+Ajoute Bootstrap dans angular.json :
+"styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "src/styles.css"
+]
+--------------
+ng g c user
+ng g c user/registration --skip-tests
+ng g s shared/services/auth
+pour login
+ng g c user/login --skip-tests
+ng g c dashboard
+
+tutoriel youtube
+https://www.youtube.com/watch?v=mT6qUQyvjKg&t=671s&ab_channel=CodAffection
+6:30
+
+
+voici mon api backend
+http://localhost:5059/api/Auth/register
+{
+  "username": "rivah",
+  "email": "rivah@example.com",
+  "password": "heritiana@",
+  "role": "string"
+}
+
