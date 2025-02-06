@@ -1,0 +1,30 @@
+.content {
+  padding: 24px;
+  background-color: green;
+}
+/* #116aef */
+mat-toolbar {
+  background-color: #116aef;
+  position: relative;
+  z-index: 5;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+mat-card {
+  /* background-color: red; */
+  min-height: 80vh;
+  border-radius: 15px;
+}
+
+mat-toolbar {
+  background-color: #116aef;
+  position: relative;
+  z-index: 5;
+}
+
+.logout-button {
+  margin-left: auto; /* This will push the logout button to the far right */
+}

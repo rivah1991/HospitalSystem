@@ -1,0 +1,46 @@
+.content {
+  padding: 0px;
+  background-color: transparent;
+}
+
+mat-toolbar {
+  background-color: #116aef;
+  position: relative;
+  z-index: 5;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+mat-card.form-card {
+  min-height: 80vh;
+  border-radius: 15px;
+  padding: 20px;
+  /* background-color: red; */
+}
+
+.full-width {
+  width: 100%;
+  margin: auto;
+}
+
+.row {
+  margin-bottom: 5px;
+}
+
+mat-form-field {
+  /* background-color: red; */
+  padding: 0px;
+  height: 70px;
+}
+
+mat-form-field input {
+  height: 0px;
+  padding: 0px;
+  font-size: 14px;
+}
+
+.mat-form-field.mat-form-field-required .mat-label .mat-required {
+  color: red !important;
+}

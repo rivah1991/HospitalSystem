@@ -1,0 +1,24 @@
+<mat-table [dataSource]="dataAudit">
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+      <mat-cell *matCellDef="let entry"> {{ entry.action }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="user">
+      <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
+      <mat-cell *matCellDef="let entry"> {{ entry.user }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+      <mat-cell *matCellDef="let entry"> {{ entry.timestamp | date: 'short' }} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  
+  <mat-paginator [length]="dataAudit.data.length"
+               [pageSize]="7"
+               aria-label="Sélectionner la page">
+</mat-paginator>

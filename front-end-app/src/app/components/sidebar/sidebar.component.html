@@ -1,0 +1,39 @@
+<div class="sidenav-header">
+    <img [width]="profilePicSize()" [height]="profilePicSize()"
+     src="/assets/profil.jpg" alt="Profil"
+     (click)="openProfileModal()">
+    <div class="header-text" [ngClass]="textcollapse()">
+        <h2>Ravoniaina Rivah</h2>
+        <p>Dept. Admin</p>
+    </div>
+</div>
+<mat-nav-list>
+  <ng-container *ngFor="let item of menuItems()">
+    
+    <!-- Item avec sous-menu -->
+    <mat-expansion-panel *ngIf="item.submenu && item.submenu.length > 0; else simpleItem" class="menu-expansion">
+      <mat-expansion-panel-header>
+        <a mat-list-item class="expansion-header">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      </mat-expansion-panel-header>
+
+      <mat-nav-list>
+        <a mat-list-item *ngFor="let subItem of item.submenu" [routerLink]="subItem.route">
+          <mat-icon matListItemIcon>{{ subItem.icon }}</mat-icon>
+          <span matListItemTitle>{{ subItem.label }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-expansion-panel>
+
+    <!-- Item sans sous-menu (avec route) -->
+    <ng-template #simpleItem>
+      <a mat-list-item class="simple-item" *ngIf="item.route" [routerLink]="item.route">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    </ng-template>
+
+  </ng-container>
+</mat-nav-list>
