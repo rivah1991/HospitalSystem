@@ -1,29 +1,22 @@
-<mat-paginator [ length ]= "100" 
-              [ pageSize ]= "10" 
-              aria-label = "Sélectionner la page" > 
-<mat-table [dataSource]="users">
+<mat-table [dataSource]="dataSource">
   <!-- Colonne Nom -->
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Nom </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
     <mat-cell *matCellDef="let user"> {{ user.name }} </mat-cell>
-  </ng-container>
-
-  <!-- Colonne Approbation -->
-  <ng-container matColumnDef="approval">
-    <mat-header-cell *matHeaderCellDef> Approbation </mat-header-cell>
-    <mat-cell *matCellDef="let user">
-      <mat-slide-toggle [(ngModel)]="user.approved" (change)="toggleApproval(user)">
-        {{ user.approved ? 'Approuvé' : 'En attente' }}
-      </mat-slide-toggle>
-    </mat-cell>
   </ng-container>
 
   <!-- Colonne Rôle -->
   <ng-container matColumnDef="role">
-    <mat-header-cell *matHeaderCellDef> Rôle </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+    <mat-cell *matCellDef="let user"> {{ user.role }} </mat-cell>
+  </ng-container>
+
+  <!-- Colonne Approbation -->
+  <ng-container matColumnDef="approval">
+    <mat-header-cell *matHeaderCellDef> Approval </mat-header-cell>
     <mat-cell *matCellDef="let user">
-      <mat-slide-toggle [(ngModel)]="user.role" (change)="toggleRole(user)">
-        {{ user.role === 'admin' ? 'Admin' : 'Professionnel' }}
+      <mat-slide-toggle [(ngModel)]="user.approved" (change)="toggleApproval(user)">
+        {{ user.approved ? 'Approuvé' : 'En attente' }}
       </mat-slide-toggle>
     </mat-cell>
   </ng-container>
@@ -33,4 +26,8 @@
   <!-- Ligne de données -->
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
-</mat-paginator >
+
+<mat-paginator [length]="users.length"
+               [pageSize]="7"
+               aria-label="Sélectionner la page">
+</mat-paginator>

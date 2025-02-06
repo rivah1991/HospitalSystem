@@ -1,4 +1,4 @@
-<mat-table [dataSource]="auditEntries" class="mat-elevation-z8">
+<mat-table [dataSource]="dataAudit">
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let entry"> {{ entry.action }} </mat-cell>
@@ -18,3 +18,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   
+  <mat-paginator [length]="dataAudit.data.length"
+               [pageSize]="7"
+               aria-label="Sélectionner la page">
+</mat-paginator>
