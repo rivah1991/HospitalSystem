@@ -6,6 +6,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
 import { Router, RouterLink } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ProfileModalComponent } from '../profil/profile-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+
 export type MenuItem = {
   icon: string;
   label: string;
@@ -18,13 +22,14 @@ export type MenuItem = {
   standalone: true,
   imports: [
     CommonModule, MatListModule, MatIconModule,MatMenuModule,
-    MatSidenavModule,MatExpansionModule, RouterLink
+    MatSidenavModule,MatExpansionModule, RouterLink, MatDialogModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
 
+  constructor(private dialog: MatDialog) {}
 
   sideNavCollapsed = signal(false);
   @Input() set collapsed(val: boolean){
@@ -72,5 +77,13 @@ export class SidebarComponent {
   profilePicSize = computed(() => this.sideNavCollapsed() ? '40': '65');
 
   textcollapse = computed(() => this.sideNavCollapsed() ? 'display-none' : 'display-inline');
+
+  openProfileModal(): void {
+    this.dialog.open(ProfileModalComponent, {
+      width: '50%',  // Ajustez la largeur du modal selon vos besoins
+      panelClass: 'top-center-modal'  // Utilisez une classe CSS personnalisée pour le positionnement
+    });
+  }
+  
 
 }

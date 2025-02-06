@@ -4,9 +4,9 @@
   </button>
 
   <!-- Logout button -->
-  <button mat-button class="logout-button" (click)="openProfileMenu($event)">
-    <mat-icon>account_circle</mat-icon> <!-- Profil Icon -->
-    <!-- Logout -->
+  <button mat-button class="logout-button" (click)="logout()">
+  <!--   <mat-icon>Logout</mat-icon> Profil Icon -->
+    Logout
   </button>
 </mat-toolbar>
 
@@ -24,9 +24,4 @@
       
     </mat-sidenav-content>
   </mat-sidenav-container>
-    
- <!-- Modal for Profile Options -->
-<mat-dialog-content *ngIf="profileMenuOpened">
-  <button mat-button (click)="navigateToProfileUpdate()">Update Profile</button>
-  <button mat-button (click)="logout()">Logout</button>
-</mat-dialog-content> 
+ 
