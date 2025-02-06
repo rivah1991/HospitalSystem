@@ -6,8 +6,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+<<<<<<< Updated upstream
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator } from '@angular/material/paginator';
+=======
+import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { EditPatientDialogComponent } from './edit-patient-dialog/edit-patient-dialog.component';
+
+
+>>>>>>> Stashed changes
 
 
 export interface Patient {
@@ -33,7 +41,8 @@ export interface Patient {
     MatIconModule,
     MatFormFieldModule,
     MatTableModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css']
@@ -68,6 +77,9 @@ export class PatientsComponent implements OnInit, AfterViewInit {
     { id: 12, name: 'Bernardo ',lastName:'tax', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
     { id: 13, name: 'David ', lastName:'Tahiry',age: 37, gender: 'Male', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
   ]);
+  constructor(public dialog: MatDialog) {}
+
+  
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -89,8 +101,30 @@ export class PatientsComponent implements OnInit, AfterViewInit {
       this.dataSource.data.splice(index, 1);  // Supprimer le patient de la liste
       this.dataSource = new MatTableDataSource(this.dataSource.data); // Mettre à jour la source de données
     }
+<<<<<<< Updated upstream
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+=======
+  } 
+  openEditDialog(patient: Patient): void {
+    const dialogRef = this.dialog.open(EditPatientDialogComponent, {
+      width: '300px',
+      data: { ...patient } // Passe les données du patient dans le dialogue
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Met à jour les informations du patient dans dataSource
+        const index = this.dataSource.data.findIndex(p => p.id === result.id);
+        if (index !== -1) {
+          this.dataSource.data[index] = result; // Met à jour le patient dans la liste
+          this.dataSource = new MatTableDataSource(this.dataSource.data); // Met à jour la source de données
+        }
+      }
+    });
+  }
+
+>>>>>>> Stashed changes
 }

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 .user-list {
   display: flex;
   flex-direction: column;
@@ -12,3 +13,12 @@
 mat-slide-toggle {
   margin-top: 10px;
 }
+=======
+mat-table {
+    width: 100%;
+  }
+  
+  button {
+    margin: 5px;
+  }
+>>>>>>> Stashed changes
