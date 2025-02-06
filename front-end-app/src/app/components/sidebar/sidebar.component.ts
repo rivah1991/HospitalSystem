@@ -58,7 +58,7 @@ export class SidebarComponent {
       label: 'Doctors',
       submenu: [
         { label: 'Doctors List', icon: 'list_alt', route: 'doctors/list' }, 
-        { label: 'Add Doctors', icon: 'person_add', route: 'doctors/add' }  
+       
       ],
       
     },
