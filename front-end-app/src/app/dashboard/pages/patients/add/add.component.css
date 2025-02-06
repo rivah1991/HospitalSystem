@@ -22,6 +22,7 @@ mat-card.form-card {
 
 .full-width {
   width: 100%;
+  margin: auto;
 }
 
 .row {
