@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
 
 export interface Patient {
   id: number;
@@ -27,6 +28,7 @@ export interface Patient {
     MatIconModule,
     MatFormFieldModule,
     MatTableModule,
+    CommonModule
   ],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.css'
@@ -58,6 +60,7 @@ export class PatientsComponent implements OnInit {
     { id: 4, name: 'Rak Thiery', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
     { id: 5, name: 'Louise Marth', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
     { id: 6, name: 'Bernardo Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
+    { id: 5, name: 'David Tahiry', age: 37, gender: 'Male', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
   ]);
 
   ngOnInit() {
