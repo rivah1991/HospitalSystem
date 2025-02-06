@@ -9,6 +9,7 @@ import { DoctorsComponent } from './dashboard/pages/doctors/doctors.component';
 import { AddPatientComponent } from './dashboard/pages/patients/add/add.component';
 import { AuditlogsComponent } from './dashboard/pages/admin/auditlogs/auditlogs.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { AddRecommandationsComponent } from './dashboard/pages/patients/add-recommandations/add-recommandations.component';
 
 export const routes: Routes = [
     { 
@@ -29,7 +30,8 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'patients', pathMatch: 'full' },  
             { path: 'patients/list', component: PatientsComponent }, 
-            { path: 'patients/add', component: AddPatientComponent }, 
+            { path: 'patients/add', component: AddPatientComponent },
+            { path: 'patients/addrecommendation', component: AddRecommandationsComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
             { path: 'admin', component: AdminComponent } ,
             { path: 'admin/audit', component:  AuditlogsComponent} 

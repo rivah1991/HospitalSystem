@@ -37,6 +37,7 @@ page sous dashboard
 
 ng g c  dashboard/pages/doctors --skip-tests
 ng g c  dashboard/pages/patients --skip-tests
+ng g c  dashboard/pages/patients/add-recommandations --skip-tests
 
 
 
