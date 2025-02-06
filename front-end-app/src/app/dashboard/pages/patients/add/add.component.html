@@ -4,7 +4,6 @@
       <mat-card-content>
         <form>
           <div class="col-md-4">
-            <mat-label>Gender</mat-label>
             <mat-radio-group class="full-width">
               <mat-radio-button value="male">Male</mat-radio-button>
               <mat-radio-button value="female">Female</mat-radio-button>
@@ -132,7 +131,16 @@
             </div>
           </div>
   
-          <button mat-raised-button color="primary" class="full-width">Submit</button>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <button mat-raised-button class="btn btn-secondary">Cancel</button>
+            </div>
+            <div class="col-auto">
+              <button mat-raised-button color="primary" class="btn btn-primary">Create Patient Profile</button>
+            </div>
+          </div>
+          
+         
         </form>
       </mat-card-content>
     </mat-card>
