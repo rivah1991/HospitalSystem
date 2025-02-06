@@ -4,9 +4,12 @@
 <div>
     <button mat-raised-button color="primary" class="left-button">Add Patients</button>
 </div>
-<mat-form-field appearance="outline" class="custom-form-field">
-  <input matInput (input)="applyFilter($event)" placeholder="Enter patient name" />
-</mat-form-field>
+<div class="form-container">
+  <mat-form-field appearance="outline" class="custom-form-field">
+    <input matInput (input)="applyFilter($event)" placeholder="Enter patient name" />
+  </mat-form-field>
+</div>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!-- Colonne ID -->
@@ -71,7 +74,7 @@
         <button mat-icon-button color="primary">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn">
+        <button mat-icon-button color="warn" (click)="deletePatient(element.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -82,4 +85,10 @@
     
   </table>
   
-  
+  <mat-paginator 
+  [length]="100" 
+  [pageSize]="4" 
+  [pageSizeOptions]="[2, 4, 6]" 
+  showFirstLastButtons
+  aria-label="Custom Pagination">
+</mat-paginator>
