@@ -12,8 +12,9 @@
     </mat-sidenav>
     <mat-sidenav-content class="content" [style.margin-left]="sidenavwidth()">
       <mat-card>
-        <mat-card-content><app-main-content/></mat-card-content>
+        <mat-card-content><router-outlet></router-outlet></mat-card-content>
       </mat-card>
+     
       
     </mat-sidenav-content>
   </mat-sidenav-container>

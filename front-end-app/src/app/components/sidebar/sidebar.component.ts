@@ -43,28 +43,28 @@ export class SidebarComponent {
       icon: 'settings',
       label: 'Admin',
       submenu: [
-        { label: 'Audit Log', icon: 'history' },  
-        { label: 'Approve', icon: 'check_circle' }, 
+        { label: 'Audit Log', icon: 'history', route: 'admin/audit' },  
+        { label: 'Approve', icon: 'check_circle', route: 'admin' }, 
       ],
-      route: 'admin'
+      
     },
     {
       icon: 'health_and_safety',
       label: 'Doctors',
       submenu: [
-        { label: 'Doctors List', icon: 'list_alt' }, 
-        { label: 'Add Doctors', icon: 'person_add' }  
+        { label: 'Doctors List', icon: 'list_alt', route: 'doctors/list' }, 
+        { label: 'Add Doctors', icon: 'person_add', route: 'doctors/add' }  
       ],
-      route: 'doctors'
+      
     },
     {
       icon: 'local_hospital',
       label: 'Patients',
       submenu: [
-        { label: 'Patient List', icon: 'list_alt' }, 
-        { label: 'Add Patient', icon: 'person_add' } 
+        { label: 'Patient List', icon: 'list_alt',route: 'patients/list' }, 
+        { label: 'Add Patient', icon: 'person_add',route: 'patients/add' } 
       ],
-      route: 'patients'
+      
     }
 ]);
 

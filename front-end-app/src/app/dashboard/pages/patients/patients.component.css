@@ -1,0 +1,52 @@
+button.mat-raised-button {
+  background-color: #1976d2;
+  color: white;
+  font-size: 169px;
+  border-radius: 8px;
+  margin-top: 300px;
+  position: fixed;
+}
+.left-button {
+  left: 890px;
+  margin-top: -90px;
+}
+mat-form-field {
+  width: 30%; /* Prend toute la largeur possible */
+  max-width: 200px; /* Limite la largeur */
+  height: 1px;
+  margin-top: -20px;
+  margin-left: 820px;
+}
+.custom-form-field {
+  height: 50px;
+}
+
+.custom-form-field input {
+  height: 10px;
+  font-size: 16px;
+}
+.custom-header {
+  background-color: #ee0e0e;
+  color: rgb(15, 15, 15);
+  font-weight: bold;
+  padding: 10px;
+
+  width: 10px;
+  overflow: hidden;
+  height: 10px;
+}
+.custom-header-row,
+.custom-data-row {
+  height: 10px; /* Ajuste cette valeur selon tes besoins */
+}
+
+.custom-data-row td,
+.custom-header-row th {
+  padding: 0;
+  line-height: 15px; /* Assure que le contenu reste aligné verticalement */
+}
+.custom-cell {
+  height: 5px; /* Ajuste cette valeur selon tes besoins */
+  line-height: 10px; /* Pour un bon alignement du texte */
+  padding: 0; /* Réduit les marges internes */
+}

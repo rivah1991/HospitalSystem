@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { MainContentComponent } from '../components/main-content/main-content.component';
 import { HeaderComponent } from '../components/header/header.component';
@@ -19,8 +19,8 @@ import {MatCardModule} from '@angular/material/card';
     // HeaderComponent,
     MatToolbarModule, MatSidenavModule, SidebarComponent,
     MatButtonModule, MatCardModule,
-    MatIconModule,
-    MainContentComponent
+    MatIconModule, RouterModule,
+    // MainContentComponent
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
