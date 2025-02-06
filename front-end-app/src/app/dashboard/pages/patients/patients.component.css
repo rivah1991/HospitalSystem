@@ -9,6 +9,7 @@ button.mat-raised-button {
 .left-button {
   left: 890px;
   margin-top: -90px;
+  
 }
 mat-form-field {
   width: 30%; /* Prend toute la largeur possible */
@@ -50,3 +51,13 @@ mat-form-field {
   line-height: 10px; /* Pour un bon alignement du texte */
   padding: 0; /* Réduit les marges internes */
 }
+/* Classe pour le genre Male (couleur bleue) */
+.male-gender {
+  color: blue;
+}
+
+/* Classe pour le genre Female (couleur jaune) */
+.female-gender {
+  color: rgb(255, 162, 0);
+}
+
