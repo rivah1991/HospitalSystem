@@ -28,9 +28,3 @@ mat-toolbar {
 .logout-button {
   margin-left: auto; /* This will push the logout button to the far right */
 }
-
-.logout-button mat-icon {
-  font-size: 40px;
-  height: 45px;
-  padding-right: 50px;
-}

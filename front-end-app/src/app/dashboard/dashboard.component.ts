@@ -27,17 +27,7 @@ export class DashboardComponent {
 
   ){}
 
-  profileMenuOpened = false;
-
-   // Open men profil
-   openProfileMenu(event: MouseEvent): void {
-    this.profileMenuOpened = !this.profileMenuOpened;
-  }
-
-  navigateToProfileUpdate(): void {
-    this.router.navigate(['/profile-update']); 
-    this.profileMenuOpened = false;
-  }
+  
  
   collapsed = signal(false);
   sidenavwidth = computed(() => this.collapsed() ? '65px': '250px');
@@ -46,6 +36,6 @@ export class DashboardComponent {
   logout(){
     localStorage.removeItem('token');
     this.router.navigateByUrl('/signin');
-    this.profileMenuOpened = false;
+   
   }
 }
