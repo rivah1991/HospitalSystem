@@ -9,6 +9,7 @@ import { DoctorsComponent } from './dashboard/pages/doctors/doctors.component';
 import { AddPatientComponent } from './dashboard/pages/patients/add/add.component';
 import {AddDoctorComponent} from './dashboard/pages/doctors/add/add.component';
 import { AuditlogsComponent } from './dashboard/pages/admin/auditlogs/auditlogs.component';
+import { ProfilComponent } from './components/profil/profil.component';
 
 export const routes: Routes = [
     { 
@@ -31,9 +32,14 @@ export const routes: Routes = [
             { path: 'patients/list', component: PatientsComponent }, 
             { path: 'patients/add', component: AddPatientComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
-            { path: 'doctors/add', component: AddPatientComponent }, 
+            { path: 'doctors/add', component: AddDoctorComponent }, 
             { path: 'admin', component: AdminComponent } ,
             { path: 'admin/audit', component:  AuditlogsComponent} 
         ]
+    },
+
+    { 
+        path: 'profile-update', 
+        component: ProfilComponent       
     },
 ];
