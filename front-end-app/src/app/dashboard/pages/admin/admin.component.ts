@@ -1,39 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
-import { DatePipe } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';  
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [MatTableModule,DatePipe],
+  imports: [
+    MatSlideToggleModule, MatTableModule, FormsModule, CommonModule,
+    MatPaginatorModule, MatSortModule
+  ],  
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  displayedColumns: string[] = ['action', 'user', 'timestamp']
-  
-  pendingActions = [
-    { id: 1, action: 'Création du patient', user: 'admin', timestamp: new Date(), status: 'pending' },
-    { id: 2, action: 'Modification des informations du patient', user: 'doctor1', timestamp: new Date(), status: 'pending' },
+
+  displayedColumns: string[] = ['name', 'approval', 'role'];  // Colonnes à afficher : nom, approbation et rôle
+
+  // Exemple d'utilisateurs avec un statut d'attente d'approbation
+  users = [
+    { id: 1, name: 'User 1', approved: false, role: 'admin' },
+    { id: 2, name: 'User 2', approved: false, role: 'professionnal' },
+    { id: 3, name: 'User 3', approved: false, role: 'professionnal' },
+    { id: 4, name: 'User 4', approved: true, role: 'admin' },
+    { id: 5, name: 'User 5', approved: false, role: 'professionnal' },
+    { id: 6, name: 'User 6', approved: true, role: 'admin' },
+    { id: 7, name: 'User 7', approved: true, role: 'professionnal' },
+    { id: 8, name: 'User 8', approved: false, role: 'admin' },
+    { id: 9, name: 'User 9', approved: false, role: 'professionnal' },
+    { id: 10, name: 'User 10', approved: true, role: 'admin' }
   ];
+
+  dataSource = new MatTableDataSource(this.users);
 
   constructor() {}
 
-  ngOnInit() {
-    // Pas d'appel API ici, les données sont statiques
+  ngOnInit(): void {}
+
+  // Méthodes pour changer l'approbation et le rôle
+  toggleApproval(user: any): void {
+    user.approved = !user.approved;
   }
 
-  approveAction(id: number) {
-    const action = this.pendingActions.find(a => a.id === id);
-    if (action) {
-      action.status = 'approved'; // Met à jour le statut
-    }
+  toggleRole(user: any): void {
+    user.role = user.role === 'professionnal' ? 'admin' : 'professionnal';
   }
-
-  rejectAction(id: number) {
-    const action = this.pendingActions.find(a => a.id === id);
-    if (action) {
-      action.status = 'rejected'; // Met à jour le statut
-    }
-  }
-} 
+}

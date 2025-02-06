@@ -1,28 +1,36 @@
-<mat-table [dataSource]="pendingActions" class="mat-elevation-z8">
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-      <mat-cell *matCellDef="let entry"> {{ entry.action }} </mat-cell>
-    </ng-container>
-  
-    <ng-container matColumnDef="user">
-      <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
-      <mat-cell *matCellDef="let entry"> {{ entry.user }} </mat-cell>
-    </ng-container>
-  
-    <ng-container matColumnDef="timestamp">
-      <mat-header-cell *matHeaderCellDef> Timestamp </mat-header-cell>
-      <mat-cell *matCellDef="let entry"> {{ entry.timestamp | date: 'short' }} </mat-cell>
-    </ng-container>
-  
-    <ng-container matColumnDef="approval">
-      <mat-header-cell *matHeaderCellDef> Approval </mat-header-cell>
-      <mat-cell *matCellDef="let entry">
-        <button mat-raised-button color="primary" (click)="approveAction(entry.id)" [disabled]="entry.status !== 'pending'">Approve</button>
-        <button mat-raised-button color="warn" (click)="rejectAction(entry.id)" [disabled]="entry.status !== 'pending'">Reject</button>
-      </mat-cell>
-    </ng-container>
-  
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-  
+<mat-paginator [ length ]= "100" 
+              [ pageSize ]= "10" 
+              aria-label = "Sélectionner la page" > 
+<mat-table [dataSource]="users">
+  <!-- Colonne Nom -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Nom </mat-header-cell>
+    <mat-cell *matCellDef="let user"> {{ user.name }} </mat-cell>
+  </ng-container>
+
+  <!-- Colonne Approbation -->
+  <ng-container matColumnDef="approval">
+    <mat-header-cell *matHeaderCellDef> Approbation </mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <mat-slide-toggle [(ngModel)]="user.approved" (change)="toggleApproval(user)">
+        {{ user.approved ? 'Approuvé' : 'En attente' }}
+      </mat-slide-toggle>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Colonne Rôle -->
+  <ng-container matColumnDef="role">
+    <mat-header-cell *matHeaderCellDef> Rôle </mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <mat-slide-toggle [(ngModel)]="user.role" (change)="toggleRole(user)">
+        {{ user.role === 'admin' ? 'Admin' : 'Professionnel' }}
+      </mat-slide-toggle>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Ligne d'en-tête -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <!-- Ligne de données -->
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+</mat-paginator >
