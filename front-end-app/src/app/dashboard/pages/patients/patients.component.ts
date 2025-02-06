@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export interface Patient {
   id: number;
   name: string;
+  lastName:string;
   age: number;
   gender: string;
   bloodGroup: string;
@@ -41,6 +42,7 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'id',
     'name',
+    'lastName',
     'age',
     'gender',
     'bloodGroup',
@@ -52,19 +54,19 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   ];
 
   dataSource = new MatTableDataSource<Patient>([
-    { id: 1, name: 'Jean Dupont', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
-    { id: 2, name: 'Marie Curie', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
-    { id: 3, name: 'Paul Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
-    { id: 4, name: 'Rak Thiery', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
-    { id: 5, name: 'Louise Marth', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
-    { id: 6, name: 'Bernardo Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
-    { id: 7, name: 'Jean Dupont', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
-    { id: 8, name: 'Marie Curie', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
-    { id: 9, name: 'Paul Martin', age: 29, gender: 'Female', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
-    { id: 10, name: 'Rak Thiery', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
-    { id: 11, name: 'Louise Marth', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
-    { id: 12, name: 'Bernardo Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
-    { id: 13, name: 'David Tahiry', age: 37, gender: 'Male', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
+    { id: 1, name: 'Jean',lastName:'Dupont', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
+    { id: 2, name: 'Tyf ',lastName:'Zibro', age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
+    { id: 3, name: 'Paul ',lastName:'Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
+    { id: 4, name: 'Rak ',lastName:'Thiery', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
+    { id: 5, name: 'Louise ', lastName:'Marth',age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
+    { id: 6, name: 'Bernardo ',lastName:'Martin', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
+    { id: 7, name: 'Abgi ',lastName:'Rot', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
+    { id: 8, name: 'Marie ',lastName:'Curie',  age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
+    { id: 9, name: 'Quit ',lastName:'Aviert', age: 29, gender: 'Female', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
+    { id: 10, name: 'Rak ',lastName:'Thiery', age: 45, gender: 'Male', bloodGroup: 'O+', treatment: 'Cyclospora', mobile: '123456789', email: 'jean@example.com', address: '123 Rue A' },
+    { id: 11, name: 'Louise ', lastName:'Marth',age: 37, gender: 'Female', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
+    { id: 12, name: 'Bernardo ',lastName:'tax', age: 29, gender: 'Male', bloodGroup: 'B+', treatment: 'Diabetes', mobile: '123123123', email: 'paul@example.com', address: '789 Rue C' },
+    { id: 13, name: 'David ', lastName:'Tahiry',age: 37, gender: 'Male', bloodGroup: 'A-', treatment: 'Thyroid', mobile: '987654321', email: 'marie@example.com', address: '456 Rue B' },
   ]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -72,7 +74,8 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // Initialisation du filtre si nécessaire
     this.dataSource.filterPredicate = (data: Patient, filter: string) => {
-      return data.name.toLowerCase().includes(filter);
+     
+      return data.name.toLowerCase().includes(filter) || data.lastName.toLowerCase().includes(filter);
     };
   }
 

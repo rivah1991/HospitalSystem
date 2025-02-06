@@ -7,6 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   imports: [ 
     MatToolbarModule, MatSidenavModule, SidebarComponent,
     MatButtonModule, MatCardModule, MatDialogModule,
-    MatIconModule, RouterModule,
+    MatIconModule, RouterModule,CommonModule
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
