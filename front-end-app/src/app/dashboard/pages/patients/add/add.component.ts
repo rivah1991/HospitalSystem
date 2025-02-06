@@ -14,13 +14,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AddRecommandationsComponent } from '../add-recommandations/add-recommandations.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-add',
   standalone: true,
   imports: [
     MatCardModule, MatFormFieldModule, MatRadioModule, MatSelectModule, MatIconModule,
-    MatInputModule, MatButtonModule, MatSidenavModule, MatToolbarModule
+    MatInputModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatTableModule
   ],
   templateUrl: './add.component.html',
   styleUrl: './add.component.css'
@@ -38,4 +40,13 @@ export class AddPatientComponent {
     });
   }
 
+    // Définir les données des recommandations (exemple de données)
+    recommendations = [
+      { patientId: 1, type: 'Consultation', description: 'Initial check-up', statut: 'Completed' },
+      { patientId: 2, type: 'Follow-up', description: 'Post-surgery visit', statut: 'Pending' },
+      { patientId: 3, type: 'Emergency', description: 'Acute pain', statut: 'In Progress' }
+    ];
+    
+      // Définir les colonnes à afficher dans le tableau
+  displayedColumns: string[] = ['patientId', 'type', 'description', 'statut'];
 }
