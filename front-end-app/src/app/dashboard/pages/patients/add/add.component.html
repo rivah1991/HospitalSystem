@@ -1,1 +1,140 @@
-<p>add works!</p>
+<div class="content">
+    <mat-card class="form-card">
+      <mat-card-title>User Registration</mat-card-title>
+      <mat-card-content>
+        <form>
+          <div class="col-md-4">
+            <mat-label>Gender</mat-label>
+            <mat-radio-group class="full-width">
+              <mat-radio-button value="male">Male</mat-radio-button>
+              <mat-radio-button value="female">Female</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>First Name</mat-label>
+                <input matInput required>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Last Name</mat-label>
+                <input matInput required>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" required>
+              </mat-form-field>
+            </div>           
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Create ID</mat-label>
+                <input matInput required>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email ID</mat-label>
+                <input matInput type="email" required>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mobile Number</mat-label>
+                <input matInput type="tel" required>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Marital Status</mat-label>
+                <mat-select>
+                  <mat-option value="married">Married</mat-option>
+                  <mat-option value="unmarried">Unmarried</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Occupation</mat-label>
+                <mat-select>
+                  <mat-option value="teacher">Teacher</mat-option>
+                  <mat-option value="engineer">Engineer</mat-option>
+                  <mat-option value="business">Business</mat-option>
+                  <mat-option value="bank">Bank</mat-option>
+                  <mat-option value="army">Army</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Blood Group</mat-label>
+                <mat-select>
+                  <mat-option value="A+">A+</mat-option>
+                  <mat-option value="A-">A-</mat-option>
+                  <mat-option value="B+">B+</mat-option>
+                  <mat-option value="B-">B-</mat-option>
+                  <mat-option value="O+">O+</mat-option>
+                  <mat-option value="O-">O-</mat-option>
+                  <mat-option value="AB+">AB+</mat-option>
+                  <mat-option value="AB-">AB-</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address</mat-label>
+                <input matInput>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>City</mat-label>
+                <mat-select>
+                  <mat-option value="Greensboro, NC">Greensboro, NC</mat-option>
+                  <mat-option value="High Point, NC">High Point, NC</mat-option>
+                  <mat-option value="Kernersville, NC">Kernersville, NC</mat-option>
+                  <mat-option value="Lexington, NC">Lexington, NC</mat-option>
+                  <mat-option value="Mount Airy, NC">Mount Airy, NC</mat-option>
+                  <mat-option value="Thomasville, NC">Thomasville, NC</mat-option>
+                  <mat-option value="Statesville, NC">Statesville, NC</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>State</mat-label>
+                <input matInput>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Postal Code</mat-label>
+                <input matInput type="number">
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <button mat-raised-button color="primary" class="full-width">Submit</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

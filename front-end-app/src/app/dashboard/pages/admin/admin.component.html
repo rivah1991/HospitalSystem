@@ -16,7 +16,7 @@
     <mat-header-cell *matHeaderCellDef> Approval </mat-header-cell>
     <mat-cell *matCellDef="let user">
       <mat-slide-toggle [(ngModel)]="user.approved" (change)="toggleApproval(user)">
-        {{ user.approved ? 'Approuvé' : 'En attente' }}
+        {{ user.approved ? 'approval' : 'Pending' }}
       </mat-slide-toggle>
     </mat-cell>
   </ng-container>
