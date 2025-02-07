@@ -26,7 +26,9 @@ import { Router } from '@angular/router';
     MatInputModule, MatButtonModule, MatSidenavModule, MatToolbarModule, MatTableModule
   ],
   templateUrl: './add.component.html',
-  styleUrl: './add.component.css'
+  // styleUrl: ['./add.component.css', '/patients.component.css']
+  styleUrls: ['./add.component.css', '../patients.component.css']
+
 })
 export class AddPatientComponent {
 
@@ -40,4 +42,7 @@ export class AddPatientComponent {
       this.router.navigate(['/dashboard/patients/recommendations']);     
   }
 
+  goBack() {
+    this.router.navigate(['/dashboard/patients/list']);
+  }
 }

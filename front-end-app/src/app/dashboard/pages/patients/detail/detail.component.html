@@ -1,1 +1,59 @@
-<p>list works!</p>
+<div class="top-bar">
+  <button mat-raised-button color="accent" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon> Back to List
+  </button>
+</div>
+<div class="content">
+  <div class="details-container">
+    <div class="page-title">Patient Details</div>
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-6">
+        <div class="detail-item">
+          <span class="info-label">Name:</span>
+          <p class="info-value">{{ patient.firstName }} {{ patient.lastName }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">Mobile:</span>
+          <p class="info-value">{{ patient.mobileNumber }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">City:</span>
+          <p class="info-value">{{ patient.city }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">State:</span>
+          <p class="info-value">{{ patient.state }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">Postal Code:</span>
+          <p class="info-value">{{ patient.postalCode }}</p>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-md-6">
+        <div class="detail-item">
+          <span class="info-label">Create ID:</span>
+          <p class="info-value">{{ patient.id }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">Email ID:</span>
+          <p class="info-value">{{ patient.email }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">Blood Group:</span>
+          <p class="info-value">{{ patient.bloodGroup }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">Occupation:</span>
+          <p class="info-value">{{ patient.occupation }}</p>
+        </div>
+        <div class="detail-item">
+          <span class="info-label">Marital Status:</span>
+          <p class="info-value">{{ patient.maritalStatus }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

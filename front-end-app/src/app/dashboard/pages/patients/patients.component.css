@@ -9,7 +9,6 @@ button.mat-raised-button {
 .left-button {
   left: 890px;
   margin-top: -90px;
-  
 }
 /* Applique un conteneur parent pour fixer la position du champ de recherche */
 div.form-container {
@@ -32,15 +31,13 @@ mat-form-field.custom-form-field {
   background-color: white;
 }
 
-
 .custom-form-field input {
   height: 10px;
   font-size: 16px;
 }
 .custom-header {
-
   color: rgb(15, 15, 15);
-  
+
   padding: 10px;
 
   width: 10px;
@@ -91,12 +88,12 @@ table {
   padding: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
-::ng-deep .mat-row, 
+::ng-deep .mat-row,
 ::ng-deep .mat-header-row {
   height: 30px; /* Ajustez selon votre besoin */
 }
 
-::ng-deep .mat-cell, 
+::ng-deep .mat-cell,
 ::ng-deep .mat-header-cell {
   padding: 4px 8px; /* Réduit les marges internes */
   line-height: 1.2;
@@ -109,4 +106,17 @@ table {
 }
 button mat-icon {
   font-size: 18px; /* Ajuste la taille de l'icône */
+}
+
+/* --- */
+.top-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.top-bar button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

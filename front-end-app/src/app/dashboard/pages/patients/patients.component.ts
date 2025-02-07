@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 export interface Patient {
   id: number;
@@ -40,6 +41,9 @@ export interface Patient {
   styleUrls: ['./patients.component.css']
 })
 export class PatientsComponent implements OnInit, AfterViewInit {
+
+  constructor(private router: Router) {}
+
   displayedColumns: string[] = [
     'id',
     'name',
@@ -88,10 +92,31 @@ export class PatientsComponent implements OnInit, AfterViewInit {
     const index = this.dataSource.data.findIndex(patient => patient.id === id);
     if (index !== -1) {
       this.dataSource.data.splice(index, 1);  // Supprimer le patient de la liste
-      this.dataSource = new MatTableDataSource(this.dataSource.data); // Mettre à jour la source de données
+      this.dataSource = new MatTableDataSource(this.dataSource.data); 
     }
   }
+  editPatient(id: number) {
+    this.router.navigate(['/dashboard/patients/update', id]);  
+  }
+
+  viewPatientDetails(id: number) {
+    this.router.navigate(['/dashboard/patients/detail', id]);  
+    
+  }
+
+  recommendPatient(id: number) {
+    this.router.navigate(['/dashboard/patients/recommendations', id]);  
+    console.log('Affichage des recommandation du patient avec ID:', id);
+  }
+  addPatient() {
+    this.router.navigate(['/dashboard/patients/add']);  
+  }
+
+ 
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+
+  
 }
