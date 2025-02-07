@@ -86,7 +86,9 @@ button[mat-fab] {
   border-radius: 100%;
   border: none;
   cursor: pointer;
-  padding-top: 5px;
+  display: flex;
+  align-items: center; /* Centrage vertical de l'icône */
+  justify-content: center; /* Centrage horizontal de l'icône */
 }
 
 button[mat-fab]:hover {
@@ -107,6 +109,12 @@ mat-icon {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.arrowbacklist {
+  background-color: #ff4081;
+  color: white;
+  border-radius: 5px;
+  border: #ddd;
 }
 
 /* -----Table status---- */
