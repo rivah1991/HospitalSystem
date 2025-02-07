@@ -8,19 +8,24 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';  
 import { MatButtonModule } from '@angular/material/button'; 
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon'; 
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-list',
   standalone: true,
   imports: [
-    MatCardModule, MatRadioModule,MatFormFieldModule,
+    MatCardModule, MatRadioModule,MatFormFieldModule, MatIconModule,
     MatSelectModule,MatButtonModule,FormsModule,CommonModule
   ],
   templateUrl: './detail.component.html',
-  styleUrl: './detail.component.css'
+  // styleUrl: './detail.component.css'
+  styleUrls: ['./detail.component.css', '../patients.component.css']
 })
 export class DetailPatientComponent implements OnInit {
 
+ 
   // Example patient object (replace with actual data from a service)
   patient = {
     firstName: 'John',
@@ -39,7 +44,11 @@ export class DetailPatientComponent implements OnInit {
     gender: 'male'
   };
 
-  constructor() { }
+  constructor( private router: Router) { }
+
+  goBack() {
+    this.router.navigate(['/dashboard/patients/list']);
+  }
 
   ngOnInit(): void {
     // Load patient data here (from service, if necessary)
@@ -50,4 +59,6 @@ export class DetailPatientComponent implements OnInit {
     // Navigate to patient edit form or toggle edit mode
     console.log('Edit patient profile');
   }
+
+  
 }

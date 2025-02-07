@@ -96,3 +96,15 @@ button[mat-fab]:hover {
 mat-icon {
   font-size: 24px;
 }
+
+.top-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.top-bar button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

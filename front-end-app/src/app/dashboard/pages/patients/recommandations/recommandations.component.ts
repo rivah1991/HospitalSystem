@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { AddRecommandationsComponent } from '../add-recommandations/add-recommandations.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recommandations',
@@ -14,7 +15,10 @@ import { AddRecommandationsComponent } from '../add-recommandations/add-recomman
   styleUrl: './recommandations.component.css'
 })
 export class RecommandationsComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
 
   openRecommendationModal(): void {
     const dialogRef = this.dialog.open(AddRecommandationsComponent);
@@ -34,5 +38,10 @@ export class RecommandationsComponent {
     
       // Définir les colonnes à afficher dans le tableau
   displayedColumns: string[] = ['patientId', 'type', 'description', 'statut'];
+
+  goBack() {
+    this.router.navigate(['/dashboard/patients/list']);
+  }
+
 
 }

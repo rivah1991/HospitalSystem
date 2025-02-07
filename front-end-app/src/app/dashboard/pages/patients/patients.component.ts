@@ -108,6 +108,11 @@ export class PatientsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/dashboard/patients/recommendations', id]);  
     console.log('Affichage des recommandation du patient avec ID:', id);
   }
+  addPatient() {
+    this.router.navigate(['/dashboard/patients/add']);  
+  }
+
+ 
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
