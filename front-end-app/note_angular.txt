@@ -41,6 +41,8 @@ ng g c  dashboard/pages/patients/add-recommandations --skip-tests
 
 ng g c  dashboard/pages/patients/recommandations --skip-tests
 
+ng g c  dashboard/pages/patients/recommandations/ChangeStatusModalComponent --skip-tests
+
 
 
 tutoriel youtube
