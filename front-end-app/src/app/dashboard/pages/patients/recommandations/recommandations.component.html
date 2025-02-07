@@ -30,10 +30,31 @@
             <td mat-cell *matCellDef="let recommendation"> {{ recommendation.description }} </td>
           </ng-container>
   
-          <ng-container matColumnDef="statut">
+          <!-- <ng-container matColumnDef="statut">
             <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let recommendation"> {{ recommendation.statut }} </td>
+          </ng-container> -->
+
+          <!-- <ng-container matColumnDef="statut">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let recommendation">
+              <span (click)="openChangeStatusModal(recommendation)">
+                {{ recommendation.statut }}
+              </span>
+            </td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="statut">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let recommendation">
+              <span 
+                (click)="openChangeStatusModal(recommendation)" 
+                [ngClass]="getStatusClass(recommendation.statut)">
+                {{ recommendation.statut }}
+              </span>
+            </td>
           </ng-container>
+          
   
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

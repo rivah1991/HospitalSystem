@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Change Status</h2>
+<mat-dialog-content>
+  <!-- <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select [(value)]="newStatus">
+      <mat-option *ngFor="let status of statuses" [value]="status">
+        {{ status }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field> -->
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select [(value)]="newStatus">
+      <mat-option value="Completed">Completed</mat-option>
+      <mat-option value="Pending">Pending</mat-option>
+      <mat-option value="In Progress">In Progress</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>
