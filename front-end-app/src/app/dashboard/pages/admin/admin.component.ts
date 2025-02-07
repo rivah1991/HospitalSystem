@@ -7,20 +7,21 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [
     MatSlideToggleModule, MatTableModule, FormsModule, CommonModule,
-    MatPaginatorModule, MatSortModule
+    MatPaginatorModule, MatSortModule, MatCardModule
   ],  
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'role', 'approval'];  // Colonnes à afficher : nom, approbation et rôle
+  displayedColumns: string[] = ['id','name', 'role', 'approval'];  // Colonnes à afficher : nom, approbation et rôle
 
   // Exemple d'utilisateurs avec un statut d'attente d'approbation
   users = [

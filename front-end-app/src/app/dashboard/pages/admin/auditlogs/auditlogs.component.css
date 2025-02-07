@@ -5,3 +5,88 @@ mat-table {
 button {
   margin: 5px;
 }
+
+.audit-table {
+  margin: 20px 0;
+}
+
+mat-card {
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  background-color: #3f51b5; /* Change to your desired color */
+  padding: 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+mat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+th {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: bold;
+}
+
+td {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+mat-header-cell,
+mat-cell {
+  padding: 8px 16px;
+}
+
+mat-header-row {
+  height: 48px;
+}
+
+mat-row {
+  height: 48px;
+}
+
+mat-card-content {
+  padding: 16px;
+}
+
+mat-paginator {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+  th,
+  td {
+    padding: 8px;
+  }
+}

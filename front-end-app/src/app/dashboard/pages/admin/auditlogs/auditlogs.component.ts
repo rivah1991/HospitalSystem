@@ -5,11 +5,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-auditlogs',
   standalone: true,
-  imports: [MatTableModule,DatePipe,MatSortModule,MatPaginatorModule],
+  imports: [MatTableModule,DatePipe,MatSortModule,MatPaginatorModule,MatCardModule],
   templateUrl: './auditlogs.component.html',
   styleUrl: './auditlogs.component.css'
 })
