@@ -11,6 +11,7 @@ import { AuditlogsComponent } from './dashboard/pages/admin/auditlogs/auditlogs.
 import { ProfilComponent } from './components/profil/profil.component';
 import { AddRecommandationsComponent } from './dashboard/pages/patients/add-recommandations/add-recommandations.component';
 import { RecommandationsComponent } from './dashboard/pages/patients/recommandations/recommandations.component';
+import { DetailPatientComponent } from './dashboard/pages/patients/detail/detail.component';
 
 export const routes: Routes = [
     { 
@@ -32,6 +33,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'patients', pathMatch: 'full' },  
             { path: 'patients/list', component: PatientsComponent }, 
             { path: 'patients/add', component: AddPatientComponent },
+            { path: 'patients/detail', component: DetailPatientComponent },
             { path: 'patients/addrecommendation', component: AddRecommandationsComponent }, 
             { path: 'patients/recommendations', component: RecommandationsComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
