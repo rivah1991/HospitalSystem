@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AddRecommandationsComponent } from '../add-recommandations/add-recommandations.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,15 +30,14 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class AddPatientComponent {
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
 
-  openRecommendationModal(): void {
-    const dialogRef = this.dialog.open(AddRecommandationsComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Modal closed');
-      // Ajoutez ici des actions après la fermeture du modal
-    });
+ 
+  createPatient() {    
+      this.router.navigate(['/dashboard/patients/recommendations']);     
   }
 
 }
