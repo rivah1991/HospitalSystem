@@ -10,6 +10,7 @@ import { AddPatientComponent } from './dashboard/pages/patients/add/add.componen
 import { AuditlogsComponent } from './dashboard/pages/admin/auditlogs/auditlogs.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { AddRecommandationsComponent } from './dashboard/pages/patients/add-recommandations/add-recommandations.component';
+import { RecommandationsComponent } from './dashboard/pages/patients/recommandations/recommandations.component';
 
 export const routes: Routes = [
     { 
@@ -32,6 +33,7 @@ export const routes: Routes = [
             { path: 'patients/list', component: PatientsComponent }, 
             { path: 'patients/add', component: AddPatientComponent },
             { path: 'patients/addrecommendation', component: AddRecommandationsComponent }, 
+            { path: 'patients/recommendations', component: RecommandationsComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
             { path: 'admin', component: AdminComponent } ,
             { path: 'admin/audit', component:  AuditlogsComponent} 

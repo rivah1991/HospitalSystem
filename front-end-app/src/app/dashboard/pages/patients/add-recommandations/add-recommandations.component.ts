@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-recommandations',
@@ -31,7 +32,9 @@ export class AddRecommandationsComponent {
   constructor(
     private fb: FormBuilder, 
     private snackBar: MatSnackBar, 
-    public dialogRef: MatDialogRef<AddRecommandationsComponent>
+    public dialogRef: MatDialogRef<AddRecommandationsComponent>,
+    private router: Router
+   
   ) {
     this.recommendationForm = this.fb.group({
       patientId: ['', Validators.required],
@@ -45,6 +48,9 @@ export class AddRecommandationsComponent {
     if (this.recommendationForm.valid) {
       console.log('Recommendation submitted:', this.recommendationForm.value);
       this.snackBar.open('Recommendation added successfully!', 'Close', { duration: 3000 });
+      // Rediriger vers la page des recommandations
+      this.router.navigate(['/dashboard/patients/recommendations']);
+
       this.recommendationForm.reset();
       this.dialogRef.close();  // Ferme le modal après la soumission
     } else {

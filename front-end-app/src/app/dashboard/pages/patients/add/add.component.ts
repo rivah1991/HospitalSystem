@@ -40,13 +40,4 @@ export class AddPatientComponent {
     });
   }
 
-    // Définir les données des recommandations (exemple de données)
-    recommendations = [
-      { patientId: 1, type: 'Consultation', description: 'Initial check-up', statut: 'Completed' },
-      { patientId: 2, type: 'Follow-up', description: 'Post-surgery visit', statut: 'Pending' },
-      { patientId: 3, type: 'Emergency', description: 'Acute pain', statut: 'In Progress' }
-    ];
-    
-      // Définir les colonnes à afficher dans le tableau
-  displayedColumns: string[] = ['patientId', 'type', 'description', 'statut'];
 }
