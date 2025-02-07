@@ -1,4 +1,4 @@
-<h2  class="title-info">Informations</h2>
+<h2>Informations</h2>
 
 
 <div class="profile-pic">
@@ -17,14 +17,17 @@
     <input matInput [value]="username" disabled>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input matInput [(ngModel)]="email" placeholder="Entrez votre email">
-  </mat-form-field>
+  <div class="form-container">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="email" placeholder="Entrez votre email">
+    </mat-form-field>
+  </div>
+  
 </div>
 
 <!-- Bouton de mise à jour -->
 <div class="modal-actions">
   <button mat-raised-button (click)="updateProfile()">Mettre à jour le profil</button>
-  <button mat-button (click)="close()">Annuler</button>
+  <button mat-button class="custom-button" (click)="close()">Annuler</button>
 </div>
