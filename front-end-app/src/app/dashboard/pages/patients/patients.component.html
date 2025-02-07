@@ -72,16 +72,30 @@
   
     <!-- Colonne Actions -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef class="custom-header"> Actions </th>
-      <td mat-cell *matCellDef="let element" style="display: flex;  gap: -8px;">
-        <button mat-icon-button color="primary">
+      <th mat-header-cell *matHeaderCellDef class="custom-header">Actions</th>
+      <td mat-cell *matCellDef="let element" style="display: flex; align-items: center; gap: 1px;">
+        <!-- Bouton d'édition -->
+        <button mat-icon-button color="primary" matTooltip="Edit">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deletePatient(element.id)">
+    
+        <!-- Bouton de suppression -->
+        <button mat-icon-button color="warn" (click)="deletePatient(element.id)" matTooltip="Delete">
           <mat-icon>delete</mat-icon>
+        </button>
+    
+        <!-- Icône "Voir Détail" -->
+        <button mat-icon-button color="accent" matTooltip="Vieux">
+          <mat-icon>visibility</mat-icon>
+        </button>
+    
+       
+        <button mat-icon-button color="success" matTooltip="Recomendation">
+          <mat-icon>thumb_up</mat-icon>
         </button>
       </td>
     </ng-container>
+    
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="custom-data-row"></tr>

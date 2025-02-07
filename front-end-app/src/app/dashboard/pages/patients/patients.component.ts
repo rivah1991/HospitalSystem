@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface Patient {
   id: number;
@@ -33,7 +33,8 @@ export interface Patient {
     MatIconModule,
     MatFormFieldModule,
     MatTableModule,
-    CommonModule
+    CommonModule,
+    MatTooltipModule
   ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css']
