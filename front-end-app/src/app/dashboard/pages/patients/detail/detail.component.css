@@ -1,0 +1,63 @@
+/* Content container */
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #f4f7fc;
+  min-height: 100vh;
+}
+
+/* Title styling */
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0275d8;
+  text-align: left;
+  margin-bottom: 40px;
+  margin-top: 10px;
+}
+
+/* Card-style container without mat-card */
+.details-container {
+  width: 100%;
+  max-width: 960px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Each detail section */
+.detail-item {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Label styling */
+.info-label {
+  font-weight: bold;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Value styling */
+.info-value {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col-md-6 {
+    width: 100%;
+  }
+}
