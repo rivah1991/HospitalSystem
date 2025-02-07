@@ -134,7 +134,7 @@
             <button mat-raised-button class="btn btn-secondary">Cancel</button>
           </div>
           <div class="col-auto">
-            <button mat-raised-button color="primary" class="btn btn-primary">Create Patient Profile</button>
+            <button mat-raised-button color="primary" class="btn btn-primary" (click)="createPatient()">Create Patient Profile</button>
           </div>
         </div>
       </form>
@@ -142,7 +142,3 @@
   </mat-card>
 </div>
 
-<!-- Bouton permanent en bas -->
-<button mat-fab color="primary" class="floating-button" (click)="openRecommendationModal()">
-  <mat-icon>add</mat-icon>
-</button>

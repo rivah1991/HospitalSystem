@@ -77,3 +77,22 @@ mat-card-content {
     padding: 8px;
   }
 }
+
+button[mat-fab] {
+  background-color: #1976d2 !important; /* Couleur primaire */
+  color: white !important;
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
+  border: none;
+  cursor: pointer;
+  padding-top: 5px;
+}
+
+button[mat-fab]:hover {
+  background-color: red !important; /* Légèrement plus foncé au survol */
+}
+
+mat-icon {
+  font-size: 24px;
+}
