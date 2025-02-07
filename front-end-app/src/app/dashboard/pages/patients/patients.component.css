@@ -107,3 +107,6 @@ table {
   color: white;
   font-size: 12px;
 }
+button mat-icon {
+  font-size: 18px; /* Ajuste la taille de l'icône */
+}
