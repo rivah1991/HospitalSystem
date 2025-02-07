@@ -33,9 +33,10 @@ export const routes: Routes = [
             { path: '', redirectTo: 'patients', pathMatch: 'full' },  
             { path: 'patients/list', component: PatientsComponent }, 
             { path: 'patients/add', component: AddPatientComponent },
-            { path: 'patients/detail', component: DetailPatientComponent },
+            { path: 'patients/detail/:id', component: DetailPatientComponent },
+            { path: 'patients/update/:id', component: AddPatientComponent },
             { path: 'patients/addrecommendation', component: AddRecommandationsComponent }, 
-            { path: 'patients/recommendations', component: RecommandationsComponent }, 
+            { path: 'patients/recommendations/:id', component: RecommandationsComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
             { path: 'admin', component: AdminComponent } ,
             { path: 'admin/audit', component:  AuditlogsComponent} 
