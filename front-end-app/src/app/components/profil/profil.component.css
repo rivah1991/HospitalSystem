@@ -125,7 +125,7 @@ mat-button:hover {
 }
 
 .custom-form-field.mat-form-field {
-  color: #333; /* Couleur du texte */
+  color: #eb0707; /* Couleur du texte */
   font-size: 6px;
 }
 
@@ -137,4 +137,29 @@ mat-button:hover {
   justify-content: center;
   align-items: center;
  
+}
+.speciality-card {
+  width: 200px;
+  padding: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f7f7f7;
+  font-size: 16px;
+}
+.speciality-text {
+  font-weight: 100;
+  color: rgb(213, 30, 30);
+  font-size: 16px;
+}
+.rotate-icon {
+  transform: rotate(180deg); /* Rotation de 180 degrés pour inverser la flèche */
+  transition: transform 0.3s ease; /* Transition fluide pour la rotation */
+}
+
+.suggestions {
+  margin-top: 10px;
+}
+
+mat-list-item {
+  font-size: 14px;
+  padding: 8px;
 }
