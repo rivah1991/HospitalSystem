@@ -49,10 +49,10 @@ mat-form-field.custom-form-field {
   height: 10px; /* Ajuste cette valeur selon tes besoins */
 }
 
-.custom-data-row td,
-.custom-header-row th {
-  padding: 0;
-  line-height: 15px; /* Assure que le contenu reste aligné verticalement */
+.custom-header-row th,
+.custom-data-row td {
+  /* padding: 7px;  */
+  text-align: center;
 }
 .custom-cell {
   height: 5px; /* Ajuste cette valeur selon tes besoins */
@@ -76,12 +76,9 @@ mat-form-field.custom-form-field {
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
-.custom-header-row th,
-.custom-data-row td {
-  padding: 7px; /* Ajuste si nécessaire */
-  text-align: left;
-}
+
 ::ng-deep .mat-paginator {
   background-color: #f0f0f0;
   border-radius: 8px;
@@ -119,4 +116,33 @@ button mat-icon {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Wider and centered columns */
+.mat-column-fullName,
+.mat-column-mobile,
+.mat-column-email,
+.mat-column-city {
+  width: 200px; /* Set a larger width for these columns */
+  text-align: center; /* Center the text in these columns */
+}
+
+/* Smaller Action columns */
+.mat-column-actions {
+  width: 200px; /* Reduce the width of the Action column */
+  text-align: center; /* Center the action icons */
+}
+
+/* Optional: to improve spacing and readability */
+table.mat-elevation-z8 {
+  width: 100%; /* Ensure the table takes up the full available width */
+  border-collapse: collapse;
+}
+
+/* Adjust the width of other columns to prevent them from taking up too much space */
+.mat-column-id,
+.mat-column-age,
+.mat-column-gender,
+.mat-column-bloodGroup {
+  width: 100px; /* Adjust the width of these columns as needed */
 }

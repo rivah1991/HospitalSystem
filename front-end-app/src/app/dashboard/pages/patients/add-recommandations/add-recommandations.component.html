@@ -7,7 +7,8 @@
         <!-- Patient ID -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Patient ID</mat-label>
-          <input matInput formControlName="patientId" type="number" required>
+          <!-- <input matInput formControlName="patientId" type="number" required> -->
+          <input matInput [value]="patientId" readonly>
         </mat-form-field>
 
         <!-- Type -->

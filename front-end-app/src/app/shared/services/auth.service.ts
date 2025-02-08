@@ -26,6 +26,13 @@ export class AuthService {
   signin(formData:any){
     return this.http.post(this.baseUrl+'/api/Auth/login', formData)
   }
+
+  
+  updatePatient(id: number, patientData: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put(`${this.baseUrl}/api/Patient/${id}`, patientData, { headers });
+  }
+
   
  
   getAuthHeaders() {
@@ -46,6 +53,28 @@ export class AuthService {
     return this.http.get(`${this.baseUrl}/api/Patient`, { headers });
   }
 
+  getPatientById(id:number):Observable<any>{
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.baseUrl}/api/Patient/${id}`, { headers });
+  }
+
+  deletePatient(id: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete(`${this.baseUrl}/api/Patient/${id}`, { headers });
+  }
+
+  getRecommandationsByPatientId(patientId: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.baseUrl}/api/recommendations/patients/${patientId}`, { headers });
+  }
+
+  
+  addRecommendation(patientId: number, recommendation: any) {
+    const headers = this.getAuthHeaders();
+    return this.http.post(`${this.baseUrl}/api/recommendations/patients/${patientId}`, recommendation, { headers });
+  }
+  
+  
   logout(): void {
     this.token = null;
     localStorage.removeItem('token');

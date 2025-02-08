@@ -79,7 +79,8 @@ namespace HospitalAPI.Controller
             // );
 
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patientDto);
+            // return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patientDto);
+            return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
         }
 
         [HttpPut("{id}")]

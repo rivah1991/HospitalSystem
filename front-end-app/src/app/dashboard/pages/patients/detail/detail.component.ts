@@ -9,7 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button'; 
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon'; 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 
 @Component({
@@ -25,33 +26,50 @@ import { Router } from '@angular/router';
 })
 export class DetailPatientComponent implements OnInit {
 
- 
-  // Example patient object (replace with actual data from a service)
-  patient = {
-    firstName: 'John',
-    lastName: 'Doe',
-    age: 30,
-    id: '12345',
-    email: 'johndoe@example.com',
-    mobileNumber: '123-456-7890',
-    maritalStatus: 'Married',
-    occupation: 'Engineer',
-    bloodGroup: 'O+',
-    address: '123 Main St',
-    city: 'Greensboro, NC',
-    state: 'North Carolina',
-    postalCode: '27401',
-    gender: 'male'
-  };
+  patient: any = {};
 
-  constructor( private router: Router) { }
+  // patient = {
+  //   firstName: 'John',
+  //   lastName: 'Doe',
+  //   age: 30,
+  //   id: '12345',
+  //   email: 'johndoe@example.com',
+  //   mobileNumber: '123-456-7890',
+  //   maritalStatus: 'Married',
+  //   occupation: 'Engineer',
+  //   bloodGroup: 'O+',
+  //   address: '123 Main St',
+  //   city: 'Greensboro, NC',
+  //   state: 'North Carolina',
+  //   postalCode: '27401',
+  //   gender: 'male'
+  // };
+
+  constructor( 
+    private router: Router,
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) { }
 
   goBack() {
     this.router.navigate(['/dashboard/patients/list']);
   }
 
   ngOnInit(): void {
-    // Load patient data here (from service, if necessary)
+    // Récupérer l'ID depuis l'URL
+    const id = this.route.snapshot.paramMap.get('id');
+    if(id){
+      this.authService.getPatientById(+id).subscribe({
+        next:(data)=>{
+          console.log('data', this.patient); 
+         this.patient = data    
+               
+        },
+        error: err => {
+          console.error("Error retrieving patient data", err) ;
+        }
+      })
+    }
   }
 
   // Function to handle editing patient profile

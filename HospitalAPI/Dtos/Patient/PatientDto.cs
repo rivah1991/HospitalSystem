@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 namespace HospitalAPI.Dtos.Patient
 {
     public class PatientDto
-    {   public int Id { get; set; }
+    {
+        public required int Id { get; set; }
 
         public required string FirstName { get; set; }
 

@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -48,13 +48,16 @@ export class AddPatientComponent implements OnInit {
 
   patientForm!: FormGroup;
 
+  patientId: number | null = null; // ID patient variable
+
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -74,21 +77,57 @@ export class AddPatientComponent implements OnInit {
       gender: ['', Validators.required],
     });
 
+     // Check if a patient ID has been passed in the URL (for an update)
+      this.activatedRoute.params.subscribe(params => {
+        if (params['id']) {
+          this.patientId = +params['id']; 
+          this.loadPatientData(); 
+        }
+    });
+
+
     // Force le rafraîchissement de l'affichage
   this.cdr.detectChanges();
 
   }
 
+   // Charger les données du patient pour la mise à jour
+   loadPatientData(): void {
+    if (this.patientId) {
+      this.authService.getPatientById(this.patientId).subscribe(patient => {
+        // Remplir le formulaire avec les données du patient
+        this.patientForm.patchValue({
+          firstName: patient.firstName,
+          lastName: patient.lastName,
+          age: patient.age,
+          email: patient.email,
+          mobile: patient.mobile,
+          maritalStatus: patient.maritalStatus,
+          occupation: patient.occupation,
+          bloodGroup: patient.bloodGroup,
+          address: patient.address,
+          city: patient.city,
+          state: patient.state,
+          postalCode: patient.postalCode,
+          gender: patient.gender
+        });
+      });
+    }
+  }
 
-  createPatient() {
-    // Appel à la méthode pour ajouter un patient
+  
+ 
+  savePatient() {
+    if (this.patientForm.invalid) {
+      return; // Si le formulaire est invalide, ne rien faire
+    }
+
     const formData = this.patientForm.value;
-   
     const patientData = {
-      id: 0, // ✅ L'API attend un `id`
+      id: this.patientId || 0, // Si un ID existe, on l'utilise, sinon on met 0 pour un nouvel ajout
       firstName: formData.firstName,
       lastName: formData.lastName,
-      age: Number(formData.age), // ✅ `age` en `number`
+      age: Number(formData.age),
       gender: formData.gender,
       email: formData.email,
       mobile: formData.mobile,
@@ -98,22 +137,39 @@ export class AddPatientComponent implements OnInit {
       address: formData.address,
       city: formData.city,
       state: formData.state,
-      postalCode: String(formData.postalCode) 
+      postalCode: String(formData.postalCode)
     };
 
-    console.log('data patient',patientData);
-    this.authService.addPatient(patientData).subscribe({
-      next: (response) => {
-        console.log('Patient added successfully', response);       
-        this.toastr.success('New patient created!', 'Registration Successful');
-        this.router.navigate(['/dashboard/patients/recommendations']); // Rediriger vers la page suivante après ajout
-      },
-      error: (error) => {
-        console.error('Error adding patient', error);
-        
-        this.toastr.error('Patient error.', 'Registration Failed');
-      }
-    });
+    // Si patientId existe, on met à jour, sinon on ajoute un patient
+    if (this.patientId) {
+      this.authService.updatePatient(this.patientId, patientData).subscribe({
+        next: (response) => {
+          this.toastr.success('Patient updated successfully!', 'Update Successful');
+          // this.router.navigate(['/dashboard/patients/recommendations']);
+          this.router.navigate(['/dashboard/patients/list']);
+        },
+        error: (error) => {
+          this.toastr.error('Error updating patient.', 'Update Failed');
+        }
+      });
+    } else {
+      this.authService.addPatient(patientData).subscribe({
+        next: (response) => {
+          this.toastr.success('Patient added successfully!', 'Registration Successful');
+
+          const createdPatientId = response.id;
+          if (createdPatientId) {
+            this.router.navigate([`/dashboard/patients/recommendations/${createdPatientId}`]);
+          } else {
+            this.toastr.error('Error: Patient ID not found.', 'Error');
+          }
+
+        },
+        error: (error) => {
+          this.toastr.error('Error adding patient.', 'Registration Failed');
+        }
+      });
+    }
   }
  
   goBack() {

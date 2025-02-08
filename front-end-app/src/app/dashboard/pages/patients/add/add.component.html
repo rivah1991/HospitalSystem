@@ -6,9 +6,9 @@
 
 <div class="content">
   <mat-card class="form-card">
-    <mat-card-title>Add Patient Details</mat-card-title>
+    <mat-card-title>{{ patientId ? 'Update Patient Details' : 'Add Patient Details' }}</mat-card-title>
     <mat-card-content>
-      <form [formGroup]="patientForm" (ngSubmit)="createPatient()">
+      <form [formGroup]="patientForm" (ngSubmit)="savePatient()">
         <!-- Radio buttons at the top -->
         <div class="mb-3">
           <mat-radio-group formControlName="gender">
@@ -137,7 +137,7 @@
             <button mat-raised-button class="btn btn-secondary" (click)="goBack()">Cancel</button>
           </div>
           <div class="col-auto">
-            <button mat-raised-button color="primary" class="btn btn-primary" type="submit" [disabled]="patientForm.invalid">Create Patient Profile</button>
+            <button mat-raised-button color="primary" class="btn btn-primary" type="submit" [disabled]="patientForm.invalid">{{ patientId ? 'Update Patient Profile' : 'Create Patient Profile' }}e</button>
           </div>
         </div>
       </form>
