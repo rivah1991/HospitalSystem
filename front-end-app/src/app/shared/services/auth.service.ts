@@ -11,6 +11,14 @@ export class AuthService {
   baseUrl = 'http://localhost:5059';
   private token: string | null = localStorage.getItem('jwtToken');
 
+  getToken(): string | null {
+    return localStorage.getItem('token'); 
+  }
+  setToken(token: string): void {
+    this.token = token;
+    localStorage.setItem('token', token);
+  }
+
   createUser(formData:any){
     return this.http.post(this.baseUrl+'/api/Auth/register', formData)
   }
@@ -18,10 +26,7 @@ export class AuthService {
   signin(formData:any){
     return this.http.post(this.baseUrl+'/api/Auth/login', formData)
   }
-
-  getToken(): string | null {
-    return localStorage.getItem('token'); 
-  }
+  
  
   getAuthHeaders() {
     return new HttpHeaders({

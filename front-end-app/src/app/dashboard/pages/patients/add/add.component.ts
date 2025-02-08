@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -19,6 +19,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [
     ReactiveFormsModule, 
+    CommonModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,   
@@ -51,7 +53,8 @@ export class AddPatientComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +73,10 @@ export class AddPatientComponent implements OnInit {
       postalCode: ['', Validators.required],
       gender: ['', Validators.required],
     });
+
+    // Force le rafraîchissement de l'affichage
+  this.cdr.detectChanges();
+
   }
 
 

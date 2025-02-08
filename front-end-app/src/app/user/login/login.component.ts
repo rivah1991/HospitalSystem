@@ -33,7 +33,8 @@ export class LoginComponent {
 
       this.service.signin(this.form.value).subscribe({
         next:(res:any)=>{
-          localStorage.setItem('token', res.token);
+          // localStorage.setItem('token', res.token);
+          this.service.setToken(res.token);
           this.router.navigateByUrl('/dashboard')
 
         },
