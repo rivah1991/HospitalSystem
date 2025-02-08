@@ -10,6 +10,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth.service';
 
 export interface Patient {
   id: number;
@@ -42,7 +43,11 @@ export interface Patient {
 })
 export class PatientsComponent implements OnInit, AfterViewInit {
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService 
+  
+  ) {}
 
   displayedColumns: string[] = [
     'id',

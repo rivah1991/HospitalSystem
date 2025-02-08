@@ -8,10 +8,10 @@
   <mat-card class="form-card">
     <mat-card-title>Add Patient Details</mat-card-title>
     <mat-card-content>
-      <form>
+      <form [formGroup]="patientForm" (ngSubmit)="createPatient()">
         <!-- Radio buttons at the top -->
         <div class="mb-3">
-          <mat-radio-group class="full-width">
+          <mat-radio-group formControlName="gender">
             <mat-radio-button value="male">Male</mat-radio-button>
             <mat-radio-button value="female">Female</mat-radio-button>
           </mat-radio-group>
@@ -19,28 +19,34 @@
 
         <!-- Form fields in 4 columns -->
         <div class="row">
-          <div class="col-3">
+          <!-- <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>First Name</mat-label>
-              <input matInput required>
+              <input matInput formControlName="firstName" required>
+            </mat-form-field>
+          </div> -->
+          <div class="col-3">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" required>  
             </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Last Name</mat-label>
-              <input matInput required>
+              <input matInput formControlName="lastName" required>
             </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Age</mat-label>
-              <input matInput type="number" required>
+              <input matInput type="number" formControlName="age" required>
             </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Create ID</mat-label>
-              <input matInput required>
+              <input matInput formControlName="createId" required>
             </mat-form-field>
           </div>
         </div>
@@ -49,19 +55,19 @@
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Email ID</mat-label>
-              <input matInput type="email" required>
+              <input matInput type="email" formControlName="email" required>
             </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Mobile Number</mat-label>
-              <input matInput type="tel" required>
+              <input matInput type="tel" formControlName="mobile" required>
             </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Marital Status</mat-label>
-              <mat-select>
+              <mat-select formControlName="maritalStatus">
                 <mat-option value="married">Married</mat-option>
                 <mat-option value="unmarried">Unmarried</mat-option>
               </mat-select>
@@ -70,7 +76,7 @@
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Occupation</mat-label>
-              <mat-select>
+              <mat-select formControlName="occupation">
                 <mat-option value="teacher">Teacher</mat-option>
                 <mat-option value="engineer">Engineer</mat-option>
                 <mat-option value="business">Business</mat-option>
@@ -85,7 +91,7 @@
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Blood Group</mat-label>
-              <mat-select>
+              <mat-select formControlName="bloodGroup">
                 <mat-option value="A+">A+</mat-option>
                 <mat-option value="A-">A-</mat-option>
                 <mat-option value="B+">B+</mat-option>
@@ -100,13 +106,13 @@
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Address</mat-label>
-              <input matInput>
+              <input matInput formControlName="address">
             </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>City</mat-label>
-              <mat-select>
+              <mat-select formControlName="city">
                 <mat-option value="Greensboro, NC">Greensboro, NC</mat-option>
                 <mat-option value="High Point, NC">High Point, NC</mat-option>
                 <mat-option value="Kernersville, NC">Kernersville, NC</mat-option>
@@ -120,7 +126,7 @@
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>State</mat-label>
-              <input matInput>
+              <input matInput formControlName="state">
             </mat-form-field>
           </div>
         </div>
@@ -129,7 +135,7 @@
           <div class="col-3">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Postal Code</mat-label>
-              <input matInput type="number">
+              <input matInput type="number" formControlName="postalCode">
             </mat-form-field>
           </div>
         </div>
@@ -137,14 +143,13 @@
         <!-- Action buttons -->
         <div class="row justify-content-end mt-5">
           <div class="col-auto">
-            <button mat-raised-button class="btn btn-secondary">Cancel</button>
+            <button mat-raised-button class="btn btn-secondary" (click)="goBack()">Cancel</button>
           </div>
           <div class="col-auto">
-            <button mat-raised-button color="primary" class="btn btn-primary" (click)="createPatient()">Create Patient Profile</button>
+            <button mat-raised-button color="primary" class="btn btn-primary" type="submit" [disabled]="patientForm.invalid">Create Patient Profile</button>
           </div>
         </div>
       </form>
     </mat-card-content>
   </mat-card>
 </div>
-

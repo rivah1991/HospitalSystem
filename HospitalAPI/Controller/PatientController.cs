@@ -62,8 +62,9 @@ namespace HospitalAPI.Controller
             return Ok(_mapper.Map<PatientDto>(patient));
         }
 
-        // [Authorize]
+
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreatePatient([FromBody] PatientDto patientDto)
         {
             var patient = _mapper.Map<Patient>(patientDto);

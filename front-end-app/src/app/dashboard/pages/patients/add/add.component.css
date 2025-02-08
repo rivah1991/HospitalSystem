@@ -35,15 +35,14 @@ mat-form-field {
   height: 70px;
 }
 
-mat-form-field input {
-  height: 0px;
+/* mat-form-field input {
+  height: 15px;
   padding: 0px;
   font-size: 14px;
-}
+} */
 
 .mat-form-field.mat-form-field-required .mat-label .mat-required {
   color: red !important;
 }
 
 /* -------------- */
-
