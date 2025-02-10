@@ -248,7 +248,7 @@ namespace HospitalAPI.Controller
             return BadRequest("Role already Exists");
         }
 
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [Authorize]
         [HttpPost("assign-role")]
         public async Task<IActionResult> AssignRole([FromBody] UserRole model)
