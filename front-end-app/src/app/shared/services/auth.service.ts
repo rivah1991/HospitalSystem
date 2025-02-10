@@ -9,7 +9,7 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
   baseUrl = 'http://localhost:5059';
-  private token: string | null = localStorage.getItem('jwtToken');
+  private token: string | null = localStorage.getItem('token');
 
   getToken(): string | null {
     return localStorage.getItem('token'); 
