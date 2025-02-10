@@ -42,7 +42,7 @@ namespace HospitalAPI.Controller
             var userId = User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
             return userId;
         }
-        // [Authorize]
+        [Authorize]
         // [Authorize(Roles = "User")]
         [HttpGet]
         public async Task<IActionResult> GetPatients()
