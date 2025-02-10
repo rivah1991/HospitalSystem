@@ -107,13 +107,6 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue; // Applique le filtre sur la source de données
   }
-  // deletePatient(id: number): void {
-  //   const index = this.dataSource.data.findIndex(patient => patient.id === id);
-  //   if (index !== -1) {
-  //     this.dataSource.data.splice(index, 1);  // Supprimer le patient de la liste
-  //     this.dataSource = new MatTableDataSource(this.dataSource.data); 
-  //   }
-  // }
 
   deletePatient(id: number): void {
     this.authService.deletePatient(id).subscribe({

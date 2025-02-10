@@ -10,6 +10,7 @@ import { AddRecommandationsComponent } from '../add-recommandations/add-recomman
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeStatusModalComponentComponent } from './change-status-modal-component/change-status-modal-component.component';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recommandations',
@@ -27,10 +28,13 @@ export class RecommandationsComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   patientId: number | null = null;
   recommendations: any[] = [];
+     // Définir les colonnes à afficher dans le tableau
+  displayedColumns: string[] = ['patientId', 'type', 'description', 'statut'];
   
   ngOnInit(): void {
     const idTest = this.activatedRoute.snapshot.paramMap.get('id');
@@ -65,8 +69,7 @@ export class RecommandationsComponent implements OnInit {
     
    
 
-      // Définir les colonnes à afficher dans le tableau
-     displayedColumns: string[] = ['patientId', 'type', 'description', 'statut'];
+   
 
   goBack() {
     this.router.navigate(['/dashboard/patients/list']);
@@ -98,16 +101,37 @@ export class RecommandationsComponent implements OnInit {
 
     
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Mise à jour du statut après la modification
-        const index = this.recommendations.findIndex(r => r.patientId === recommendation.patientId);
-        if (index !== -1) {
-          this.recommendations[index].statut = result; // Mettre à jour le statut
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       // Mise à jour du statut après la modification
+  //       const index = this.recommendations.findIndex(r => r.patientId === recommendation.patientId);
+  //       if (index !== -1) {
+  //         this.recommendations[index].statut = result; // Mettre à jour le statut
+  //       }
+  //     }
+  //   });
+  // }
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Appeler le service pour mettre à jour le statut de la recommandation
+      this.authService.updateRecommendationStatus(recommendation.patientId, result).subscribe({
+        next: () => {
+          // Mettre à jour le statut dans le tableau local après le changement
+          const index = this.recommendations.findIndex(r => r.patientId === recommendation.patientId);
+          if (index !== -1) {
+            this.recommendations[index].statut = result; // Mettre à jour le statut
+            this.toastr.success('Recommendation Successful!', 'Successful');
+          }
+        },
+        error: (err) => {
+          console.error("Erreur lors de la mise à jour du statut", err);
+          this.toastr.error('Recommendation Failed!', 'Error');
         }
-      }
-    });
-  }
+      });
+    }
+  });
+}
 
 
   getStatusClass(status: string): string {

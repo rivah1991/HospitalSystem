@@ -39,20 +39,45 @@ namespace HospitalAPI.Controller
         }
 
         // 2. Mark a recommendation as completed (PATCH /api/recommendations/{id}/complete)
-        [HttpPatch("{id}/complete")]
-        public async Task<IActionResult> MarkRecommendationAsComplete(int id)
+        // [HttpPatch("{id}/status")]
+        // public async Task<IActionResult> MarkRecommendationAsComplete(int id)
+        // {
+        //     var recommendation = await _context.Recommendations.FindAsync(id);
+        //     if (recommendation == null)
+        //     {
+        //         return NotFound(new { message = "Recommendation not found." });
+        //     }
+
+        //     recommendation.Statut = "Completed";
+        //     _context.Recommendations.Update(recommendation);
+        //     await _context.SaveChangesAsync();
+
+        //     return Ok(new { message = "Recommendation successfully marked as completed." });
+        // }
+
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateRecommendationStatus(int id, [FromBody] string newStatus)
         {
             var recommendation = await _context.Recommendations.FindAsync(id);
+
             if (recommendation == null)
             {
-                return NotFound(new { message = "Recommendation not found." });
+                return NotFound($"Recommendation with ID {id} not found.");
             }
 
-            recommendation.Statut = "Completed";
-            _context.Recommendations.Update(recommendation);
-            await _context.SaveChangesAsync();
+            // Mise à jour du statut
+            recommendation.Statut = newStatus;
 
-            return Ok(new { message = "Recommendation successfully marked as completed." });
+            try
+            {
+                // Sauvegarde des changements dans la base de données
+                await _context.SaveChangesAsync();
+                return Ok(recommendation); // Retourne la recommandation mise à jour
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // 3. Create a new recommendation for a patient (POST /api/recommendations/patients/{id})

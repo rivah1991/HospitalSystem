@@ -74,6 +74,10 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/api/recommendations/patients/${patientId}`, recommendation, { headers });
   }
   
+  updateRecommendationStatus(patientId: number, newStatus: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put<any>(`${this.baseUrl}/api/recommendations/${patientId}/status`, { status: newStatus }, { headers });
+  }
   
   logout(): void {
     this.token = null;
