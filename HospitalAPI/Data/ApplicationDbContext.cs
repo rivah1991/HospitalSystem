@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HospitalAPI.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>  // Remplace ApplicationUser par ApplicationUser
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -31,11 +31,11 @@ namespace HospitalAPI.Data
                 .WithMany(p => p.Recommendations)
                 .HasForeignKey(r => r.PatientId);
 
-            // Configuration de la relation entre Patient et IdentityUser
+            // Configuration de la relation entre Patient et ApplicationUser (en fait ApplicationUser)
             modelBuilder.Entity<Patient>()
-                .HasOne<IdentityUser>()  // Spécifie seulement la relation à IdentityUser sans la propriété de navigation
-                .WithMany()  // Il n'y a pas de navigation vers Patient dans IdentityUser
-                .HasForeignKey(p => p.UserId)  // Utilise uniquement la clé UserId
+                .HasOne<ApplicationUser>()  // Spécifie la relation avec ApplicationUser au lieu de ApplicationUser
+                .WithMany()  // Pas de propriété de navigation dans ApplicationUser
+                .HasForeignKey(p => p.UserId)  // Utilise UserId comme clé étrangère
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

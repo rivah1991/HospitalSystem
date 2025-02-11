@@ -20,12 +20,12 @@ namespace HospitalAPI.Controller
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
 
-        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ApplicationDbContext context)
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -35,7 +35,7 @@ namespace HospitalAPI.Controller
         // [HttpPost("register")]
         // public async Task<IActionResult> Register([FromBody] Register model)
         // {
-        //     var user = new IdentityUser { UserName = model.Username };
+        //     var user = new ApplicationUser { UserName = model.Username };
         //     var result = await _userManager.CreateAsync(user, model.Password);
 
         //     if (result.Succeeded)
@@ -45,36 +45,69 @@ namespace HospitalAPI.Controller
         //     return BadRequest(result.Errors);
         // }
 
+        // [HttpPost("register")]
+        // public async Task<IActionResult> Register([FromBody] Register model)
+        // {
+
+        //     var user = new ApplicationUser
+        //     {
+        //         UserName = model.Username,
+        //         Email = model.Email
+        //     };
+
+        //     var result = await _userManager.CreateAsync(user, model.Password);
+
+        //     if (!result.Succeeded)
+        //     {
+        //         return BadRequest(result.Errors);
+        //     }
+
+        //     // Ajouter l'utilisateur dans la table PendingUsers avec le rôle proposé
+        //     var pendingUser = new PendingUser
+        //     {
+        //         Username = model.Username,
+        //         Email = model.Email,
+        //         Role = model.Role, // Rôle choisi "Admin" ou "Professional"
+        //     };
+
+        //     _context.PendingUsers.Add(pendingUser);
+        //     await _context.SaveChangesAsync();
+
+        //     return Ok(new { message = "User registered successfully and pending approval" });
+        // }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
+            // Vérifier si l'utilisateur existe déjà
+            var existingUser = await _userManager.FindByNameAsync(model.Username);
+            if (existingUser != null)
+            {
+                return BadRequest(new { message = "Username already exists" });
+            }
 
-            var user = new IdentityUser
+            // Créer un nouvel utilisateur avec IsApproved = false
+            var user = new ApplicationUser
             {
                 UserName = model.Username,
-                Email = model.Email
+                Email = model.Email,
+                IsApproved = false  // L'utilisateur n'est pas encore approuvé
             };
 
+            // Créer l'utilisateur dans la base de données
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
-                return BadRequest(result.Errors);
+                return BadRequest(new { message = "User creation failed", errors = result.Errors });
             }
 
-            // Ajouter l'utilisateur dans la table PendingUsers avec le rôle proposé
-            var pendingUser = new PendingUser
-            {
-                Username = model.Username,
-                Email = model.Email,
-                Role = model.Role, // Rôle choisi "Admin" ou "Professional"
-            };
+            // Vous pouvez aussi envoyer un email de confirmation ou une notification ici si nécessaire
+            // Par exemple : envoyer un email pour indiquer que l'utilisateur attend l'approbation
 
-            _context.PendingUsers.Add(pendingUser);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "User registered successfully and pending approval" });
+            return Ok(new { message = "User created successfully, awaiting approval" });
         }
+
 
 
         [HttpPost("approve/{id}")]
@@ -93,7 +126,7 @@ namespace HospitalAPI.Controller
             }
 
             // L'utilisateur est approuvé, on lui attribue le rôle et on le déplace dans la table principale
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = pendingUser.Username,
                 Email = pendingUser.Email
@@ -137,25 +170,63 @@ namespace HospitalAPI.Controller
         }
 
 
+        // [HttpPost("login")]
+        // public async Task<IActionResult> Login([FromBody] Login model)
+        // {
+        //     var user = await _userManager.FindByNameAsync(model.Username);
+        //     if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+        //         return Unauthorized(new { message = "Invalid credentials" });
+
+        //     // Generate the JWT
+        //     var token = GenerateJwtToken(user);
+
+        //     // Generate a Refresh Token
+        //     var refreshToken = new RefreshToken
+        //     {
+        //         Token = Guid.NewGuid().ToString(),
+        //         ExpiryDate = DateTime.UtcNow.AddDays(7), // Refresh token valid for 7 days
+        //         UserId = user.Id
+        //     };
+
+        //     // Save the Refresh Token in the database
+        //     _context.RefreshTokens.Add(refreshToken);
+        //     await _context.SaveChangesAsync();
+
+        //     return Ok(new
+        //     {
+        //         token,
+        //         refreshToken = refreshToken.Token
+        //     });
+        // }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
-                return Unauthorized(new { message = "Invalid credentials" });
 
-            // Generate the JWT
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+            {
+                return Unauthorized(new { message = "Invalid credentials" });
+            }
+
+            // Vérifiez si l'utilisateur est approuvé
+            if (!user.IsApproved)
+            {
+                return Unauthorized(new { message = "You are waiting for approval" });
+            }
+
+            // Générer le JWT
             var token = GenerateJwtToken(user);
 
-            // Generate a Refresh Token
+            // Générer un Refresh Token
             var refreshToken = new RefreshToken
             {
                 Token = Guid.NewGuid().ToString(),
-                ExpiryDate = DateTime.UtcNow.AddDays(7), // Refresh token valid for 7 days
+                ExpiryDate = DateTime.UtcNow.AddDays(7),
                 UserId = user.Id
             };
 
-            // Save the Refresh Token in the database
+            // Sauvegarder le Refresh Token dans la base de données
             _context.RefreshTokens.Add(refreshToken);
             await _context.SaveChangesAsync();
 
@@ -165,6 +236,7 @@ namespace HospitalAPI.Controller
                 refreshToken = refreshToken.Token
             });
         }
+
 
 
 
@@ -203,14 +275,15 @@ namespace HospitalAPI.Controller
             });
         }
 
-        private string GenerateJwtToken(IdentityUser user)
+        private string GenerateJwtToken(ApplicationUser user)
         {
             var authClaims = new List<Claim>
     {
         // new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
         new Claim(JwtRegisteredClaimNames.Sub, user.Id),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.NameIdentifier, user.Id)
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(ClaimTypes.Name, user.UserName!)
     };
 
             // 🔥 Récupérer les rôles de l'utilisateur et les ajouter au token

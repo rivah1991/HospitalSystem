@@ -23,9 +23,9 @@ namespace HospitalAPI.Controller
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PatientController(ApplicationDbContext context, IMapper mapper, UserManager<IdentityUser> userManager)
+        public PatientController(ApplicationDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
@@ -67,9 +67,16 @@ namespace HospitalAPI.Controller
         // Méthode pour récupérer l'ID de l'utilisateur connecté
         private string GetUserId()
         {
-            // return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
-            return User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
+            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+            // return User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
 
+        }
+
+
+        private string GetUserName()
+        {
+            // Recherche du claim "sub" qui contient le nom d'utilisateur
+            return User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? string.Empty;
         }
 
         // Action pour créer un patient

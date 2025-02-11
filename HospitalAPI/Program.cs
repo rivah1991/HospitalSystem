@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Text;
 using HospitalAPI.Data;
 using HospitalAPI.Mappers;
+using HospitalAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 // Configurer Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
@@ -91,7 +92,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
     // Vérifier et créer les rôles s'ils n'existent pas déjà
     string[] roleNames = { "Admin", "Professional" };
@@ -109,7 +110,7 @@ using (var scope = app.Services.CreateScope())
     var adminUser = await userManager.Users.AsNoTracking().FirstOrDefaultAsync(u => u.UserName == "adminHospital").ConfigureAwait(false);
     if (adminUser == null)
     {
-        var user = new IdentityUser
+        var user = new ApplicationUser
         {
             UserName = "adminHospital",
             Email = "admin@hospital.com"
