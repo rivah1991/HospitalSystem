@@ -24,7 +24,9 @@ namespace HospitalAPI.Data
         public async Task InvokeAsync(HttpContext context)
         {
             // 🔹 Ignore GET requests
-            if (context.Request.Method == "GET")
+            if (context.Request.Method == "GET" ||
+            context.Request.Path.StartsWithSegments("/api/Auth/register") ||
+            context.Request.Path.StartsWithSegments("/api/Auth/login"))
             {
                 await _next(context);
                 return; // Skip further processing for GET requests
