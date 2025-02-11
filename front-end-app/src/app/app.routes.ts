@@ -12,6 +12,7 @@ import { ProfilComponent } from './components/profil/profil.component';
 import { AddRecommandationsComponent } from './dashboard/pages/patients/add-recommandations/add-recommandations.component';
 import { RecommandationsComponent } from './dashboard/pages/patients/recommandations/recommandations.component';
 import { DetailPatientComponent } from './dashboard/pages/patients/detail/detail.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
     { 
@@ -29,6 +30,7 @@ export const routes: Routes = [
     {
         path: 'dashboard', 
         component: DashboardComponent,
+        canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'patients', pathMatch: 'full' },  
             { path: 'patients/list', component: PatientsComponent }, 
