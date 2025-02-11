@@ -33,36 +33,6 @@ namespace HospitalAPI.Controller
             _context = context;
         }
 
-        // [HttpPost("register")]
-        // public async Task<IActionResult> Register([FromBody] Register model)
-        // {
-        //     // Vérifier si l'utilisateur existe déjà
-        //     var existingUser = await _userManager.FindByNameAsync(model.Username);
-        //     if (existingUser != null)
-        //     {
-        //         return BadRequest(new { message = "Username already exists" });
-        //     }
-
-        //     // Créer un nouvel utilisateur avec IsApproved = false
-        //     var user = new ApplicationUser
-        //     {
-        //         UserName = model.Username,
-        //         Email = model.Email,
-        //         IsApproved = false  // L'utilisateur n'est pas encore approuvé
-        //     };
-
-        //     // Créer l'utilisateur dans la base de données
-        //     var result = await _userManager.CreateAsync(user, model.Password);
-
-        //     if (!result.Succeeded)
-        //     {
-        //         return BadRequest(new { message = "User creation failed", errors = result.Errors });
-        //     }
-
-
-        //     return Ok(new { message = "User created successfully, awaiting approval" });
-        // }
-
         [HttpPost("register")]
         public async Task<IActionResult> Register(Register register)
         {
@@ -144,50 +114,6 @@ namespace HospitalAPI.Controller
 
             return Ok(new { message = $"User approved as {assignedRole}" });
         }
-
-
-        // [HttpPost("approve/{id}")]
-        // public async Task<IActionResult> ApproveUser(int id, [FromBody] string role)
-        // {
-        //     var admin = await _userManager.GetUserAsync(User);
-        //     if (admin == null || !await _userManager.IsInRoleAsync(admin, "Admin"))
-        //     {
-        //         return Unauthorized();
-        //     }
-
-        //     var pendingUser = await _context.PendingUsers.FindAsync(id);
-        //     if (pendingUser == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     // L'utilisateur est approuvé, on lui attribue le rôle et on le déplace dans la table principale
-        //     var user = new ApplicationUser
-        //     {
-        //         UserName = pendingUser.Username,
-        //         Email = pendingUser.Email
-        //     };
-
-        //     var createUserResult = await _userManager.CreateAsync(user);
-        //     if (!createUserResult.Succeeded)
-        //     {
-        //         return BadRequest(createUserResult.Errors);
-        //     }
-
-        //     // L'admin assigne un rôle à l'utilisateur (Admin ou Professional)
-        //     var result = await _userManager.AddToRoleAsync(user, role);
-        //     if (!result.Succeeded)
-        //     {
-        //         return BadRequest(result.Errors);
-        //     }
-
-        //     // Mettre à jour l'utilisateur dans PendingUsers
-        //     pendingUser.IsApproved = true;
-        //     _context.PendingUsers.Update(pendingUser);
-        //     await _context.SaveChangesAsync();
-
-        //     return Ok(new { message = "User approved and role assigned" });
-        // }
 
 
         [HttpGet("pending-users")]
@@ -333,7 +259,6 @@ namespace HospitalAPI.Controller
         }
 
 
-
         [HttpPost("add-role")]
         public async Task<IActionResult> Role([FromBody] string role)
         {
@@ -367,5 +292,24 @@ namespace HospitalAPI.Controller
             return BadRequest(result.Errors);
 
         }
+
+        [HttpGet("current-user")]
+        [Authorize] // Seuls les utilisateurs authentifiés peuvent accéder à cette méthode
+        public IActionResult GetCurrentUser()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            // Vous pouvez aussi récupérer plus de données utilisateur si nécessaire, depuis la base de données ou les revendications.
+
+            return Ok(new
+            {
+                UserId = userId,
+                Username = username,
+                Role = role
+            });
+        }
+
     }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Input, signal } from '@angular/core';
+import { Component, computed, Input, OnInit, signal } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProfileModalComponent } from '../profil/profile-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../shared/services/auth.service';
 
 export type MenuItem = {
   icon: string;
@@ -27,9 +28,15 @@ export type MenuItem = {
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private authService: AuthService
+
+  ) {}
+
+  currentUser: any;
 
   sideNavCollapsed = signal(false);
   @Input() set collapsed(val: boolean){
@@ -72,6 +79,17 @@ export class SidebarComponent {
       
     }
 ]);
+
+ngOnInit(): void {
+  this.authService.getCurrentUser().subscribe({
+    next: (data) => {
+      this.currentUser = data; // Assurez-vous que `data` contient le `username`
+    },
+    error: (error) => {
+      console.error('Error fetching user data', error);
+    }
+  });
+}
 
 
   profilePicSize = computed(() => this.sideNavCollapsed() ? '40': '65');

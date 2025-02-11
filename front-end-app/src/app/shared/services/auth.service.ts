@@ -27,6 +27,10 @@ export class AuthService {
     return this.http.post(this.baseUrl+'/api/Auth/login', formData)
   }
 
+  getCurrentUser(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.baseUrl}/api/Auth/current-user`, { headers });
+  }
   
   updatePatient(id: number, patientData: any): Observable<any> {
     const headers = this.getAuthHeaders();

@@ -1,4 +1,4 @@
-<div class="sidenav-header">
+<!-- <div class="sidenav-header">
     <img [width]="profilePicSize()" [height]="profilePicSize()"
      src="/assets/profil.jpg" alt="Profil"
      (click)="openProfileModal()">
@@ -6,7 +6,17 @@
         <h2>Ravoniaina Rivah</h2>
         <p>Dept. Admin</p>
     </div>
+</div> -->
+<div class="sidenav-header">
+  <img [width]="profilePicSize()" [height]="profilePicSize()"
+   src="/assets/profil.jpg" alt="Profil"
+   (click)="openProfileModal()">
+  <div class="header-text" [ngClass]="textcollapse()">
+      <h2>{{ currentUser?.username || 'Rakoto' }}</h2> 
+      <p>Dept. Admin</p>
+  </div>
 </div>
+
 <mat-nav-list>
   <ng-container *ngFor="let item of menuItems()">
     

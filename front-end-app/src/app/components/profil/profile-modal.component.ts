@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-profile-modal',
@@ -25,16 +26,29 @@ import { MatListModule } from '@angular/material/list';
   templateUrl: './profil-modal.component.html',
   styleUrls: ['./profil.component.css']
 })
-export class ProfileModalComponent {
-  username: string = 'Ravoniaina Rivah';  // Nom d'utilisateur fixe
-  email: string = '';  // Email, à remplir si vide
-  profilePic: string = '/assets/profil.jpg';  // Image de profil par défaut
+export class ProfileModalComponent implements OnInit {
+  // username: string = 'Ravoniaina Rivah'; 
+  email: string = '';  
+  profilePic: string = '/assets/profil.jpg';  
+
+   currentUser: any;
 
   constructor(
     public dialogRef: MatDialogRef<ProfileModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private authService: AuthService
   ) {}
 
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe({
+      next: (data) => {
+        this.currentUser = data; // Assurez-vous que `data` contient le `username`
+      },
+      error: (error) => {
+        console.error('Error fetching user data', error);
+      }
+    });
+  }
   // Méthode pour changer l'image de profil
   changeProfilePic(event: any): void {
     const file = event.target.files[0];
@@ -55,7 +69,7 @@ export class ProfileModalComponent {
   // Méthode de mise à jour du profil
   updateProfile(): void {
     // Logique pour mettre à jour le profil (par exemple envoyer les données au backend)
-    console.log("Profil mis à jour avec :", this.username, this.email);
+    // console.log("Profil mis à jour avec :", this.username, this.email);
   }
 }
 export class ProfilModalComponent {

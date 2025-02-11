@@ -14,7 +14,7 @@
 <div class="profile-info">
   <mat-form-field>
     <mat-label>User name</mat-label>
-    <input matInput [value]="username" disabled>
+    <input matInput [value]= "currentUser?.username || 'Rakoto'"  disabled>
   </mat-form-field>
   <mat-card class="speciality-card">
     <mat-card-title style="display: flex; justify-content: space-between; align-items: center;">
