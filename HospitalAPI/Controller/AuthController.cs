@@ -230,13 +230,15 @@ namespace HospitalAPI.Controller
         private string GenerateJwtToken(ApplicationUser user)
         {
             var authClaims = new List<Claim>
-    {
-        // new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
-        new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.NameIdentifier, user.Id),
-        new Claim(ClaimTypes.Name, user.UserName!)
-    };
+        {
+            // new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName!),
+            new Claim(ClaimTypes.Email, user.Email!),
+            new Claim("IsApproved", user.IsApproved.ToString())
+        };
 
             // 🔥 Récupérer les rôles de l'utilisateur et les ajouter au token
             var userRoles = _userManager.GetRolesAsync(user).Result;
@@ -293,23 +295,24 @@ namespace HospitalAPI.Controller
 
         }
 
-        [HttpGet("current-user")]
-        [Authorize] // Seuls les utilisateurs authentifiés peuvent accéder à cette méthode
-        public IActionResult GetCurrentUser()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var username = User.FindFirst(ClaimTypes.Name)?.Value;
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        // [HttpGet("current-user")]
+        // [Authorize] // Seuls les utilisateurs authentifiés peuvent accéder à cette méthode
+        // public IActionResult GetCurrentUser()
+        // {
+        //     var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //     var username = User.FindFirst(ClaimTypes.Name)?.Value;
+        //     var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        //     var email = User.FindFirst(ClaimTypes.Email)?.Value; // Récupérer l'email
+        //     // var isApproved = User.FindFirst("IsApproved")?.Value == "True";
 
-            // Vous pouvez aussi récupérer plus de données utilisateur si nécessaire, depuis la base de données ou les revendications.
-
-            return Ok(new
-            {
-                UserId = userId,
-                Username = username,
-                Role = role
-            });
-        }
+        //     return Ok(new
+        //     {
+        //         UserId = userId,
+        //         Username = username,
+        //         Role = role,
+        //         Email = email,
+        //     });
+        // }
 
     }
 }

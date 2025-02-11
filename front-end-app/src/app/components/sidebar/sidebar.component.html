@@ -13,7 +13,7 @@
    (click)="openProfileModal()">
   <div class="header-text" [ngClass]="textcollapse()">
       <h2>{{ currentUser?.username || 'Rakoto' }}</h2> 
-      <p>Dept. Admin</p>
+      <p>Dept. {{currentUser?.role}}</p>
   </div>
 </div>
 

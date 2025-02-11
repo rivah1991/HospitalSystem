@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ProfileModalComponent } from '../profil/profile-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/user.service';
 
 export type MenuItem = {
   icon: string;
@@ -32,7 +33,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private authService: AuthService
+    private userService: UserService
 
   ) {}
 
@@ -81,7 +82,7 @@ export class SidebarComponent implements OnInit {
 ]);
 
 ngOnInit(): void {
-  this.authService.getCurrentUser().subscribe({
+  this.userService.getCurrentUser().subscribe({
     next: (data) => {
       this.currentUser = data; // Assurez-vous que `data` contient le `username`
     },

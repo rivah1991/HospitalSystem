@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250211114414_Init")]
+    [Migration("20250211162242_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -70,7 +70,13 @@ namespace HospitalAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Qualification")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specialty")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")

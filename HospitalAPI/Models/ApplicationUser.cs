@@ -9,5 +9,9 @@ namespace HospitalAPI.Models
     public class ApplicationUser : IdentityUser
     {
         public bool IsApproved { get; set; }
+
+        public string? Specialty { get; set; }
+        public string? Qualification { get; set; }
+
     }
 }

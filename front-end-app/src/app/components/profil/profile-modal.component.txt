@@ -16,28 +16,30 @@ import { UserService } from '../../shared/services/user.service';
   selector: 'app-profile-modal',
   standalone: true,
   imports: [
-    MatDialogModule,
-    MatSelectModule,
+    MatDialogModule, MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule,
+    FormsModule,  
     MatCardModule,
     MatListModule
   ],
   templateUrl: './profil-modal.component.html',
   styleUrls: ['./profil.component.css']
 })
-
 export class ProfileModalComponent implements OnInit {
-  currentUser: any = {};  
+  profilePic: string = '/assets/profil.jpg';  
+  currentUser: any;
   email: string = ''; 
   specialty: string = '';
   qualification: string = '';
   experience: string = '';
   licenseNumber: string = '';
   emergencyContact: string = '';
+
+  specialties: string[] = ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics'];
+  qualifications: string[] = ['MD', 'PhD', 'Nurse', 'Specialist'];
 
   constructor(
     public dialogRef: MatDialogRef<ProfileModalComponent>,
@@ -47,10 +49,10 @@ export class ProfileModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe({
+    this.authService.getCurrentUser().subscribe({
       next: (data) => {
-        this.currentUser = data;
-        // Initialisation des données utilisateur
+        this.currentUser = data; 
+        this.profilePic = this.currentUser?.profileImage || this.profilePic;
         this.specialty = this.currentUser?.specialty || '';
         this.qualification = this.currentUser?.qualification || '';
         this.experience = this.currentUser?.experience || '';
@@ -58,43 +60,39 @@ export class ProfileModalComponent implements OnInit {
         this.emergencyContact = this.currentUser?.emergencyContact || '';
       },
       error: (error) => {
-        console.error('Erreur lors de la récupération des données utilisateur', error);
+        console.error('Error fetching user data', error);
       }
     });
   }
-  
+
+  // Méthode pour changer l'image de profil
+  changeProfilePic(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profilePic = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Méthode pour fermer le modal
   close(): void {
     this.dialogRef.close();
   }
 
-  updateProfile() {
-    const updatedData = {
-      userId: this.currentUser?.userId,
+  // Méthode de mise à jour du profil
+  updateProfile(): void {
+    const updatedUser = {
+      UserId: this.currentUser?.id,  // Assurez-vous de transmettre l'ID utilisateur
+      profileImageUrl: this.profilePic,
       specialty: this.specialty,
       qualification: this.qualification,
-      email: this.email
+      experience: this.experience,
+      licenseNumber: this.licenseNumber,
+      emergencyContact: this.emergencyContact,
     };
-  
-    this.userService.updateProfile(updatedData).subscribe(
-      response => {
-        console.log('Profile updated successfully');
-      },
-      error => {
-        console.error('Error updating profile', error);
-      }
-    );
-  }
-  
-  
-
-  submitProfileUpdate(): void {
-    const updatedUser = {
-      userId: this.currentUser?.id,  // userId au lieu de UserId
-      specialty: this.specialty,
-      qualification: this.qualification
-    };
-
-    console.log('User data to update:', updatedUser);
 
     this.userService.updateProfile(updatedUser).subscribe({
       next: (response) => {

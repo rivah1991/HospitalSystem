@@ -1,35 +1,51 @@
 <div class="recommendations-table">
-    <mat-card class="mat-elevation-z4">
-      <mat-card-title>Doctor List</mat-card-title>
-      <mat-card-content>
-        <table mat-table [dataSource]="recommendations">
-          <ng-container matColumnDef="Id">
-            <th mat-header-cell *matHeaderCellDef> ID</th>
-            <td mat-cell *matCellDef="let recommendation"> {{ recommendation.Id }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="doctorName">
-            <th mat-header-cell *matHeaderCellDef> Doctor Name </th>
-            <td mat-cell *matCellDef="let recommendation"> {{ recommendation.doctorName }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="designation">
-            <th mat-header-cell *matHeaderCellDef> Designation </th>
-            <td mat-cell *matCellDef="let recommendation"> {{ recommendation.designation }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef> Role </th>
-            <td mat-cell *matCellDef="let recommendation"> {{ recommendation.role }} </td>
-          </ng-container>
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [length]="dataSource.data.length"
-        [pageSize]="5"
-        aria-label="Sélectionner la page">
+  <mat-card class="mat-elevation-z4">
+    <mat-card-title>Doctor List</mat-card-title>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let doctor"> {{ doctor.id }} </td>
+        </ng-container>
+
+        <!-- UserName Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef> Doctor Name </th>
+          <td mat-cell *matCellDef="let doctor"> {{ doctor.userName }} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let doctor"> {{ doctor.email }} </td>
+        </ng-container>
+
+        <!-- Specialty Column -->
+        <ng-container matColumnDef="specialty">
+          <th mat-header-cell *matHeaderCellDef> Specialty </th>
+          <td mat-cell *matCellDef="let doctor"> {{ doctor.specialty }} </td>
+        </ng-container>
+
+        <!-- Qualification Column -->
+        <ng-container matColumnDef="qualification">
+          <th mat-header-cell *matHeaderCellDef> Qualification </th>
+          <td mat-cell *matCellDef="let doctor"> {{ doctor.qualification }} </td>
+        </ng-container>
+
+        <!-- Table Headers and Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+      <!-- Paginator -->
+      <mat-paginator [length]="dataSource.data.length"
+                     [pageSize]="5"
+                     aria-label="Sélectionner la page">
       </mat-paginator>
-      </mat-card-content>
-    </mat-card>
-  </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

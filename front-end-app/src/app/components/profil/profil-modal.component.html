@@ -1,45 +1,46 @@
-<h2>Informations</h2>
+<h2>Information</h2>
 
-
-<div class="profile-pic">
-  <img [src]="profilePic" [alt]="'Profil'" [width]="100" [height]="100">
-  <input #fileInput type="file" (change)="changeProfilePic($event)" accept="image/*" hidden>
-  <button mat-icon-button (click)="fileInput.click()">
-    <mat-icon>edit</mat-icon>
-  </button>
-</div>
-
-
-<!-- Informations Utilisateur -->
+<!-- User Information -->
 <div class="profile-info">
+  <!-- Username -->
   <mat-form-field>
-    <mat-label>User name</mat-label>
-    <input matInput [value]= "currentUser?.username || 'Rakoto'"  disabled>
+    <mat-label>Username</mat-label>
+    <input matInput [value]="currentUser?.username || 'Rakoto'" disabled>
   </mat-form-field>
-  <mat-card class="speciality-card">
-    <mat-card-title style="display: flex; justify-content: space-between; align-items: center;">
-      <span>Speciality:</span>
-      <span class="speciality-text">Cardiology</span> 
-    </mat-card-title>
-  </mat-card>
-  <mat-card class="speciality-card">
-    <mat-card-title style="display: flex; justify-content: space-between; align-items: center;">
-      <span>Service:</span>
-      <span class="speciality-text">Cardovascular</span> 
-    </mat-card-title>
-  </mat-card>
-  
+
+  <!-- Specialty (with <mat-select>) -->
+  <mat-form-field>
+    <mat-label>Specialty</mat-label>
+    <mat-select [(value)]="specialty">
+      <mat-option value="Cardiology">Cardiology</mat-option>
+      <mat-option value="Neurology">Neurology</mat-option>
+      <mat-option value="Pediatrics">Pediatrics</mat-option>
+      <mat-option value="Orthopedics">Orthopedics</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Qualification (with <mat-select>) -->
+  <mat-form-field>
+    <mat-label>Qualification</mat-label>
+    <mat-select [(value)]="qualification">
+      <mat-option value="MD">MD</mat-option>
+      <mat-option value="PhD">PhD</mat-option>
+      <mat-option value="Nurse">Nurse</mat-option>
+      <mat-option value="Specialist">Specialist</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Email -->
   <div class="form-container">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="email" placeholder="Entrez votre email">
+      <input matInput [(ngModel)]="email" placeholder="Enter your email" [value]="currentUser?.email">
     </mat-form-field>
   </div>
-  
 </div>
 
-<!-- Bouton de mise à jour -->
+<!-- Buttons -->
 <div class="modal-actions">
-  <button mat-raised-button (click)="updateProfile()">Mettre à jour le profil</button>
-  <button mat-button class="custom-button" (click)="close()">Annuler</button>
+  <button mat-raised-button (click)="updateProfile()">Update Profile</button>
+  <button mat-button class="custom-button" (click)="close()">Cancel</button>
 </div>
