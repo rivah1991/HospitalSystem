@@ -59,7 +59,7 @@ export class RegistrationComponent {
             
               this.form.reset();
               this.isSubmitted = false;
-              this.toastr.success('New user created!', 'Registration Successful');
+              this.toastr.success('awaiting approval!', 'Registration Successful');
 
               
           },

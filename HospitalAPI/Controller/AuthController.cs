@@ -32,49 +32,6 @@ namespace HospitalAPI.Controller
             _configuration = configuration;
             _context = context;
         }
-        // [HttpPost("register")]
-        // public async Task<IActionResult> Register([FromBody] Register model)
-        // {
-        //     var user = new ApplicationUser { UserName = model.Username };
-        //     var result = await _userManager.CreateAsync(user, model.Password);
-
-        //     if (result.Succeeded)
-        //     {
-        //         return Ok(new { message = "User registered Successfully" });
-        //     }
-        //     return BadRequest(result.Errors);
-        // }
-
-        // [HttpPost("register")]
-        // public async Task<IActionResult> Register([FromBody] Register model)
-        // {
-
-        //     var user = new ApplicationUser
-        //     {
-        //         UserName = model.Username,
-        //         Email = model.Email
-        //     };
-
-        //     var result = await _userManager.CreateAsync(user, model.Password);
-
-        //     if (!result.Succeeded)
-        //     {
-        //         return BadRequest(result.Errors);
-        //     }
-
-        //     // Ajouter l'utilisateur dans la table PendingUsers avec le rôle proposé
-        //     var pendingUser = new PendingUser
-        //     {
-        //         Username = model.Username,
-        //         Email = model.Email,
-        //         Role = model.Role, // Rôle choisi "Admin" ou "Professional"
-        //     };
-
-        //     _context.PendingUsers.Add(pendingUser);
-        //     await _context.SaveChangesAsync();
-
-        //     return Ok(new { message = "User registered successfully and pending approval" });
-        // }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
@@ -102,8 +59,6 @@ namespace HospitalAPI.Controller
                 return BadRequest(new { message = "User creation failed", errors = result.Errors });
             }
 
-            // Vous pouvez aussi envoyer un email de confirmation ou une notification ici si nécessaire
-            // Par exemple : envoyer un email pour indiquer que l'utilisateur attend l'approbation
 
             return Ok(new { message = "User created successfully, awaiting approval" });
         }
@@ -169,35 +124,6 @@ namespace HospitalAPI.Controller
             return Ok(pendingUsers);
         }
 
-
-        // [HttpPost("login")]
-        // public async Task<IActionResult> Login([FromBody] Login model)
-        // {
-        //     var user = await _userManager.FindByNameAsync(model.Username);
-        //     if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
-        //         return Unauthorized(new { message = "Invalid credentials" });
-
-        //     // Generate the JWT
-        //     var token = GenerateJwtToken(user);
-
-        //     // Generate a Refresh Token
-        //     var refreshToken = new RefreshToken
-        //     {
-        //         Token = Guid.NewGuid().ToString(),
-        //         ExpiryDate = DateTime.UtcNow.AddDays(7), // Refresh token valid for 7 days
-        //         UserId = user.Id
-        //     };
-
-        //     // Save the Refresh Token in the database
-        //     _context.RefreshTokens.Add(refreshToken);
-        //     await _context.SaveChangesAsync();
-
-        //     return Ok(new
-        //     {
-        //         token,
-        //         refreshToken = refreshToken.Token
-        //     });
-        // }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login model)
