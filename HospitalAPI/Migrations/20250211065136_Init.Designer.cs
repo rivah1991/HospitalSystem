@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250211032215_Init")]
+    [Migration("20250211065136_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -469,13 +469,11 @@ namespace HospitalAPI.Migrations
 
             modelBuilder.Entity("HospitalAPI.Models.Patient", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HospitalAPI.Models.Recommendation", b =>

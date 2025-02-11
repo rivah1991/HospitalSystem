@@ -69,8 +69,10 @@ export class AddPatientComponent implements OnInit {
   
     if (token) {
       this.decodeToken = jwtDecode(token);
-      // console.log(this.decodeToken);
+      console.log('user token',this.decodeToken);
     this.userId = this.decodeToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+    // this.userId = this.decodeToken['sub']; 
+    console.log('user Id',this.userId);
     const role = this.decodeToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
     } else {

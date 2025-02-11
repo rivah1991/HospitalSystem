@@ -466,13 +466,11 @@ namespace HospitalAPI.Migrations
 
             modelBuilder.Entity("HospitalAPI.Models.Patient", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HospitalAPI.Models.Recommendation", b =>

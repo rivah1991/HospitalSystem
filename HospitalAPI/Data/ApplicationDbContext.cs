@@ -33,10 +33,10 @@ namespace HospitalAPI.Data
 
             // Configuration de la relation entre Patient et IdentityUser
             modelBuilder.Entity<Patient>()
-                .HasOne(p => p.User)
-                .WithMany()
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict);  // Empêche la suppression en cascade
+                .HasOne<IdentityUser>()  // Spécifie seulement la relation à IdentityUser sans la propriété de navigation
+                .WithMany()  // Il n'y a pas de navigation vers Patient dans IdentityUser
+                .HasForeignKey(p => p.UserId)  // Utilise uniquement la clé UserId
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

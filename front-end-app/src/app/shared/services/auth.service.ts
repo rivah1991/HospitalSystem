@@ -44,6 +44,7 @@ export class AuthService {
 
    // Méthode pour ajouter un patient
    addPatient(patientData: any): Observable<any> {
+    console.log('patientData', patientData)
     const headers = this.getAuthHeaders();
     return this.http.post(`${this.baseUrl}/api/Patient`, patientData, { headers });
   }

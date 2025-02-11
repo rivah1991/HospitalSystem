@@ -57,24 +57,26 @@ namespace HospitalAPI.Controller
         // public async Task<IActionResult> GetPatient(int id)
         public async Task<IActionResult> GetPatient(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
+            var patient = await _context.Patients
+            .Include(p => p.User) // Optionnel, à enlever si non nécessaire
+            .FirstOrDefaultAsync(p => p.Id == id);
+
             if (patient == null)
-                return NotFound();
+                return NotFound(new { message = "Patient introuvable" });
 
             return Ok(_mapper.Map<PatientDto>(patient));
+
         }
 
         // Méthode pour récupérer l'ID de l'utilisateur connecté
         private string GetUserId()
         {
-            // return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
-            return User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
-
+            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
 
         // Action pour créer un patient
         [HttpPost]
-        [Authorize]
+        [Authorize] // Assure que seul un utilisateur authentifié peut créer un patient
         public async Task<IActionResult> CreatePatient([FromBody] Patient patient)
         {
             var userId = GetUserId(); // Récupérer l'ID de l'utilisateur connecté
@@ -85,8 +87,8 @@ namespace HospitalAPI.Controller
                 return Unauthorized("Utilisateur non authentifié.");
             }
 
-            // Vérifier si l'utilisateur avec userId existe sans le suivre
-            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
+            // Vérifier si l'utilisateur avec userId existe
+            var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
                 return BadRequest("L'utilisateur associé n'existe pas.");
@@ -95,42 +97,26 @@ namespace HospitalAPI.Controller
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Assigner l'ID de l'utilisateur au patient
             patient.UserId = userId;
-
-            // Détacher toute entité utilisateur déjà suivie dans le DbContext
-            var trackedUser = _context.Users.Local.FirstOrDefault(u => u.Id == userId);
-            if (trackedUser != null)
-            {
-                _context.Entry(trackedUser).State = EntityState.Detached;
-            }
-
-            // Vérifier si l'utilisateur n'est pas déjà attaché au contexte avant de l'attacher
-            if (_context.Entry(user).State == EntityState.Detached)
-            {
-                _context.Users.Attach(user);
-            }
-
-            // Ajouter le patient et enregistrer les changements
             _context.Patients.Add(patient);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, _mapper.Map<PatientDto>(patient));
-        }
 
+        }
 
 
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdatePatient(int id, [FromBody] PatientDto patientDto)
         {
+
             var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
-                return NotFound();
+            if (patient?.UserId != GetUserId())
+                return Forbid("Vous ne pouvez modifier que vos propres informations.");
 
             _mapper.Map(patientDto, patient);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -139,8 +125,9 @@ namespace HospitalAPI.Controller
         public async Task<IActionResult> DeletePatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
-                return NotFound();
+
+            if (patient?.UserId != GetUserId())
+                return Forbid("Vous ne pouvez supprimer que votre propre compte.");
 
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
@@ -154,12 +141,12 @@ namespace HospitalAPI.Controller
             Console.WriteLine($"User ID from JWT: {userIdString}");
             Console.WriteLine($"Entity ID: {entityId}");
 
-            // Si vous comparez ces IDs, ajoutez un log supplémentaire :
+            if (string.IsNullOrEmpty(userIdString))
+                throw new UnauthorizedAccessException("Utilisateur non authentifié.");
+
             if (userIdString != entityId)
-            {
-                Console.WriteLine("IDs do not match. Unauthorized access.");
-                throw new UnauthorizedAccessException("User is not authorized or invalid user ID.");
-            }
+                return; // Ne pas enregistrer si l'ID ne correspond pas
+
 
             var auditLog = new AuditLog
             {

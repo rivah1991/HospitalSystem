@@ -105,7 +105,8 @@ using (var scope = app.Services.CreateScope())
     }
 
     // Créer un utilisateur Admin par défaut si nécessaire
-    var adminUser = await userManager.FindByNameAsync("adminHospital");
+    // var adminUser = await userManager.FindByNameAsync("adminHospital");
+    var adminUser = await userManager.Users.AsNoTracking().FirstOrDefaultAsync(u => u.UserName == "adminHospital").ConfigureAwait(false);
     if (adminUser == null)
     {
         var user = new IdentityUser
