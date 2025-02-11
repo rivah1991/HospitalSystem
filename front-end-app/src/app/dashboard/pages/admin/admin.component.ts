@@ -60,8 +60,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   // Méthodes pour changer l'approbation et le rôle
   toggleApproval(user: any): void {
-    user.approved = !user.approved;
+    user.isApproved = !user.isApproved;
   }
+  
 
   // toggleRole(user: any): void {
   //   user.role = user.role === 'professional' ? 'admin' : 'professional';

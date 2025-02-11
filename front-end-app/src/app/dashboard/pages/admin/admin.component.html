@@ -21,11 +21,12 @@
         <ng-container matColumnDef="approval">
           <mat-header-cell *matHeaderCellDef> Approval </mat-header-cell>
           <mat-cell *matCellDef="let user">
-            <mat-slide-toggle [(ngModel)]="user.approved" (change)="toggleApproval(user)">
-              {{ user.approved ? 'approval' : 'Pending' }}
+            <mat-slide-toggle [(ngModel)]="user.isApproved" (change)="toggleApproval(user)">
+              {{ user.isApproved ? 'Approved' : 'Pending' }}
             </mat-slide-toggle>
           </mat-cell>
         </ng-container>
+        
     
         <ng-container matColumnDef="timestamp">
           <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
