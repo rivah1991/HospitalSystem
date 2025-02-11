@@ -37,7 +37,8 @@ export class AuthService {
  
   getAuthHeaders() {
     return new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
+      'Authorization': `Bearer ${this.getToken()}`,
+      'Content-Type': 'application/json',
     });
   }
 
@@ -72,12 +73,26 @@ export class AuthService {
   addRecommendation(patientId: number, recommendation: any) {
     const headers = this.getAuthHeaders();
     return this.http.post(`${this.baseUrl}/api/recommendations/patients/${patientId}`, recommendation, { headers });
-  }
+  }  
   
-  updateRecommendationStatus(patientId: number, newStatus: string): Observable<any> {
+  
+  updateRecommendationStatus(patientId: number, id: number, newStatus: string): Observable<any> {
+    const url = `http://localhost:5059/api/recommendations/patients/${patientId}/recommendations/${id}/status`;
+  
+    // Ici, nous envoyons directement la chaîne, sans l'encapsuler dans un objet.
+    const body = `"${newStatus}"`;  // Assurez-vous que newStatus est une chaîne et l'encapsuler dans des guillemets
+  
+    return this.http.put(url, body, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }  
+   
+  getAuditLogs(): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.put<any>(`${this.baseUrl}/api/recommendations/${patientId}/status`, { status: newStatus }, { headers });
-  }
+    return this.http.get(`${this.baseUrl}/api/audit`, { headers });
+  } 
+  
+  
   
   logout(): void {
     this.token = null;

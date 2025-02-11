@@ -6,33 +6,25 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Ajouter les contrôleurs
 builder.Services.AddControllers();
 
-
+// Ajouter AutoMapper
 // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-//ajouter AutoMapper
-
-
 // Ajouter EF Core avec SQL Server
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("HospitalConnection"));
 });
-
 
 // Configurer Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -54,17 +46,30 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    // options.RequireHttpsMetadata = false;
-    // options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidateAudience = false,
+        ValidateAudience = false, // Tu peux ajuster si tu utilises des auditoires dans ton projet
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
         RoleClaimType = ClaimTypes.Role
+    };
+
+    // Ajouter cette ligne pour récupérer les données de l'utilisateur dans le middleware d'authentification
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // Vérifie si le token est envoyé dans le header "Authorization"
+            var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Token = token;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -74,8 +79,47 @@ builder.Services.AddAuthorization(Options =>
     Options.AddPolicy("UserPolicy", policy => policy.RequireRole("Professional"));
 });
 
-
 var app = builder.Build();
+
+// Configurer la politique CORS avant l'utilisation des middlewares d'authentification
+app.UseCors(options => options.WithOrigins("http://localhost:4200")  // Autoriser ton frontend Angular
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .AllowCredentials());
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+    // Vérifier et créer les rôles s'ils n'existent pas déjà
+    string[] roleNames = { "Admin", "Professional" };
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    // Créer un utilisateur Admin par défaut si nécessaire
+    var adminUser = await userManager.FindByNameAsync("adminHospital");
+    if (adminUser == null)
+    {
+        var user = new IdentityUser
+        {
+            UserName = "adminHospital",
+            Email = "admin@hospital.com"
+        };
+        var result = await userManager.CreateAsync(user, "AdminTest@");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -85,18 +129,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
-// Activer l'authentification et autorisation'
 
-//config CORS
-app.UseCors(options => options.WithOrigins("http://localhost:4200")
-.AllowAnyMethod()
-.AllowAnyHeader()
-);
-
+// Activer l'authentification et autorisation
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<AuditMiddleware>();
 
 // Activer les contrôleurs
 app.MapControllers();

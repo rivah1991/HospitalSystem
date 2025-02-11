@@ -55,30 +55,43 @@ namespace HospitalAPI.Controller
         //     return Ok(new { message = "Recommendation successfully marked as completed." });
         // }
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateRecommendationStatus(int id, [FromBody] string newStatus)
+        [HttpPut("patients/{patientId}/recommendations/{id}/status")]
+        public async Task<IActionResult> UpdateRecommendationStatus(int patientId, int id, [FromBody] string newStatus)
         {
-            var recommendation = await _context.Recommendations.FindAsync(id);
-
-            if (recommendation == null)
+            // Vérifier si le statut est valide
+            if (string.IsNullOrEmpty(newStatus))
             {
-                return NotFound($"Recommendation with ID {id} not found.");
+                return BadRequest("Invalid request. NewStatus is required.");
             }
 
-            // Mise à jour du statut
+            var recommendation = await _context.Recommendations
+                                               .Where(r => r.PatientId == patientId && r.Id == id)
+                                               .FirstOrDefaultAsync();
+
+            // Vérifier si la recommandation existe
+            if (recommendation == null)
+            {
+                return NotFound($"Recommendation with ID {id} for patient {patientId} not found.");
+            }
+
+            // Mettre à jour le statut de la recommandation
             recommendation.Statut = newStatus;
 
             try
             {
-                // Sauvegarde des changements dans la base de données
+                // Sauvegarder les changements dans la base de données
                 await _context.SaveChangesAsync();
-                return Ok(recommendation); // Retourne la recommandation mise à jour
+                return Ok(recommendation);  // Retourner la recommandation mise à jour
             }
             catch (Exception ex)
             {
+                // Si une erreur se produit lors de la mise à jour, renvoyer une erreur 500
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
+
 
         // 3. Create a new recommendation for a patient (POST /api/recommendations/patients/{id})
         [HttpPost("patients/{id}")]

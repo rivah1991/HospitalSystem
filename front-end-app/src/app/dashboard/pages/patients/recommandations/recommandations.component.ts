@@ -115,11 +115,12 @@ export class RecommandationsComponent implements OnInit {
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
       // Appeler le service pour mettre à jour le statut de la recommandation
-      this.authService.updateRecommendationStatus(recommendation.patientId, result).subscribe({
-        next: () => {
+      this.authService.updateRecommendationStatus(recommendation.patientId, recommendation.id, result).subscribe({
+        next: (updatedRecommendation) => {
           // Mettre à jour le statut dans le tableau local après le changement
-          const index = this.recommendations.findIndex(r => r.patientId === recommendation.patientId);
+          const index = this.recommendations.findIndex(r => r.patientId === recommendation.patientId && r.id === recommendation.id);
           if (index !== -1) {
+            console.log('test sucess')
             this.recommendations[index].statut = result; // Mettre à jour le statut
             this.toastr.success('Recommendation Successful!', 'Successful');
           }
@@ -131,7 +132,7 @@ export class RecommandationsComponent implements OnInit {
       });
     }
   });
-}
+   }  
 
 
   getStatusClass(status: string): string {

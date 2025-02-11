@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using HospitalAPI.Data;
@@ -62,28 +64,44 @@ namespace HospitalAPI.Controller
             return Ok(_mapper.Map<PatientDto>(patient));
         }
 
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> CreatePatient([FromBody] PatientDto patientDto)
+        // Méthode pour récupérer l'ID de l'utilisateur connecté
+        private string GetUserId()
         {
-            var patient = _mapper.Map<Patient>(patientDto);
-            _context.Patients.Add(patient);
-
-            // Save Audit Action
-            // await LogAuditAsync(
-            //     "Create",
-            //     "Patient",
-            //     patient.Id.ToString(),
-            //     $"Patient {patient.FirstName} created."
-            // );
-
-            await _context.SaveChangesAsync();
-            // return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patientDto);
-            return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
+            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
         }
 
+        // Action pour créer un patient
+        [HttpPost]
+        [Authorize] // Assure que seul un utilisateur authentifié peut créer un patient
+        public async Task<IActionResult> CreatePatient([FromBody] Patient patient)
+        {
+            var userId = GetUserId(); // Récupérer l'ID de l'utilisateur connecté
+            Console.WriteLine($"Entity ID: {userId}");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("Utilisateur non authentifié.");
+            }
+
+            // Vérifier si l'utilisateur avec userId existe
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return BadRequest("L'utilisateur associé n'existe pas.");
+            }
+
+            patient.UserId = userId; // Assigner l'UserId de l'utilisateur connecté
+
+            // Ajouter le patient dans la base de données
+            _context.Patients.Add(patient);
+            await _context.SaveChangesAsync();
+
+            return Ok(patient); // Retourner le patient ajouté
+        }
+
+
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdatePatient(int id, [FromBody] PatientDto patientDto)
         {
             var patient = await _context.Patients.FindAsync(id);
@@ -97,6 +115,7 @@ namespace HospitalAPI.Controller
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);

@@ -20,6 +20,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class AddPatientComponent implements OnInit {
   patientForm!: FormGroup;
 
   patientId: number | null = null; // ID patient variable
+  userId: string | null = null;
 
   constructor(
     public dialog: MatDialog,
@@ -59,8 +61,22 @@ export class AddPatientComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
   ) {}
+  decodeToken: any;
 
   ngOnInit(): void {
+
+    const token = this.authService.getToken();
+  
+    if (token) {
+      this.decodeToken = jwtDecode(token);
+      // console.log(this.decodeToken);
+    this.userId = this.decodeToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+    const role = this.decodeToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+    } else {
+      console.error('Token non trouvé');
+    }
+
     this.patientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -125,6 +141,8 @@ export class AddPatientComponent implements OnInit {
     const formData = this.patientForm.value;
     const patientData = {
       id: this.patientId || 0, // Si un ID existe, on l'utilise, sinon on met 0 pour un nouvel ajout
+      userId: this.userId,
+      user: { id: this.userId },
       firstName: formData.firstName,
       lastName: formData.lastName,
       age: Number(formData.age),
@@ -153,19 +171,19 @@ export class AddPatientComponent implements OnInit {
         }
       });
     } else {
+      console.log(patientData);
       this.authService.addPatient(patientData).subscribe({
         next: (response) => {
           this.toastr.success('Patient added successfully!', 'Registration Successful');
-
           const createdPatientId = response.id;
           if (createdPatientId) {
             this.router.navigate([`/dashboard/patients/recommendations/${createdPatientId}`]);
           } else {
             this.toastr.error('Error: Patient ID not found.', 'Error');
           }
-
         },
         error: (error) => {
+          console.error('Error adding patient:', error);
           this.toastr.error('Error adding patient.', 'Registration Failed');
         }
       });

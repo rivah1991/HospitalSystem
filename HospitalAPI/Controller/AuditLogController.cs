@@ -1,49 +1,33 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HospitalAPI.Data;
 using Microsoft.AspNetCore.Mvc;
+using HospitalAPI.Data;
+using HospitalAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HospitalAPI.Controller
+namespace HospitalAPI.Controllers
 {
-    [Route("api/auditlog")]
+    [Route("api/audit")]
     [ApiController]
-    public class AuditLogController : ControllerBase
+    public class AuditController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public AuditLogController(ApplicationDbContext context)
+        public AuditController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/auditlog
+        // 🔹 Récupérer tous les logs d'audit
         [HttpGet]
-        public async Task<IActionResult> GetAuditLogs()
+        public async Task<ActionResult<IEnumerable<AuditLog>>> GetAuditLogs()
         {
-            var auditLogs = await _context.AuditLog
-                                          .OrderByDescending(log => log.ActionDate)  // Optionnel : trier par date
-                                          .ToListAsync();
+            var logs = await _context.AuditLog
+                .OrderByDescending(log => log.ActionDate)
+                .ToListAsync();
 
-            return Ok(auditLogs);  // Retourner tous les logs d'audit
+            return Ok(logs);
         }
-
-        // GET: api/auditlog/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAuditLog(int id)
-        {
-            var auditLog = await _context.AuditLog
-                                          .FirstOrDefaultAsync(log => log.Id == id);
-
-            if (auditLog == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(auditLog);
-        }
-
     }
 }

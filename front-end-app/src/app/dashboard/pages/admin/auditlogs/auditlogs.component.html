@@ -5,17 +5,22 @@
       <mat-table [dataSource]="dataAudit">
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-          <mat-cell *matCellDef="let entry"> {{ entry.action }} </mat-cell>
+          <mat-cell *matCellDef="let entry"> {{ entry.actionType }} </mat-cell>
         </ng-container>
     
         <ng-container matColumnDef="user">
           <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
-          <mat-cell *matCellDef="let entry"> {{ entry.user }} </mat-cell>
+          <mat-cell *matCellDef="let entry"> {{ entry.userId }} </mat-cell>
         </ng-container>
     
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+          <mat-cell *matCellDef="let entry"> {{ entry.description }} </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="timestamp">
           <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-          <mat-cell *matCellDef="let entry"> {{ entry.timestamp | date: 'short' }} </mat-cell>
+          <mat-cell *matCellDef="let entry"> {{ entry.actionDate | date: 'MM/dd/yyyy, hh:mm a' }} </mat-cell>
         </ng-container>
     
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

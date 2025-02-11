@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace HospitalAPI.Models
 {
@@ -22,7 +23,7 @@ namespace HospitalAPI.Models
         public string LastName { get; set; } = string.Empty;
 
         [Required]
-        public int Age { get; set; } 
+        public int Age { get; set; }
 
         [Required]
         [MaxLength(10)]
@@ -60,7 +61,15 @@ namespace HospitalAPI.Models
         [MaxLength(10)]
         public string PostalCode { get; set; } = string.Empty;
 
+        public required string UserId { get; set; }
+
+        // Navigation property pour l'utilisateur (assurez-vous que le modèle User existe)
+        public required IdentityUser User { get; set; }
+
+
         // Relation One-to-Many avec les recommandations
         public ICollection<Recommendation> Recommendations { get; set; } = new List<Recommendation>();
+
+
     }
 }

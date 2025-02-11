@@ -87,6 +87,8 @@ export class AddRecommandationsComponent implements OnInit{
       this.authService.addRecommendation(this.patientId, recommendationData).subscribe({
         next:()=>{
            this.snackBar.open('Recommendation added successfully!', 'Close', { duration: 3000 });
+          //  this.router.navigate([`/dashboard/patients/recommendations/${this.patientId}`]);
+
           // this.router.navigate(['/dashboard/patients/recommendations']);
           this.dialogRef.close(); 
                
