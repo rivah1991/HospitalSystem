@@ -33,34 +33,74 @@ namespace HospitalAPI.Controller
             _context = context;
         }
 
+        // [HttpPost("register")]
+        // public async Task<IActionResult> Register([FromBody] Register model)
+        // {
+        //     // Vérifier si l'utilisateur existe déjà
+        //     var existingUser = await _userManager.FindByNameAsync(model.Username);
+        //     if (existingUser != null)
+        //     {
+        //         return BadRequest(new { message = "Username already exists" });
+        //     }
+
+        //     // Créer un nouvel utilisateur avec IsApproved = false
+        //     var user = new ApplicationUser
+        //     {
+        //         UserName = model.Username,
+        //         Email = model.Email,
+        //         IsApproved = false  // L'utilisateur n'est pas encore approuvé
+        //     };
+
+        //     // Créer l'utilisateur dans la base de données
+        //     var result = await _userManager.CreateAsync(user, model.Password);
+
+        //     if (!result.Succeeded)
+        //     {
+        //         return BadRequest(new { message = "User creation failed", errors = result.Errors });
+        //     }
+
+
+        //     return Ok(new { message = "User created successfully, awaiting approval" });
+        // }
+
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] Register model)
+        public async Task<IActionResult> Register(Register register)
         {
-            // Vérifier si l'utilisateur existe déjà
-            var existingUser = await _userManager.FindByNameAsync(model.Username);
-            if (existingUser != null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new { message = "Username already exists" });
+                return BadRequest(ModelState);
             }
 
-            // Créer un nouvel utilisateur avec IsApproved = false
+            // Vérification des rôles acceptés
+            var allowedRoles = new List<string> { "Professional", "Admin" };
+            if (!allowedRoles.Contains(register.Role))
+            {
+                return BadRequest(new { Message = "Invalid role. Allowed roles are 'Professional' or 'Admin'." });
+            }
+
+            // Vérifie si le rôle existe, sinon le crée
+            if (!await _roleManager.RoleExistsAsync(register.Role))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(register.Role));
+            }
+
             var user = new ApplicationUser
             {
-                UserName = model.Username,
-                Email = model.Email,
-                IsApproved = false  // L'utilisateur n'est pas encore approuvé
+                UserName = register.Username,
+                Email = register.Email
             };
 
-            // Créer l'utilisateur dans la base de données
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, register.Password);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                return BadRequest(new { message = "User creation failed", errors = result.Errors });
+                // Assigner le rôle choisi par l'utilisateur
+                await _userManager.AddToRoleAsync(user, register.Role);
+
+                return Ok(new { Message = "User registered successfully", Role = register.Role });
             }
 
-
-            return Ok(new { message = "User created successfully, awaiting approval" });
+            return BadRequest(result.Errors);
         }
 
 
@@ -124,7 +164,22 @@ namespace HospitalAPI.Controller
                 .Where(u => !u.IsApproved) // Filtre les utilisateurs non approuvés
                 .ToListAsync();
 
-            return Ok(pendingUsers); // Renvoie les utilisateurs en attente
+            var pendingUsersWithRoles = new List<object>();
+
+            foreach (var user in pendingUsers)
+            {
+                var roles = await _userManager.GetRolesAsync(user); // Récupère le rôle de l'utilisateur
+                pendingUsersWithRoles.Add(new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.IsApproved,
+                    Role = roles.FirstOrDefault()
+                });
+            }
+
+            return Ok(pendingUsersWithRoles); // Renvoie les utilisateurs en attente avec leurs rôles
         }
 
 
