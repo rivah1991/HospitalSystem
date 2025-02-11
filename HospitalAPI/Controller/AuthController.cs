@@ -103,10 +103,9 @@ namespace HospitalAPI.Controller
             return BadRequest(result.Errors);
         }
 
-
-
         [HttpPost("approve/{id}")]
-        public async Task<IActionResult> ApproveUser(int id, [FromBody] string role)
+        [Authorize(Roles = "Admin")] // Seuls les admins peuvent approuver
+        public async Task<IActionResult> ApproveUser(string id)
         {
             var admin = await _userManager.GetUserAsync(User);
             if (admin == null || !await _userManager.IsInRoleAsync(admin, "Admin"))
@@ -114,39 +113,81 @@ namespace HospitalAPI.Controller
                 return Unauthorized();
             }
 
-            var pendingUser = await _context.PendingUsers.FindAsync(id);
-            if (pendingUser == null)
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
             {
-                return NotFound();
+                return NotFound(new { message = "User not found" });
             }
 
-            // L'utilisateur est approuvé, on lui attribue le rôle et on le déplace dans la table principale
-            var user = new ApplicationUser
+            // Vérifier que l'utilisateur en attente n'est pas déjà approuvé
+            if (user.IsApproved)
             {
-                UserName = pendingUser.Username,
-                Email = pendingUser.Email
-            };
-
-            var createUserResult = await _userManager.CreateAsync(user);
-            if (!createUserResult.Succeeded)
-            {
-                return BadRequest(createUserResult.Errors);
+                return BadRequest(new { message = "User is already approved" });
             }
 
-            // L'admin assigne un rôle à l'utilisateur (Admin ou Professional)
-            var result = await _userManager.AddToRoleAsync(user, role);
-            if (!result.Succeeded)
+            // Récupérer le rôle de l'utilisateur au moment de l'inscription
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Any())
             {
-                return BadRequest(result.Errors);
+                return BadRequest(new { message = "User does not have an assigned role" });
             }
 
-            // Mettre à jour l'utilisateur dans PendingUsers
-            pendingUser.IsApproved = true;
-            _context.PendingUsers.Update(pendingUser);
-            await _context.SaveChangesAsync();
+            string assignedRole = roles.FirstOrDefault() ?? string.Empty;
 
-            return Ok(new { message = "User approved and role assigned" });
+            // Mettre à jour l'approbation
+            user.IsApproved = true;
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return BadRequest(updateResult.Errors);
+            }
+
+            return Ok(new { message = $"User approved as {assignedRole}" });
         }
+
+
+        // [HttpPost("approve/{id}")]
+        // public async Task<IActionResult> ApproveUser(int id, [FromBody] string role)
+        // {
+        //     var admin = await _userManager.GetUserAsync(User);
+        //     if (admin == null || !await _userManager.IsInRoleAsync(admin, "Admin"))
+        //     {
+        //         return Unauthorized();
+        //     }
+
+        //     var pendingUser = await _context.PendingUsers.FindAsync(id);
+        //     if (pendingUser == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     // L'utilisateur est approuvé, on lui attribue le rôle et on le déplace dans la table principale
+        //     var user = new ApplicationUser
+        //     {
+        //         UserName = pendingUser.Username,
+        //         Email = pendingUser.Email
+        //     };
+
+        //     var createUserResult = await _userManager.CreateAsync(user);
+        //     if (!createUserResult.Succeeded)
+        //     {
+        //         return BadRequest(createUserResult.Errors);
+        //     }
+
+        //     // L'admin assigne un rôle à l'utilisateur (Admin ou Professional)
+        //     var result = await _userManager.AddToRoleAsync(user, role);
+        //     if (!result.Succeeded)
+        //     {
+        //         return BadRequest(result.Errors);
+        //     }
+
+        //     // Mettre à jour l'utilisateur dans PendingUsers
+        //     pendingUser.IsApproved = true;
+        //     _context.PendingUsers.Update(pendingUser);
+        //     await _context.SaveChangesAsync();
+
+        //     return Ok(new { message = "User approved and role assigned" });
+        // }
 
 
         [HttpGet("pending-users")]

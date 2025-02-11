@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +97,17 @@ export class AuthService {
     const headers = this.getAuthHeaders();
     return this.http.get(`${this.baseUrl}/api/Auth/pending-users`, { headers });
   }
+
+  approveUser(userId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/Auth/approve/${userId}`, {}, { headers: this.getAuthHeaders() })
+      .pipe(
+        catchError(error => {
+          console.error('Approval error:', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
   
   
   

@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin',
@@ -23,7 +24,12 @@ import { AuthService } from '../../../shared/services/auth.service';
 export class AdminComponent implements OnInit, AfterViewInit {
 
 
-  constructor(private authService: AuthService) {}
+  constructor(
+      private authService: AuthService,
+      private toastr: ToastrService,
+  ) {}
+
+  pendingUsers: any[] = [];
 
   displayedColumns: string[] = ['user','name', 'role', 'approval'];  // Colonnes à afficher : nom, approbation et rôle
 
@@ -59,10 +65,29 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   // Méthodes pour changer l'approbation et le rôle
+  // toggleApproval(user: any): void {
+  //   user.isApproved = !user.isApproved;
+  // }
+
   toggleApproval(user: any): void {
-    user.isApproved = !user.isApproved;
+    if (!user.isApproved) {
+      this.authService.approveUser(user.id).subscribe({
+        next: (response) => {
+          console.log('Approval response:', response.message);
+          this.toastr.success(response.message, 'Approval Successful');
+  
+          // Supprimer l'utilisateur approuvé de la liste
+          this.dataSource.data = this.dataSource.data.filter(u => u.id !== user.id);
+        },
+        error: (error) => {
+          console.error('Error approving user:', error);
+          this.toastr.error('Failed to approve user.', 'Approval Failed');
+        }
+      });
+    }
   }
   
+    
 
   // toggleRole(user: any): void {
   //   user.role = user.role === 'professional' ? 'admin' : 'professional';
