@@ -8,6 +8,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -21,29 +22,37 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class AdminComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['id','name', 'role', 'approval'];  // Colonnes à afficher : nom, approbation et rôle
 
+  constructor(private authService: AuthService) {}
+
+  displayedColumns: string[] = ['user','name', 'role', 'approval'];  // Colonnes à afficher : nom, approbation et rôle
+
+  users: any[] = [];
   // Exemple d'utilisateurs avec un statut d'attente d'approbation
-  users = [
-    { id: 1, name: 'User 1', role: 'admin', approved: false },
-    { id: 2, name: 'User 2', role: 'professional', approved: false },
-    { id: 3, name: 'User 3', role: 'professional', approved: false },
-    { id: 4, name: 'User 4', role: 'admin', approved: true },
-    { id: 5, name: 'User 5', role: 'professional', approved: false },
-    { id: 6, name: 'User 6', role: 'admin', approved: true },
-    { id: 7, name: 'User 7', role: 'professional', approved: true },
-    { id: 8, name: 'User 8', role: 'admin', approved: false },
-    { id: 9, name: 'User 9', role: 'professional', approved: false },
-    { id: 10, name: 'User 10', role: 'admin', approved: true }
-  ];
+  // users = [
+  //   { id: 1, name: 'User 1', role: 'admin', approved: false },
+  //   { id: 2, name: 'User 2', role: 'professional', approved: false },
+  //   { id: 3, name: 'User 3', role: 'professional', approved: false },
+  // ];
   
   dataSource = new MatTableDataSource(this.users);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;  // Utilisation du modificateur `!` pour indiquer que cette propriété sera définie plus tard
 
-  constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.getPendingUsers().subscribe({
+      next: (data) => {
+        this.users = data;  
+        console.log('data pendinguser', data)
+        this.dataSource = new MatTableDataSource(this.users);
+        this.dataSource.paginator = this.paginator;  
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des utilisateurs', err);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

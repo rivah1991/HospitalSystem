@@ -93,6 +93,11 @@ export class AuthService {
     return this.http.get(`${this.baseUrl}/api/audit`, { headers });
   } 
   
+  getPendingUsers(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get(`${this.baseUrl}/api/Auth/pending-users`, { headers });
+  }
+  
   
   
   logout(): void {

@@ -109,20 +109,24 @@ namespace HospitalAPI.Controller
         }
 
 
-
         [HttpGet("pending-users")]
+        [Authorize(Roles = "Admin")] // Seuls les admins peuvent voir cette liste
         public async Task<IActionResult> GetPendingUsers()
         {
             var admin = await _userManager.GetUserAsync(User);
             if (admin == null || !await _userManager.IsInRoleAsync(admin, "Admin"))
             {
-                return Unauthorized();
+                return Unauthorized(); // Assurez-vous que l'utilisateur est un admin
             }
 
-            // Liste des utilisateurs en attente
-            var pendingUsers = await _context.PendingUsers.Where(u => !u.IsApproved).ToListAsync();
-            return Ok(pendingUsers);
+            // Liste des utilisateurs en attente d'approbation
+            var pendingUsers = await _userManager.Users
+                .Where(u => !u.IsApproved) // Filtre les utilisateurs non approuvés
+                .ToListAsync();
+
+            return Ok(pendingUsers); // Renvoie les utilisateurs en attente
         }
+
 
 
         [HttpPost("login")]

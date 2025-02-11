@@ -3,13 +3,13 @@
     <mat-card-title>Approval Records</mat-card-title>
     <mat-card-content>
       <mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-          <mat-cell *matCellDef="let entry"> {{ entry.id }} </mat-cell>
+        <ng-container matColumnDef="user">
+          <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
+          <mat-cell *matCellDef="let entry"> {{ entry.userName }} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-          <mat-cell *matCellDef="let entry"> {{ entry.name }} </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+          <mat-cell *matCellDef="let entry"> {{ entry.email }} </mat-cell>
         </ng-container>
     
         <ng-container matColumnDef="role">
