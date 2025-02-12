@@ -63,7 +63,7 @@ export class SidebarComponent implements OnInit {
       
     },
     {
-      icon: 'health_and_safety',
+      icon: 'health_and_sazfety',
       label: 'Healthcare',
       submenu: [
         { label: 'Professional', icon: 'list_alt', route: 'doctors/list' }, 

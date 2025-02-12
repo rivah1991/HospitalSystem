@@ -1,27 +1,24 @@
 <mat-toolbar class="mat-elevation-z3">
-  <button mat-icon-button (click)="collapsed.set(!collapsed())">
+  <button mat-icon-button (click)="toggleSidenav()">
     <mat-icon>menu</mat-icon>
   </button>
 
-  <!-- Logout button -->
-  <button mat-button class="logout-button" (click)="logout()">
-  <!--   <mat-icon>Logout</mat-icon> Profil Icon -->
-    Logout
-  </button>
+  <button mat-button class="logout-button" (click)="logout()">Logout</button>
 </mat-toolbar>
 
+<mat-sidenav-container>
+  <mat-sidenav 
+    [opened]="sidenavOpened()" 
+    mode="side" 
+    [style.width]="sidenavwidth()">
+    <app-sidebar [collapsed]="collapsed()"></app-sidebar>
+  </mat-sidenav>
 
-  <mat-sidenav-container>
-    <mat-sidenav opened mode="side" [style.width]="sidenavwidth()">
-      <!-- <app-sidebar /> -->
-      <app-sidebar [collapsed]="collapsed()"/>
-    </mat-sidenav>
-    <mat-sidenav-content class="content" [style.margin-left]="sidenavwidth()">
-      <mat-card>
-        <mat-card-content><router-outlet></router-outlet></mat-card-content>
-      </mat-card>
-     
-      
-    </mat-sidenav-content>
-  </mat-sidenav-container>
- 
+  <mat-sidenav-content [style.margin-left]="(sidenavOpened() && !breakpointObserver.isMatched('(max-width: 430px)')) ? sidenavwidth() : '0'">
+    <mat-card class="content-card">
+      <mat-card-content>
+        <router-outlet></router-outlet>
+      </mat-card-content>
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

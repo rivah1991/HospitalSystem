@@ -8,9 +8,7 @@
 
 .sidenav-header img {
   border-radius: 100%;
-  object-fit: cover;
-  /* width: 65px;
-  height: 65px; */
+  object-fit: cover; 
 }
 
 .header-text h2 {
@@ -31,16 +29,12 @@
 .display-inline {
   display: inline;
 }
-
-/* S'assurer que les icônes et titres sont bien alignés */
 .mat-list-item {
   display: flex;
   align-items: center;
 }
-
-/* Ajuster l'alignement de l'expansion panel */
 .menu-expansion .mat-expansion-panel-header {
   padding: 0;
   padding-right: 10px;
-  /* background-color: red; */
+ 
 }

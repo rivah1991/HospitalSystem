@@ -35,14 +35,41 @@ mat-form-field {
   height: 70px;
 }
 
-/* mat-form-field input {
-  height: 15px;
+mat-form-field input {
+  height: 0px;
   padding: 0px;
   font-size: 14px;
-} */
+}
 
 .mat-form-field.mat-form-field-required .mat-label .mat-required {
   color: red !important;
 }
 
-/* -------------- */
+@media (max-width: 768px) {
+  .row {
+    gap: 10px;
+  }
+
+  .col-3 {
+    flex: 1 1 100%; /* Colonne en pleine largeur */
+  }
+
+  mat-card.form-card {
+    padding: 15px;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  button.btn {
+    width: 100%; 
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+

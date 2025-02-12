@@ -29,26 +29,26 @@ export class LoginComponent {
     this.isSubmitted = true;
     // console.log(this.form.value)
     if(this.form.valid){
-      // this.router.navigateByUrl('/dashboard') //tahiry
+       this.router.navigateByUrl('/dashboard') //tahiry
 
-      this.service.signin(this.form.value).subscribe({
-        next:(res:any)=>{
-          // localStorage.setItem('token', res.token);
-          this.service.setToken(res.token);
-          this.router.navigateByUrl('/dashboard')
+      // this.service.signin(this.form.value).subscribe({
+      //   next:(res:any)=>{
+      //     // localStorage.setItem('token', res.token);
+      //     this.service.setToken(res.token);
+      //     this.router.navigateByUrl('/dashboard')
 
-        },
-        error: (err) => {
-          console.log('Error Response:', err);
+      //   },
+      //   error: (err) => {
+      //     console.log('Error Response:', err);
   
-          // Check the HTTP status and display an appropriate message
-          if (err.status === 401) {
-            this.toastr.error(err.error?.message || 'Invalid credentials', 'Login Error');
-          } else {
-            this.toastr.error('An error occurred. Please try again.', 'Error');
-          }
-        }
-      })
+      //     // Check the HTTP status and display an appropriate message
+      //     if (err.status === 401) {
+      //       this.toastr.error(err.error?.message || 'Invalid credentials', 'Login Error');
+      //     } else {
+      //       this.toastr.error('An error occurred. Please try again.', 'Error');
+      //     }
+      //   }
+      // })
     }
   }
 

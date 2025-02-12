@@ -7,26 +7,25 @@ button.mat-raised-button {
   position: fixed;
 }
 .left-button {
-  left: 890px;
-  margin-top: -90px;
+  margin: 10px auto;
+  display: block; 
+  margin-top: -50px;
+  margin-left: 800px;
 }
-/* Applique un conteneur parent pour fixer la position du champ de recherche */
 div.form-container {
   position: relative;
-  width: 100%; /* Prend toute la largeur disponible */
+  width: 770%;  
 }
 
-/* Fixer le mat-form-field à gauche */
 mat-form-field.custom-form-field {
-  width: 30%; /* Largeur limitée */
+  width: 30%;
   max-width: 200px;
-  position: sticky; /* Reste collé en haut et à gauche */
-  top: 10px; /* Ajuste la distance du haut de la page */
-  right: 0; /* Collé à la gauche de la fenêtre */
-  z-index: 1000; /* S'assure qu'il reste au-dessus des autres éléments */
+  top: 10px;
+  right: 0;
+  z-index: 1000; 
 }
 
-/* Optionnel: si vous voulez définir un fond ou autre pour le champ */
+
 mat-form-field.custom-form-field {
   background-color: white;
 }
@@ -46,103 +45,112 @@ mat-form-field.custom-form-field {
 }
 .custom-header-row,
 .custom-data-row {
-  height: 10px; /* Ajuste cette valeur selon tes besoins */
+  height: 10px; 
 }
 
-.custom-header-row th,
-.custom-data-row td {
-  /* padding: 7px;  */
-  text-align: center;
+.custom-data-row td,
+.custom-header-row th {
+  padding: 10px;
+  line-height: 15px; 
 }
 .custom-cell {
-  height: 5px; /* Ajuste cette valeur selon tes besoins */
-  line-height: 10px; /* Pour un bon alignement du texte */
-  padding: 0; /* Réduit les marges internes */
+  height: 5px;
+  line-height: 10px; 
+  padding: 0; 
 }
-/* Classe pour le genre Male (couleur bleue) */
+
 .male-gender {
   color: blue;
 }
-
-/* Classe pour le genre Female (couleur jaune) */
 .female-gender {
-  color: rgb(255, 162, 0);
-}
-.mat-elevation-z8 {
-  margin: 0; /* Supprime les marges */
-  padding: 0; /* Supprime les paddings */
+  color: rgb(243, 7, 47);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-}
+@media screen and (max-width: 430px) {
+  
+  .main-content {
+    text-align: center;
+  }
 
-::ng-deep .mat-paginator {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-::ng-deep .mat-row,
-::ng-deep .mat-header-row {
-  height: 30px; /* Ajustez selon votre besoin */
-}
+  button.mat-raised-button {
+    background-color: #1976d2;
+    color: white;
+    font-size: 16px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    margin: 20px auto;
+    position: static;
+  }
 
-::ng-deep .mat-cell,
-::ng-deep .mat-header-cell {
-  padding: 4px 8px; /* Réduit les marges internes */
-  line-height: 1.2;
-  font-size: 14px; /* Optionnel : ajuster la taille du texte */
-}
-::ng-deep .mat-tooltip {
-  background-color: #333;
-  color: white;
-  font-size: 12px;
-}
-button mat-icon {
-  font-size: 18px; /* Ajuste la taille de l'icône */
-}
+  .left-button {
+    margin: 0 auto;
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+  }
 
-/* --- */
-.top-bar {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-}
+  div.form-container {
+    width: 100%;
+    margin: 0 auto;
+  }
 
-.top-bar button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+  mat-form-field.custom-form-field {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
 
-/* Wider and centered columns */
-.mat-column-fullName,
-.mat-column-mobile,
-.mat-column-email,
-.mat-column-city {
-  width: 200px; /* Set a larger width for these columns */
-  text-align: center; /* Center the text in these columns */
-}
+  .table-container {
+    overflow-x: auto;
+  }
 
-/* Smaller Action columns */
-.mat-column-actions {
-  width: 200px; /* Reduce the width of the Action column */
-  text-align: center; /* Center the action icons */
-}
+  .custom-header,
+  .custom-cell {
+    padding: 5px;
+    font-size: 12px;
+  }
 
-/* Optional: to improve spacing and readability */
-table.mat-elevation-z8 {
-  width: 100%; /* Ensure the table takes up the full available width */
-  border-collapse: collapse;
-}
+  .custom-header-row,
+  .custom-data-row {
+    height: auto;
+  }
 
-/* Adjust the width of other columns to prevent them from taking up too much space */
-.mat-column-id,
-.mat-column-age,
-.mat-column-gender,
-.mat-column-bloodGroup {
-  width: 100px; /* Adjust the width of these columns as needed */
+  .mat-paginator {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  button.mat-raised-button {
+    font-size: 20px;
+    padding: 8px 16px;
+    width: auto;
+  }
+
+  .left-button {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  div.form-container {
+    max-width: 90%;
+  }
+
+  mat-form-field.custom-form-field {
+    max-width: 90%;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .custom-header,
+  .custom-cell {
+    font-size: 14px;
+    padding: 6px;
+  }
 }
