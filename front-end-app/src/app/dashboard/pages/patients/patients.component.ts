@@ -14,6 +14,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../../shared/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AssignDoctorComponent } from '../doctors/assign/assign-doctor.component';
 
 export interface Patient {
   id: number;
@@ -50,6 +52,7 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private userService: UserService,
     private toastr: ToastrService, 
+    public dialog: MatDialog
   
   ) {}
 
@@ -181,8 +184,19 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
- 
-
+  assignPatient(id: number): void {
+    const dialogRef = this.dialog.open(AssignDoctorComponent, {
+      width: '200px',
+      data: { patientId: id }  // Passe l'ID du patient au modal
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Traiter le résultat si nécessaire (par exemple afficher un message de succès)
+        this.toastr.success('Doctor assigned to patient', 'Successful');
+      }
+    });
+  }
   
 
   

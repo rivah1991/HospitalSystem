@@ -63,18 +63,6 @@ export class AddRecommandationsComponent implements OnInit{
     });
   }
 
-  // submitForm() {
-  //   if (this.recommendationForm.valid) {
-  //     console.log('Recommendation submitted:', this.recommendationForm.value);
-  //     this.snackBar.open('Recommendation added successfully!', 'Close', { duration: 3000 });
-  //     this.router.navigate(['/dashboard/patients/recommendations']);
-
-  //     this.recommendationForm.reset();
-  //     this.dialogRef.close();  // Ferme le modal après la soumission
-  //   } else {
-  //     this.snackBar.open('Please fill in all required fields', 'Close', { duration: 3000 });
-  //   }
-  // }
 
   submitForm() {
     if (this.recommendationForm.valid) {

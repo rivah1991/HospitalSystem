@@ -1,54 +1,90 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { UserService } from '../../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-assign-doctor',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [
+    MatCardModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    FormsModule,
+    MatSelectModule, 
+    MatButtonModule, 
+    MatSnackBarModule, 
+    ReactiveFormsModule
+  ],
   templateUrl: './assign-doctor.component.html',
-  styleUrl: './assign-doctor.component.css'
+  styleUrls: ['./assign-doctor.component.css']
 })
-export class AssignDoctorComponent {
+export class AssignDoctorComponent implements OnInit {
 
-  patientId?: number;
-  doctorId?: string;
+  recommendationForm: FormGroup; // FormGroup pour gérer le formulaire
   message: string = '';
-
+  patientId!: number;
+  
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-  ) { }
+    private fb: FormBuilder, // FormBuilder pour créer des formulaires réactifs
+    public dialogRef: MatDialogRef<AssignDoctorComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    // Initialisation du formulaire
+    this.recommendationForm = this.fb.group({
+      patientId: [{ value: this.data.patientId, disabled: true }, Validators.required],
+      doctorId: ['', Validators.required]
+    });
+  }
+
+  ngOnInit() {
+    if (this.data && this.data.patientId) {
+      this.patientId = this.data.patientId;  // Assigning the patientId passed from parent
+    }
+
+    console.log('id patient', this.patientId)
+
+  }
 
   assignDoctor(): void {
-    if (!this.patientId || !this.doctorId) {
-      this.message = "Veuillez renseigner les informations du patient et du médecin.";
+    if (this.recommendationForm.invalid) {
+      this.message = 'Veuillez renseigner les informations du patient et du médecin.';
       return;
     }
 
-    this.userService.assignDoctor(this.patientId, this.doctorId).subscribe({
+    const { patientId, doctorId } = this.recommendationForm.value;
+
+    this.userService.assignDoctor(this.patientId, doctorId).subscribe({
+      
       next: (response) => {
-        // Si la réponse est OK (200), le message de succès est renvoyé
-        console.log('assign response', response);
+        console.log('patientId', this.patientId);
         this.toastr.success(response.message || 'Le médecin a été assigné avec succès au patient.', 'Assign Successful');
+        this.dialogRef.close(); // Ferme le modal après succès
       },
       error: (error) => {
-        // Gérer les erreurs basées sur le code de statut
         if (error.status === 400) {
-          // Par exemple, une mauvaise requête (BadRequest)
           this.toastr.error(error.error, 'Assign Failed');
         } else if (error.status === 404) {
-          // Par exemple, non trouvé (NotFound)
           this.toastr.error(error.error, 'Assign Failed');
         } else {
-          // Gestion générale des erreurs
           this.toastr.error(error.message || 'Une erreur est survenue.', 'Assign Failed');
         }
       }
     });
-    
   }
 
+  close(): void {
+    this.dialogRef.close(); // Ferme le modal sans faire d'action
+  }
 }

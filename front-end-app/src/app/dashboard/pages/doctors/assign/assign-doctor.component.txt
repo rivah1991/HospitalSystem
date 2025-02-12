@@ -1,0 +1,33 @@
+<div class="assign-doctor-container">
+    <div class="card assign-card">
+      <div class="card-header text-left">
+        <h2 class="mt-2">Assign a doctor to a patient</h2>
+      </div>
+      <div class="card-body">
+        <div class="form-group mb-4">
+          <label for="patientId" class="form-label">
+            <i class="fas fa-user-injured"></i> Patient ID :
+          </label>
+          <input type="number" id="patientId" [(ngModel)]="patientId" class="form-control" placeholder="Entrez l'ID du patient">
+        </div>
+  
+        <div class="form-group mb-4">
+          <label for="doctorId" class="form-label">
+            <i class="fas fa-user-md"></i> Doctor ID :
+          </label>
+          <input type="text" id="doctorId" [(ngModel)]="doctorId" class="form-control" placeholder="Entrez l'ID du médecin">
+        </div>
+  
+        <div class="text-center">
+          <button (click)="assignDoctor()" class="btn btn-primary w-100">
+            <i class="fas fa-user-check"></i> Assign
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- <div *ngIf="message" class="alert alert-info mt-4 text-center">
+      {{ message }}
+    </div> -->
+  </div>
+  

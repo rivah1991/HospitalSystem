@@ -144,9 +144,29 @@ button mat-icon {
   text-align: center;
 }
 
-.mat-column-actions {
+/* .mat-column-actions {
   width: 200px;
   text-align: center;
+} */
+
+button.mat-icon-button {
+  font-size: 10px; /* Réduit la taille des icônes */
+  padding: 6px; /* Réduit le padding pour que les boutons soient plus petits */
+  margin: 0; /* Élimine l'espacement par défaut autour des boutons */
+}
+
+/* Container des actions */
+.mat-column-actions {
+  width: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Aligne les boutons au centre */
+  gap: 5px; /* Réduit l'espacement entre les boutons */
+}
+
+/* Réduction de l'espacement entre les boutons dans la cellule */
+td.mat-cell {
+  padding: 0;
 }
 
 /* Colonnes plus petites */

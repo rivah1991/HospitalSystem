@@ -41,7 +41,7 @@ export const routes: Routes = [
             { path: 'patients/addrecommendation', component: AddRecommandationsComponent }, 
             { path: 'patients/recommendations/:id', component: RecommandationsComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
-            { path: 'doctors/assign', component: AssignDoctorComponent },
+            { path: 'doctors/assign/:id', component: AssignDoctorComponent },
             { path: 'admin', component: AdminComponent } ,
             { path: 'admin/audit', component:  AuditlogsComponent} 
         ]

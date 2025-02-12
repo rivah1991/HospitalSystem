@@ -173,7 +173,7 @@ namespace HospitalAPI.Controllers
         }
 
         [HttpPost("assign-doctor")]
-        // [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignDoctor([FromBody] PatientDoctorAssignmentDto assignmentDto)
         {
             if (assignmentDto == null)
