@@ -53,6 +53,7 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
   
   ) {}
 
+  isAdmin: boolean = false;
   displayedColumns: string[] = [
     'id',
     'fullName',
@@ -81,6 +82,7 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     const userRole = this.userService.getUserRole();
     console.log('userole', userRole)
+    this.isAdmin = userRole === 'Admin';
     this.fetchPatients();
   }
 

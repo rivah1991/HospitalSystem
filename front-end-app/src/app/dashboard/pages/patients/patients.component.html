@@ -71,7 +71,11 @@
         </button>
     
      
-        <button mat-icon-button color="warn" (click)="deletePatient(element.id)" matTooltip="Delete">
+        <!-- <button mat-icon-button color="warn" (click)="deletePatient(element.id)" matTooltip="Delete">
+          <mat-icon>delete</mat-icon>
+        </button> -->
+
+        <button *ngIf="isAdmin" mat-icon-button color="warn" (click)="deletePatient(element.id)" matTooltip="Delete">
           <mat-icon>delete</mat-icon>
         </button>
     

@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   currentUser: any;
-
+  isAdmin: boolean = false;
   sideNavCollapsed = signal(false);
   @Input() set collapsed(val: boolean){
     this.sideNavCollapsed.set(val);
@@ -85,6 +85,7 @@ ngOnInit(): void {
   this.userService.getCurrentUser().subscribe({
     next: (data) => {
       this.currentUser = data; // Assurez-vous que `data` contient le `username`
+      this.isAdmin = this.currentUser?.role === 'Admin';
     },
     error: (error) => {
       console.error('Error fetching user data', error);

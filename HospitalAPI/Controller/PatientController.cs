@@ -53,6 +53,7 @@ namespace HospitalAPI.Controller
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetPatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
@@ -140,7 +141,7 @@ namespace HospitalAPI.Controller
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
