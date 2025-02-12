@@ -1,35 +1,27 @@
-<div class="content">
-  <mat-card class="form-card">
-    <mat-card-title>Assign a doctor to a patient</mat-card-title>
-    <br/><br/>
-    <mat-card-content>
-      <form [formGroup]="recommendationForm" (ngSubmit)="assignDoctor()">
-        
-        <!-- Patient ID -->
-        <div>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Patient ID</mat-label>
-            <input matInput formControlName="patientId" type="number" readonly>
-          </mat-form-field>
-        </div>
-        
-        <div>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Doctor ID</mat-label>
-            <input matInput formControlName="doctorId" type="text" required>
-          </mat-form-field>
-        </div>
-        
+<form [formGroup]="recommendationForm" (ngSubmit)="assignDoctor()">
+  <!-- Patient ID -->
+  <div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Patient ID</mat-label>
+      <input matInput formControlName="patientId" type="number" readonly>
+    </mat-form-field>
+  </div>
 
-        <!-- Action buttons -->
-        <div class="row justify-content-end mt-5">
-          <!-- <button mat-raised-button color="warn" class="btn" (click)="close()">Cancel</button> -->
-          <button mat-raised-button color="warn" class="btn" type="button" (click)="close()">Cancel</button>
+  <!-- Doctor Select -->
+  <div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Doctor</mat-label>
+      <mat-select formControlName="doctorId" required>
+        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+          {{ doctor.fullName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-          <button mat-raised-button color="primary" class="btn" type="submit" [disabled]="recommendationForm.invalid">Assign</button>
-        </div>
-
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+  <!-- Action buttons -->
+  <div class="row justify-content-end mt-5">
+    <button mat-raised-button color="warn" class="btn" (click)="close()">Cancel</button>
+    <button mat-raised-button color="primary" class="btn" type="submit" [disabled]="recommendationForm.invalid">Assign</button>
+  </div>
+</form>
