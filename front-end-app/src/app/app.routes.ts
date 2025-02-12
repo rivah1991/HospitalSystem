@@ -31,7 +31,7 @@ export const routes: Routes = [
     {
         path: 'dashboard', 
         component: DashboardComponent,
-        // canActivate: [authGuard],
+        canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'patients', pathMatch: 'full' },  
             { path: 'patients/list', component: PatientsComponent }, 
