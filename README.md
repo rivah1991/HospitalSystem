@@ -14,6 +14,7 @@ The SQL Server connection string can be found in the appsettings.json file in th
 "ConnectionStrings": {
   "HospitalConnection": "Server=localhost,1433;Database=HospitalDB;User Id=sa;Password=Naivo@1991;TrustServerCertificate=True;"
 }
+
 Make sure that the SQL Server is running and accessible via port 1433 (the default port in Docker). If you are using a different password or database, modify the corresponding values in this connection string.
 
 3. Start SQL Server using Docker

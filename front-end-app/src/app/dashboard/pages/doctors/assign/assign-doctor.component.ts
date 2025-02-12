@@ -60,7 +60,7 @@ export class AssignDoctorComponent implements OnInit {
   assignDoctor(): void {
     
     if (this.recommendationForm.invalid) {
-      this.message = 'Veuillez renseigner les informations du patient et du médecin.';
+      this.message = 'Please enter patient and medical information.';
       return;
     }
 
@@ -70,7 +70,7 @@ export class AssignDoctorComponent implements OnInit {
       
       next: (response) => {
         console.log('patientId', this.patientId);
-        this.toastr.success(response.message || 'Le médecin a été assigné avec succès au patient.', 'Assign Successful');
+        this.toastr.success(response.message || 'The doctor has been successfully assigned to the patient.', 'Assign Successful');
         this.dialogRef.close(); // Ferme le modal après succès
       },
       error: (error) => {
@@ -79,13 +79,13 @@ export class AssignDoctorComponent implements OnInit {
         } else if (error.status === 404) {
           this.toastr.error(error.error, 'Assign Failed');
         } else {
-          this.toastr.error(error.message || 'Une erreur est survenue.', 'Assign Failed');
+          this.toastr.error(error.message || 'An error has occurred.', 'Assign Failed');
         }
       }
     });
   }
 
   close(): void {
-    this.dialogRef.close(); // Ferme le modal sans faire d'action
+    this.dialogRef.close(); 
   }
 }
