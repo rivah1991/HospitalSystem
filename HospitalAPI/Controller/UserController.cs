@@ -1,7 +1,10 @@
 using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
+using HospitalAPI.Data;
 using HospitalAPI.Dtos;
+using HospitalAPI.Dtos.Patient;
 using HospitalAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,16 +21,22 @@ namespace HospitalAPI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _environment;
+        private readonly IMapper _mapper;
 
-        public UserController(UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+
+        private readonly ApplicationDbContext _context;
+        public UserController(IMapper mapper, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _environment = environment;
+            _context = context;
+            _mapper = mapper;
+
         }
 
-        // PUT: api/user/update-profile
+
         [HttpPut("update-profile")]
-        [Authorize]  // Protéger cette route
+        [Authorize]
         public async Task<IActionResult> UpdateUserProfile([FromBody] UpdateUserProfileDto model)
         {
             if (model == null || string.IsNullOrEmpty(model.UserId))
@@ -47,9 +56,6 @@ namespace HospitalAPI.Controllers
             user.Qualification = model.Qualification ?? user.Qualification;
             user.Email = model.Email ?? user.Email;
 
-            // N'essayez pas de modifier le username (ce champ ne doit pas être modifiable)
-            // user.UserName = model.UserName ?? user.UserName; // Cette ligne est enlevée
-
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
@@ -60,8 +66,9 @@ namespace HospitalAPI.Controllers
             return Ok(new { message = "Profile updated successfully." });
         }
 
+
         [HttpGet("profiles")]
-        [Authorize] // Cette route est protégée par l'autorisation
+        [Authorize]
         public async Task<IActionResult> GetUserProfiles()
         {
             // Récupérer tous les utilisateurs de manière asynchrone
@@ -85,10 +92,37 @@ namespace HospitalAPI.Controllers
             return Ok(userProfiles);
         }
 
-        // GET: api/user/current-user
+        [HttpGet("user/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> GetPatientByUser(string userId)
+        {
+            // Vérifiez si l'utilisateur existe
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new { message = "Utilisateur introuvable." });
+            }
+
+            // Récupérez les patients associés à cet utilisateur
+            var patients = await _context.Patients
+                                        .Where(p => p.UserId == userId)
+                                        .ToListAsync();
+
+            if (patients == null || !patients.Any())
+            {
+                return NotFound(new { message = "Aucun patient trouvé pour cet utilisateur." });
+            }
+
+            // Utilisation de AutoMapper pour transformer les données en DTOs
+            var patientDtos = _mapper.Map<List<PatientDto>>(patients);
+
+            return Ok(patientDtos);
+        }
+
+
         [HttpGet("current-user")]
         [Authorize]
-        public IActionResult GetCurrentUser()
+        public async Task<IActionResult> GetCurrentUser()
         {
             if (!User.Identity?.IsAuthenticated ?? false) // Vérifie si Identity ou IsAuthenticated est null
             {
@@ -96,9 +130,20 @@ namespace HospitalAPI.Controllers
             }
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            // Récupérer l'utilisateur à partir de l'ID
+            var user = await _userManager.FindByIdAsync(userId!);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found." });
+            }
+
+            // Récupération des informations nécessaires
+            var username = user.UserName;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = user.Email;
+            var specialty = user.Specialty;
+            var qualification = user.Qualification;
 
             return Ok(new
             {
@@ -106,7 +151,10 @@ namespace HospitalAPI.Controllers
                 Username = username,
                 Role = role,
                 Email = email,
+                Specialty = specialty,
+                Qualification = qualification
             });
         }
+
     }
 }

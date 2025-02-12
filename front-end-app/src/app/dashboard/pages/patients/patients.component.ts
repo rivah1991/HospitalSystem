@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../../../shared/services/user.service';
 
 export interface Patient {
   id: number;
@@ -47,6 +48,7 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private userService: UserService,
     private toastr: ToastrService, 
   
   ) {}
@@ -76,14 +78,9 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  // ngOnInit() {
-  //   // Initialisation du filtre si nécessaire
-  //   this.dataSource.filterPredicate = (data: Patient, filter: string) => {
-     
-  //     return data.firstName.toLowerCase().includes(filter) || data.lastName.toLowerCase().includes(filter);
-  //   };
-  // }
   ngOnInit(): void {
+    const userRole = this.userService.getUserRole();
+    console.log('userole', userRole)
     this.fetchPatients();
   }
 
@@ -92,16 +89,47 @@ export class PatientsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
+  // fetchPatients(): void {
+  //   this.subscription = this.authService.getPatientData().subscribe(
+  //     (patients: Patient[]) => {
+  //       this.dataSource.data = patients;
+  //     },
+  //     (error) => {
+  //       console.error("Erreur lors de la récupération des patients :", error);
+  //     }
+  //   );
+  // }
+
   fetchPatients(): void {
-    this.subscription = this.authService.getPatientData().subscribe(
-      (patients: Patient[]) => {
-        this.dataSource.data = patients;
-      },
-      (error) => {
-        console.error("Erreur lors de la récupération des patients :", error);
-      }
-    );
+    const userRole = this.userService.getUserRole();
+    const userId = this.userService.getUserId();
+    console.log('userId', userId);
+  
+    if (userId && userRole === 'Professional') {
+      // Utilise userId directement sans conversion en number
+      this.subscription = this.userService.getPatientByUser(userId).subscribe(
+        (patients: Patient[]) => {
+          this.dataSource.data = patients;
+        },
+        (error) => {
+          console.error("Erreur lors de la récupération des patients pour l'utilisateur :", error);
+        }
+      );
+    } else if (userRole === 'Admin') {
+      this.subscription = this.authService.getPatientData().subscribe(
+        (patients: Patient[]) => {
+          this.dataSource.data = patients;
+        },
+        (error) => {
+          console.error("Erreur lors de la récupération des patients :", error);
+        }
+      );
+    } else {
+      console.error("Rôle utilisateur non reconnu :", userRole);
+    }
   }
+  
+  
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();

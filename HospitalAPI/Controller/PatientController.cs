@@ -44,8 +44,7 @@ namespace HospitalAPI.Controller
             var userId = User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
             return userId;
         }
-        // [Authorize]
-        // [Authorize(Roles = "User")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetPatients()
         {
@@ -54,7 +53,6 @@ namespace HospitalAPI.Controller
         }
 
         [HttpGet("{id}")]
-        // public async Task<IActionResult> GetPatient(int id)
         public async Task<IActionResult> GetPatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
@@ -68,9 +66,9 @@ namespace HospitalAPI.Controller
         private string GetUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
-            // return User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
-
         }
+
+
 
 
         private string GetUserName()
@@ -158,8 +156,8 @@ namespace HospitalAPI.Controller
         private async Task LogAuditAsync(string actionType, string entityType, string entityId, string description)
         {
             var userIdString = GetCurrentUserId(); // Récupère l'ID de l'utilisateur
-            Console.WriteLine($"User ID from JWT: {userIdString}");
-            Console.WriteLine($"Entity ID: {entityId}");
+            // Console.WriteLine($"User ID from JWT: {userIdString}");
+            // Console.WriteLine($"Entity ID: {entityId}");
 
             // Si vous comparez ces IDs, ajoutez un log supplémentaire :
             if (userIdString != entityId)

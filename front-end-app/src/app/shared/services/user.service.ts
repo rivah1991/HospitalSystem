@@ -58,4 +58,33 @@ export class UserService {
     const headers = this.getAuthHeaders();
     return this.http.get(`${this.baseUrl}/api/User/current-user`, { headers });
   }
+
+  
+  getPatientByUser(userId: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    // Correction de l'URL en utilisant la bonne syntaxe d'interpolation
+    return this.http.get(`${this.baseUrl}/api/User/user/${userId}`, { headers });
+  }
+  
+
+  getUserRole(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      // Utilisation de la clé correcte pour le rôle
+      return payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || null;
+    }
+    return null;
+  }
+  
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] || null;
+    }
+    return null;
+  }
+  
+
 }

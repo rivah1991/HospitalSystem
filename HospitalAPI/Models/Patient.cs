@@ -63,10 +63,6 @@ namespace HospitalAPI.Models
 
         public required string UserId { get; set; }
 
-        // Navigation property pour l'utilisateur (assurez-vous que le modèle User existe)
-        // public required ApplicationUser User { get; set; }
-
-
         // Relation One-to-Many avec les recommandations
         public ICollection<Recommendation> Recommendations { get; set; } = new List<Recommendation>();
 

@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile-modal',
@@ -42,13 +43,14 @@ export class ProfileModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ProfileModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
       next: (data) => {
+        console.log(data)
         this.currentUser = data;
         // Initialisation des données utilisateur
         this.specialty = this.currentUser?.specialty || '';
@@ -78,6 +80,8 @@ export class ProfileModalComponent implements OnInit {
     this.userService.updateProfile(updatedData).subscribe(
       response => {
         console.log('Profile updated successfully');
+        this.toastr.success('Profil mis à jour avec succès!', 'Profil');
+        this.dialogRef.close();
       },
       error => {
         console.error('Error updating profile', error);
@@ -99,7 +103,7 @@ export class ProfileModalComponent implements OnInit {
     this.userService.updateProfile(updatedUser).subscribe({
       next: (response) => {
         console.log('Profil mis à jour avec succès');
-        this.dialogRef.close();
+      
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour du profil', error);

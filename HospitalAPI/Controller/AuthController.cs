@@ -237,7 +237,9 @@ namespace HospitalAPI.Controller
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim(ClaimTypes.Email, user.Email!),
-            new Claim("IsApproved", user.IsApproved.ToString())
+            new Claim("IsApproved", user.IsApproved.ToString()),
+            // new Claim("Specialty", user.Specialty!.ToString()),
+            // new Claim("Qualification", user.Qualification!.ToString()),
         };
 
             // 🔥 Récupérer les rôles de l'utilisateur et les ajouter au token
@@ -294,25 +296,6 @@ namespace HospitalAPI.Controller
             return BadRequest(result.Errors);
 
         }
-
-        // [HttpGet("current-user")]
-        // [Authorize] // Seuls les utilisateurs authentifiés peuvent accéder à cette méthode
-        // public IActionResult GetCurrentUser()
-        // {
-        //     var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //     var username = User.FindFirst(ClaimTypes.Name)?.Value;
-        //     var role = User.FindFirst(ClaimTypes.Role)?.Value;
-        //     var email = User.FindFirst(ClaimTypes.Email)?.Value; // Récupérer l'email
-        //     // var isApproved = User.FindFirst("IsApproved")?.Value == "True";
-
-        //     return Ok(new
-        //     {
-        //         UserId = userId,
-        //         Username = username,
-        //         Role = role,
-        //         Email = email,
-        //     });
-        // }
 
     }
 }
