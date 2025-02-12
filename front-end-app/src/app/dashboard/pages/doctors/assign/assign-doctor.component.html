@@ -23,7 +23,9 @@
 
         <!-- Action buttons -->
         <div class="row justify-content-end mt-5">
-          <button mat-raised-button color="warn" class="btn" (click)="close()">Cancel</button>
+          <!-- <button mat-raised-button color="warn" class="btn" (click)="close()">Cancel</button> -->
+          <button mat-raised-button color="warn" class="btn" type="button" (click)="close()">Cancel</button>
+
           <button mat-raised-button color="primary" class="btn" type="submit" [disabled]="recommendationForm.invalid">Assign</button>
         </div>
 

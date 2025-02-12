@@ -58,6 +58,7 @@ export class AssignDoctorComponent implements OnInit {
   }
 
   assignDoctor(): void {
+    
     if (this.recommendationForm.invalid) {
       this.message = 'Veuillez renseigner les informations du patient et du médecin.';
       return;
