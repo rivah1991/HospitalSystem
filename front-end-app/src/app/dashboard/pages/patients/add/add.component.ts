@@ -84,7 +84,11 @@ export class AddPatientComponent implements OnInit {
       lastName: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0)]],
       email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      // mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      mobile: ['', [Validators.required, Validators.pattern('^\\(\\d{3}\\) \\d{3}-\\d{4}$')]],
+//       (123) 456-7890
+// (987) 654-3210
+// (555) 123-4567
       maritalStatus: [''],
       occupation: [''],
       bloodGroup: [''],
