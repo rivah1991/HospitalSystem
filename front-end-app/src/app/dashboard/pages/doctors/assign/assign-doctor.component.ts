@@ -30,15 +30,25 @@ export class AssignDoctorComponent {
 
     this.userService.assignDoctor(this.patientId, this.doctorId).subscribe({
       next: (response) => {
-        console.log('assign response', response)
-        this.toastr.success('The doctor has been successfully assigned to the patient!', 'Assign Successful');
-        
+        // Si la réponse est OK (200), le message de succès est renvoyé
+        console.log('assign response', response);
+        this.toastr.success(response.message || 'Le médecin a été assigné avec succès au patient.', 'Assign Successful');
       },
       error: (error) => {
-        this.message = error.message || 'Une erreur est survenue.';
-        this.toastr.error('Error assign patient.', 'Assign Failed');
+        // Gérer les erreurs basées sur le code de statut
+        if (error.status === 400) {
+          // Par exemple, une mauvaise requête (BadRequest)
+          this.toastr.error(error.error, 'Assign Failed');
+        } else if (error.status === 404) {
+          // Par exemple, non trouvé (NotFound)
+          this.toastr.error(error.error, 'Assign Failed');
+        } else {
+          // Gestion générale des erreurs
+          this.toastr.error(error.message || 'Une erreur est survenue.', 'Assign Failed');
+        }
       }
     });
+    
   }
 
 }

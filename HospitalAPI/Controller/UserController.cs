@@ -105,10 +105,21 @@ namespace HospitalAPI.Controllers
                 return NotFound(new { message = "Utilisateur introuvable." });
             }
 
-            // Récupérez les patients associés à cet utilisateur
+            // Récupérez les associations entre patients et médecins
+            var patientAssignments = await _context.PatientDoctorAssignments
+                .Where(a => a.UserId == userId)
+                .ToListAsync();
+
+            if (patientAssignments == null || !patientAssignments.Any())
+            {
+                return NotFound(new { message = "Aucun patient trouvé pour cet utilisateur." });
+            }
+
+            // Récupérez les patients associés
+            var patientIds = patientAssignments.Select(a => a.PatientId).ToList();
             var patients = await _context.Patients
-                                        .Where(p => p.UserId == userId)
-                                        .ToListAsync();
+                .Where(p => patientIds.Contains(p.Id))
+                .ToListAsync();
 
             if (patients == null || !patients.Any())
             {
@@ -120,6 +131,7 @@ namespace HospitalAPI.Controllers
 
             return Ok(patientDtos);
         }
+
 
 
         [HttpGet("current-user")]
@@ -166,14 +178,14 @@ namespace HospitalAPI.Controllers
         {
             if (assignmentDto == null)
             {
-                return BadRequest("Données manquantes.");
+                return BadRequest("Missing data.");
             }
 
             // Vérifier si le médecin existe
             var doctor = await _userManager.FindByIdAsync(assignmentDto.UserId!);
             if (doctor == null)
             {
-                return NotFound("Le médecin spécifié n'existe pas.");
+                return NotFound("The specified doctor does not exist.");
             }
 
             // Vérifier si le patient existe
@@ -181,7 +193,7 @@ namespace HospitalAPI.Controllers
                 .FirstOrDefaultAsync(p => p.Id == assignmentDto.PatientId);
             if (patient == null)
             {
-                return NotFound("Le patient spécifié n'existe pas.");
+                return NotFound("The specified patient does not exist.");
             }
 
             // Vérifier si le patient est déjà assigné à un médecin
@@ -189,7 +201,7 @@ namespace HospitalAPI.Controllers
                 .FirstOrDefaultAsync(a => a.PatientId == assignmentDto.PatientId);
             if (existingAssignment != null)
             {
-                return BadRequest("Le patient est déjà assigné à un médecin.");
+                return BadRequest("The patient is already assigned to a doctor. ");
             }
 
             // Créer une nouvelle affectation
@@ -205,7 +217,7 @@ namespace HospitalAPI.Controllers
             // Sauvegarder les changements dans la base de données
             await _context.SaveChangesAsync();
 
-            return Ok("Le médecin a été assigné avec succès au patient.");
+            return Ok(new { message = "The doctor has been successfully assigned to the patient." });
         }
 
 
