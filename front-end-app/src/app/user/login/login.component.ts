@@ -35,7 +35,7 @@ export class LoginComponent {
         next:(res:any)=>{
           // localStorage.setItem('token', res.token);
           this.service.setToken(res.token);
-          this.router.navigateByUrl('/dashboard')
+          this.router.navigateByUrl('/dashboard/patients/list')
 
         },
         error: (err) => {
