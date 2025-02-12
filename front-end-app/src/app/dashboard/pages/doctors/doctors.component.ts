@@ -29,7 +29,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // Colonnes affichées dans le tableau
-  displayedColumns: string[] = ['id', 'userName', 'email', 'specialty', 'qualification'];
+  displayedColumns: string[] = ['id',  'email', 'specialty', 'qualification'];
 
   constructor(
     private router: Router,

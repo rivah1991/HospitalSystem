@@ -30,13 +30,22 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>FullName</mat-label>
+    <input matInput [(ngModel)]="fullName" placeholder="Enter your email" [value]="currentUser?.fullName">
+  </mat-form-field>
+
+  
   <!-- Email -->
   <div class="form-container">
+    
     <mat-form-field>
       <mat-label>Email</mat-label>
       <input matInput [(ngModel)]="email" placeholder="Enter your email" [value]="currentUser?.email">
     </mat-form-field>
   </div>
+
+  
 </div>
 
 <!-- Buttons -->

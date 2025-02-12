@@ -13,5 +13,7 @@ namespace HospitalAPI.Models
         public string? Specialty { get; set; }
         public string? Qualification { get; set; }
 
+        public string? FullName { get; set; }
+
     }
 }

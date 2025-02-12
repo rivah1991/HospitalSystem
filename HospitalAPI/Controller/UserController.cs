@@ -54,6 +54,7 @@ namespace HospitalAPI.Controllers
             // Mise à jour des informations du profil, sans toucher au username
             user.Specialty = model.Specialty ?? user.Specialty;
             user.Qualification = model.Qualification ?? user.Qualification;
+            user.FullName = model.FullName ?? user.FullName;
             user.Email = model.Email ?? user.Email;
 
             var result = await _userManager.UpdateAsync(user);
@@ -86,7 +87,8 @@ namespace HospitalAPI.Controllers
                 user.UserName,
                 user.Email,
                 user.Specialty,
-                user.Qualification
+                user.Qualification,
+                user.FullName
             }).ToList();
 
             return Ok(userProfiles);
@@ -144,6 +146,7 @@ namespace HospitalAPI.Controllers
             var email = user.Email;
             var specialty = user.Specialty;
             var qualification = user.Qualification;
+            var fullName = user.FullName;
 
             return Ok(new
             {
@@ -152,7 +155,8 @@ namespace HospitalAPI.Controllers
                 Role = role,
                 Email = email,
                 Specialty = specialty,
-                Qualification = qualification
+                Qualification = qualification,
+                FullName = fullName
             });
         }
 

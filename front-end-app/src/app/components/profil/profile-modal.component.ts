@@ -36,6 +36,7 @@ export class ProfileModalComponent implements OnInit {
   email: string = ''; 
   specialty: string = '';
   qualification: string = '';
+  fullName: string = '';
   experience: string = '';
   licenseNumber: string = '';
   emergencyContact: string = '';
@@ -55,6 +56,7 @@ export class ProfileModalComponent implements OnInit {
         // Initialisation des données utilisateur
         this.specialty = this.currentUser?.specialty || '';
         this.qualification = this.currentUser?.qualification || '';
+        this.fullName = this.currentUser?.fullName || '';
         this.experience = this.currentUser?.experience || '';
         this.licenseNumber = this.currentUser?.licenseNumber || '';
         this.emergencyContact = this.currentUser?.emergencyContact || '';
@@ -74,6 +76,7 @@ export class ProfileModalComponent implements OnInit {
       userId: this.currentUser?.userId,
       specialty: this.specialty,
       qualification: this.qualification,
+      fullName: this.fullName,
       email: this.email
     };
   
@@ -95,7 +98,8 @@ export class ProfileModalComponent implements OnInit {
     const updatedUser = {
       userId: this.currentUser?.id,  // userId au lieu de UserId
       specialty: this.specialty,
-      qualification: this.qualification
+      qualification: this.qualification,
+      fullName: this.fullName,
     };
 
     console.log('User data to update:', updatedUser);
