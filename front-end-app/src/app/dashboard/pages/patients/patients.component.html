@@ -9,7 +9,7 @@
     <input matInput (input)="applyFilter($event)" placeholder="Enter patient name" />
   </mat-form-field>
 </div>
-
+<div class="table-container">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   
@@ -96,6 +96,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="custom-data-row"></tr>
     
   </table>
+</div>
   
   <mat-paginator 
   [length]="100" 

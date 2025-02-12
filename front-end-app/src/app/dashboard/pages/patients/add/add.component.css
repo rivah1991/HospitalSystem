@@ -36,7 +36,7 @@ mat-form-field {
 }
 
 mat-form-field input {
-  height: 0px;
+  height: 30px;
   padding: 0px;
   font-size: 14px;
 }
@@ -65,11 +65,10 @@ mat-form-field input {
   }
 
   button.btn {
-    width: 100%; 
+    width: 100%;
   }
 
   mat-form-field {
     width: 100%;
   }
 }
-
