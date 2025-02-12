@@ -36,6 +36,7 @@ ng g c components/profil --skip-tests
 page sous dashboard
 
 ng g c  dashboard/pages/doctors --skip-tests
+ng g c  dashboard/pages/doctors/assignDoctor --skip-tests
 ng g c  dashboard/pages/patients --skip-tests
 ng g c  dashboard/pages/patients/add-recommandations --skip-tests
 

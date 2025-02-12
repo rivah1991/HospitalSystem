@@ -13,6 +13,7 @@ import { AddRecommandationsComponent } from './dashboard/pages/patients/add-reco
 import { RecommandationsComponent } from './dashboard/pages/patients/recommandations/recommandations.component';
 import { DetailPatientComponent } from './dashboard/pages/patients/detail/detail.component';
 import { authGuard } from './auth.guard';
+import { AssignDoctorComponent } from './dashboard/pages/doctors/assign/assign-doctor.component';
 
 export const routes: Routes = [
     { 
@@ -40,6 +41,7 @@ export const routes: Routes = [
             { path: 'patients/addrecommendation', component: AddRecommandationsComponent }, 
             { path: 'patients/recommendations/:id', component: RecommandationsComponent }, 
             { path: 'doctors/list', component: DoctorsComponent },
+            { path: 'doctors/assign', component: AssignDoctorComponent },
             { path: 'admin', component: AdminComponent } ,
             { path: 'admin/audit', component:  AuditlogsComponent} 
         ]

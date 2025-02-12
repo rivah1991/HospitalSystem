@@ -160,5 +160,55 @@ namespace HospitalAPI.Controllers
             });
         }
 
+        [HttpPost("assign-doctor")]
+        // [Authorize]
+        public async Task<IActionResult> AssignDoctor([FromBody] PatientDoctorAssignmentDto assignmentDto)
+        {
+            if (assignmentDto == null)
+            {
+                return BadRequest("Données manquantes.");
+            }
+
+            // Vérifier si le médecin existe
+            var doctor = await _userManager.FindByIdAsync(assignmentDto.UserId!);
+            if (doctor == null)
+            {
+                return NotFound("Le médecin spécifié n'existe pas.");
+            }
+
+            // Vérifier si le patient existe
+            var patient = await _context.Patients
+                .FirstOrDefaultAsync(p => p.Id == assignmentDto.PatientId);
+            if (patient == null)
+            {
+                return NotFound("Le patient spécifié n'existe pas.");
+            }
+
+            // Vérifier si le patient est déjà assigné à un médecin
+            var existingAssignment = await _context.PatientDoctorAssignments
+                .FirstOrDefaultAsync(a => a.PatientId == assignmentDto.PatientId);
+            if (existingAssignment != null)
+            {
+                return BadRequest("Le patient est déjà assigné à un médecin.");
+            }
+
+            // Créer une nouvelle affectation
+            var assignment = new PatientDoctorAssignment
+            {
+                PatientId = assignmentDto.PatientId,
+                UserId = assignmentDto.UserId
+            };
+
+            // Ajouter l'affectation à la base de données
+            _context.PatientDoctorAssignments.Add(assignment);
+
+            // Sauvegarder les changements dans la base de données
+            await _context.SaveChangesAsync();
+
+            return Ok("Le médecin a été assigné avec succès au patient.");
+        }
+
+
+
     }
 }

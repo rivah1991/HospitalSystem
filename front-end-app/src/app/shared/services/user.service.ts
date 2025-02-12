@@ -85,6 +85,23 @@ export class UserService {
     }
     return null;
   }
+
+  assignDoctor(patientId: number, doctorId: string): Observable<any> {
+    const assignmentDto = {
+      patientId: patientId,  // ✅ Minuscule pour correspondre à l'API
+      userId: doctorId       // ✅ Minuscule pour correspondre à l'API
+    };
+
+    return this.http.post(`${this.baseUrl}/api/User/assign-doctor`, assignmentDto, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      catchError((error) => {
+        console.error('Error assigning doctor:', error);
+        return throwError(() => new Error(error.error || 'Échec de l’assignation du médecin.'));
+      })
+    );
+}
+
   
 
 }

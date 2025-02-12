@@ -58,6 +58,7 @@ export class SidebarComponent implements OnInit {
       submenu: [
         { label: 'Audit Log', icon: 'history', route: 'admin/audit' },  
         { label: 'Approve', icon: 'check_circle', route: 'admin' }, 
+        { label: 'Assign', icon: 'check_circle', route: 'doctors/assign' }, 
       ],
       
     },

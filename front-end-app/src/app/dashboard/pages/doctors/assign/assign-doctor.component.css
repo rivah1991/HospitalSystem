@@ -1,0 +1,56 @@
+.assign-doctor-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: whitesmoke;
+  padding: 0px;
+}
+
+.assign-card {
+  width: 100%;
+  max-width: 750px; /* Taille plus grande */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Ombre plus douce */
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+.card-header {
+  background: #007bff;
+  color: white;
+  padding: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: left; /* Alignement du texte à gauche */
+}
+
+.card-body {
+  padding: 25px;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: #007bff;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.alert {
+  font-size: 1rem;
+  max-width: 550px;
+  margin: auto;
+}

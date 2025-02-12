@@ -188,6 +188,9 @@ namespace HospitalAPI.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("BloodGroup")
                         .IsRequired()
                         .HasMaxLength(5)
@@ -247,9 +250,39 @@ namespace HospitalAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("HospitalAPI.Models.PatientDoctorAssignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PatientDoctorAssignments");
                 });
 
             modelBuilder.Entity("HospitalAPI.Models.PendingUser", b =>
@@ -479,10 +512,31 @@ namespace HospitalAPI.Migrations
             modelBuilder.Entity("HospitalAPI.Models.Patient", b =>
                 {
                     b.HasOne("HospitalAPI.Models.ApplicationUser", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("HospitalAPI.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HospitalAPI.Models.PatientDoctorAssignment", b =>
+                {
+                    b.HasOne("HospitalAPI.Models.ApplicationUser", null)
+                        .WithMany("AssignedPatients")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("HospitalAPI.Models.Patient", null)
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HospitalAPI.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HospitalAPI.Models.Recommendation", b =>
@@ -556,6 +610,13 @@ namespace HospitalAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HospitalAPI.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("AssignedPatients");
+
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("HospitalAPI.Models.Patient", b =>
